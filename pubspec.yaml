@@ -39,6 +39,12 @@ dependencies:
   equatable: ^2.0.5
   curved_navigation_bar: ^1.0.3
   font_awesome_flutter: ^10.7.0
+  popover: ^0.3.0
+  retrofit: ^4.1.0
+  json_annotation: ^4.8.1
+  flutter_bloc: ^8.1.5
+  get_it: ^7.6.9
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +56,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  retrofit_generator: '>=7.0.0 <8.0.0'
+  build_runner: '>=2.3.0 <4.0.0'
+  json_serializable: ^6.6.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
