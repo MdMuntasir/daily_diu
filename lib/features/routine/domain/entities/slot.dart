@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class SlotEntity extends Equatable{
-  final int? id;
+  final String? id;
   final String? room;
   final String? time;
   final String? batch;

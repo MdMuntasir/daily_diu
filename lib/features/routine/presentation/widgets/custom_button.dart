@@ -22,36 +22,38 @@ class HeroButton extends StatelessWidget {
 
     return Hero(
       tag: tag,
-      child: InkWell(
-
-        onTap: function,
-        child: Container(
-          height: h*.08,
-          width: w*.7,
-          decoration: BoxDecoration(
-            color: Colors.blueAccent.shade200,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(blurRadius: 2, offset: Offset(1,1), color: Colors.black87),
-              BoxShadow(blurRadius: 25, spreadRadius: -10, color: Colors.blueAccent)
-            ]
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: w*.05),
-              child: Row(
-            children: [
-              Icon(icon, color: Colors.white,),
-              SizedBox(width: w*.08,),
-              Text(
-                text,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white
+      child: Material(
+        child: InkWell(
+            
+          onTap: function,
+          child: Container(
+            height: h*.08,
+            width: w*.7,
+            decoration: BoxDecoration(
+              color: Colors.blueAccent.shade200,
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              boxShadow: [
+                BoxShadow(blurRadius: 2, offset: Offset(1,1), color: Colors.black87),
+                BoxShadow(blurRadius: 25, spreadRadius: -10, color: Colors.blueAccent)
+              ]
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: w*.05),
+                child: Row(
+              children: [
+                Icon(icon, color: Colors.white,),
+                SizedBox(width: w*.08,),
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white
+                  ),
                 ),
-              ),
-            ],
-          ))
+              ],
+            ))
+          ),
         ),
       ),
     );
