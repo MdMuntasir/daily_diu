@@ -1,3 +1,4 @@
+import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
 import 'package:diu_student/features/routine/presentation/pages/student_routine.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_button.dart';
 import 'package:diu_student/features/routine/presentation/widgets/department_chooser.dart';
@@ -18,29 +19,7 @@ class _RoutinePageState extends State<RoutinePage> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    final departments = {
-      'SWE': ['Software Engineering', (){}],
-      'CSE': ['Computer Science & Engineering', (){}],
-      'ITM': ['Information Technology & Management', (){}],
-      'CIS': ['Computing and Information System', (){}],
-      'ARCH': ['Architecture', (){}],
-      'EEE': ['Electrical and Electronic Engineering', (){}],
-      'TE': ['Textile Engineering', (){}],
-      'ICE': ['Information and Communication Engineering', (){}],
-      'THM': ['Tourism & Hospitality Management', (){}],
-      'ACC': ['Accounting', (){}],
-      'RE': ['Real Estate', (){}],
-      'DBA': ['Business Administration', (){}],
-      'DE': ['Innovation & Entrepreneurship', (){}],
-      'AGRI': ['Agricultural Science', (){}],
-      'PHARM': ['Pharmacy', (){}],
-      'NFE': ['Nutrition and Food Engineering', (){}],
-      'BPH': ['Public Health', (){}],
-      'ESDM': ['Environmental Science and Disaster Management', (){}],
-      'PESS': ['Physical Education & Sports Science', (){}],
-      'ENG': ['English', (){}],
-      'LAW': ['Law', (){}]
-    };
+
 
     return Scaffold(
 
@@ -48,7 +27,7 @@ class _RoutinePageState extends State<RoutinePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
               "Search Routine",
             style: TextStyle(
               fontSize: 50,
@@ -56,9 +35,9 @@ class _RoutinePageState extends State<RoutinePage> {
               fontWeight: FontWeight.bold
             ),
           ),
-          SizedBox(height: h*.1, width: w,),
-          ChooseDepartment(departments: departments,),
-          SizedBox(height: h*.1, width: w,),
+          SizedBox(height: h*.04, width: w,),
+          const ChooseDepartment(),
+          SizedBox(height: h*.05, width: w,),
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> StudentRoutine()));
           },
