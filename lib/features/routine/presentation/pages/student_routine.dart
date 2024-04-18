@@ -1,4 +1,5 @@
-import 'package:diu_student/core/constants/constants.dart';
+import 'package:diu_student/core/constants&variables/constants.dart';
+import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/core/widgets/bottom_navbar.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
 import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_bloc.dart';
@@ -56,7 +57,6 @@ class _StudentRoutineState extends State<StudentRoutine> {
         downloadDestination: DownloadDestinations.publicDownloads,
         onProgress: (fileName, progress) {
             setState(() {
-              print(progress);
               _progress = progress;
             });
         },
@@ -74,6 +74,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
     void showRoutine() async{
       batchSection = batchController.text + sectionController.text;
+      BatchSection = batchSection;
       routineShowed = true;
       height1 = h*.3;
       height2 = h*.45;
@@ -198,11 +199,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
           ),
         ),
 
-        bottomNavigationBar: Theme(
-            data: Theme.of(context).copyWith(
-                iconTheme: const IconThemeData(color: Colors.white)
-            ),
-            child: BottomNavbar()),
+
       ),
 
     );
@@ -219,6 +216,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
             return Center(child: Text("Something went wrong"));
           }
           if(state is StudentRoutineDone){
+            // return RoutineShower(times: Times, body: state.slots!);
             return Center(child: Text("Done"),);
           }
           return const SizedBox();

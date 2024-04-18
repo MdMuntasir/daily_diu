@@ -22,9 +22,10 @@ class _RoutineApi implements RoutineApi {
 
   @override
   Future<HttpResponse<List<SlotModel>>> getStudentRoutineJson(
-      String batch) async {
+      String? batchSection) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'batchSection': batchSection};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
@@ -35,39 +36,7 @@ class _RoutineApi implements RoutineApi {
     )
             .compose(
               _dio.options,
-              '/student-routine/${batch}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-
-    List<SlotModel> value = _result.data!
-        .map((dynamic i) => SlotModel.fromJson(i as Map<String, dynamic>))
-        .toList();
-    final httpResponse = HttpResponse(value, _result);
-    return httpResponse;
-  }
-
-  @override
-  Future<HttpResponse<List<SlotModel>>> getTeacherRoutineJson(
-      String batch) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<SlotModel>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/teacher-routine/${batch}',
+              '/student-routine/',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -79,7 +48,40 @@ class _RoutineApi implements RoutineApi {
     var value = _result.data!
         .map((dynamic i) => SlotModel.fromJson(i as Map<String, dynamic>))
         .toList();
-    print(value);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<List<SlotModel>>> getTeacherRoutineJson(
+      String? teacherInitial) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'teacherInitial': teacherInitial
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<HttpResponse<List<SlotModel>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/teacher-routine/',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => SlotModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
@@ -90,7 +92,7 @@ class _RoutineApi implements RoutineApi {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String,dynamic>>(
+    final _result = await _dio.fetch<List<dynamic>>(
         _setStreamType<HttpResponse<List<TimeModel>>>(Options(
       method: 'GET',
       headers: _headers,
@@ -107,7 +109,7 @@ class _RoutineApi implements RoutineApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    List<TimeModel> value = _result.data!["Time"]!
+    var value = _result.data!
         .map((dynamic i) => TimeModel.fromJson(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);

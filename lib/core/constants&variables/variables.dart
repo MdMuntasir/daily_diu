@@ -1,0 +1,2 @@
+String BatchSection = "";
+String TeacherInitial = "";

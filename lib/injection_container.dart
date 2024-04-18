@@ -20,14 +20,15 @@ Future<void> initializeDependency() async {
   
   sl.registerFactory<StudentRoutineBloc>(() => StudentRoutineBloc(sl()));
 
-  sl.registerSingleton<TimeRepository>(TimeRepoImpl(sl()));
-  sl.registerSingleton<GetTimeUseCase>(GetTimeUseCase(sl()));
+
+  sl.registerSingleton<SlotRepository>(StudentRoutineImpl(sl()));
+  sl.registerSingleton<GetStudentRoutineUseCase>(GetStudentRoutineUseCase(sl()));
 
 
 }
 
-Future<void> initializeStudentDependency(BatchSection) async {
-  sl.registerFactory<StudentRoutineImpl>(() => StudentRoutineImpl(sl(), info: BatchSection));
+Future<void> initializeStudentDependency() async {
+  sl.registerFactory<StudentRoutineImpl>(() => StudentRoutineImpl(sl()));
   sl.registerFactory<GetStudentRoutineUseCase>(() => GetStudentRoutineUseCase(sl()));
 
 }

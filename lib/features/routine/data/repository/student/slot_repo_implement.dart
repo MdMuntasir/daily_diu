@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:diu_student/core/constants/constants.dart';
+import 'package:diu_student/core/constants&variables/constants.dart';
+import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/routine/data/data_sources/remote/routine_api.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
@@ -10,13 +11,12 @@ import 'package:http/http.dart' as http;
 
 class StudentRoutineImpl implements SlotRepository{
   final RoutineApi _routineApi;
-  final String info;
-  StudentRoutineImpl(this._routineApi,{required this.info});
+  StudentRoutineImpl(this._routineApi);
 
   @override
   Future<DataState<List<SlotModel>>> getRoutine() async{
     try{
-      final httpResponse = await _routineApi.getStudentRoutineJson(info);
+      final httpResponse = await _routineApi.getStudentRoutineJson(BatchSection);
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
@@ -35,12 +35,15 @@ class StudentRoutineImpl implements SlotRepository{
 }
 
 
+
+
 class getStudentRoutineRemotely{
   String batchSection;
   getStudentRoutineRemotely({required this.batchSection});
 
   Future<List<SlotModel>> getRoutine() async{
-    var response = await http.get(Uri.https(routine_api_base,"/student-routine/$batchSection"));
+    final uri = Uri.parse(routine_api+"/student-routine?batchSection=$batchSection");
+    var response = await http.get(uri);
 
     if(response.statusCode == 200){
       List<SlotModel> map = [];

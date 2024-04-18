@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:diu_student/features/routine/data/models/slot.dart';
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/slot.dart';
 import '../../../domain/entities/time.dart';
@@ -19,7 +20,7 @@ class StudentRoutineLoading extends StudentRoutineState{
 }
 
 class StudentRoutineDone extends StudentRoutineState{
-  StudentRoutineDone(List<SlotEntity> slot) : super(slots: slot);
+  StudentRoutineDone(List<SlotModel> slot) : super(slots: slot);
 }
 
 class StudentRoutineError extends StudentRoutineState{
