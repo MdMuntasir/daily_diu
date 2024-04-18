@@ -1,6 +1,6 @@
+import 'package:diu_student/core/constants/constants.dart';
 import 'package:diu_student/core/widgets/bottom_navbar.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
-import 'package:diu_student/features/routine/data/repository/time_repository_implement.dart';
 import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_bloc.dart';
 import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_state.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_textfield.dart';
@@ -8,7 +8,8 @@ import 'package:diu_student/features/routine/presentation/widgets/routine_shower
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../injection_container.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import '../../../../config/theme/Themes.dart';
 import '../../domain/repository/information_repository.dart';
 
 class StudentRoutine extends StatefulWidget {
@@ -29,7 +30,9 @@ class _StudentRoutineState extends State<StudentRoutine> {
   TextEditingController batchController = TextEditingController();
   TextEditingController sectionController = TextEditingController();
   String batchSection = "";
+  double? _progress;
 
+  Color ShadowColor = Colors.lightBlueAccent, BodyColor = Colors.lightBlue.shade50;
 
 
   @override
@@ -40,15 +43,37 @@ class _StudentRoutineState extends State<StudentRoutine> {
       space = h * .08;
       height1 = h*.5;
       width1 = w*.9;
-      height2 = h*.1;
+      height2 = h*.05;
       width2 = w*.9;
     }
 
 
 
+    void downloadRoutine(){
+      batchSection = batchController.text + sectionController.text;
+      FileDownloader.downloadFile(
+          url: "$routine_api/routine-pdf/$batchSection",
+        downloadDestination: DownloadDestinations.publicDownloads,
+        onProgress: (fileName, progress) {
+            setState(() {
+              print(progress);
+              _progress = progress;
+            });
+        },
+        onDownloadError: (errorMessage) => print(errorMessage),
+        onDownloadCompleted: (path) {
+            _progress = null;
+            print(path);
+            setState(() {
+            });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Downloaded at $path")));
+        },
+      );
+    }
+
+
     void showRoutine() async{
       batchSection = batchController.text + sectionController.text;
-
       routineShowed = true;
       height1 = h*.3;
       height2 = h*.45;
@@ -56,6 +81,9 @@ class _StudentRoutineState extends State<StudentRoutine> {
       setState(() {});
     }
     
+
+
+
     
     Column upperPart = Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,28 +110,24 @@ class _StudentRoutineState extends State<StudentRoutine> {
         ElevatedButton(
             onPressed: showRoutine,
             child: Text("See Routine",style: TextStyle(fontWeight: FontWeight.bold),),
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(Theme.of(context).primaryColor),
-            foregroundColor: MaterialStatePropertyAll(Colors.white)
-          ),
         )
       ],
     );
 
 
-    var lowerPart = routineShowed ?
+
+
+    Widget lowerPart = routineShowed ?
         FutureBuilder(
             future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
             builder: (context,slots){
               if(slots.connectionState == ConnectionState.done) {
-                print(slots.data);
                 return RoutineShower(times: Times, body: slots.data!);
               }
               else{
                 return Center(child: CupertinoActivityIndicator());
               }
             })
-
         : SizedBox();
 
 
@@ -115,53 +139,63 @@ class _StudentRoutineState extends State<StudentRoutine> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.blue.shade50,
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Hero(
-                tag: "Student", child: Text(
-              "Student",
-              style: TextStyle(
-                  fontSize: 50,
-                  color: Colors.blueAccent,
-                  fontWeight: FontWeight.bold
+        appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: h*.1,width: w,),
+
+              Hero(
+                  tag: "Student", child: Text(
+                "Student",
+                style: Theme.of(context).textTheme.displayLarge,
+              )),
+              SizedBox(height: space,width: w,),
+              AnimatedContainer(
+                height: height1,
+                width: width1,
+                duration: duration,
+                decoration: BoxDecoration(
+                    color: BodyColor,
+                    borderRadius: BorderRadius.all(Radius.circular(height1*.1)),
+                    boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: ShadowColor)]
+                ),
+                child: upperPart,
               ),
-            )),
-            SizedBox(height: space,width: w,),
-            AnimatedContainer(
-              height: height1,
-              width: width1,
-              duration: duration,
-              decoration: BoxDecoration(
-                  color: Colors.lightBlue.shade50,
-                  borderRadius: BorderRadius.all(Radius.circular(height1*.1)),
-                  boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: Colors.lightBlueAccent)]
+          
+              SizedBox(height: h*.03,width: w,),
+          
+          
+              AnimatedContainer(
+                height: height2,
+                width: width2,
+                duration: duration,
+                decoration: routineShowed ? BoxDecoration(
+                    color: BodyColor,
+                    borderRadius: BorderRadius.all(Radius.circular(height2*.1)),
+                    boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: ShadowColor)]
+                ):
+                BoxDecoration(color: Colors.transparent),
+                child: lowerPart,
               ),
-              child: upperPart,
-            ),
 
-            SizedBox(height: h*.03,width: w,),
+              SizedBox(height: h*.03,width: w,),
+          
+              routineShowed ?
+              _progress == null ? ElevatedButton(
+                  onPressed: downloadRoutine,
+                  child: Text("Download Routine", style: TextStyle(fontWeight: FontWeight.bold),),
+              ) : CircularProgressIndicator()
+                  : SizedBox(),
 
 
-            AnimatedContainer(
-              height: height2,
-              width: width2,
-              duration: duration,
-              decoration: routineShowed ? BoxDecoration(
-                  color: Colors.lightBlue.shade50,
-                  borderRadius: BorderRadius.all(Radius.circular(height2*.1)),
-                  boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: Colors.lightBlueAccent)]
-              ):
-              BoxDecoration(color: Colors.transparent),
-              child: lowerPart,
-            ),
-          ],
+
+              SizedBox(height: h*.05,width: w,),
+            ],
+          ),
         ),
 
         bottomNavigationBar: Theme(

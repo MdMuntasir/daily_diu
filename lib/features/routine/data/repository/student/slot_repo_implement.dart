@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:diu_student/core/constants/constants.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/routine/data/data_sources/remote/routine_api.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
@@ -39,7 +40,7 @@ class getStudentRoutineRemotely{
   getStudentRoutineRemotely({required this.batchSection});
 
   Future<List<SlotModel>> getRoutine() async{
-    var response = await http.get(Uri.https("diuroutineapi-production.up.railway.app","/student-routine/$batchSection"));
+    var response = await http.get(Uri.https(routine_api_base,"/student-routine/$batchSection"));
 
     if(response.statusCode == 200){
       List<SlotModel> map = [];

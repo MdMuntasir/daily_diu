@@ -45,6 +45,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   get_it: ^7.6.9
   http: ^1.2.1
+  flutter_file_downloader: ^1.2.1
 
 dev_dependencies:
   flutter_test:

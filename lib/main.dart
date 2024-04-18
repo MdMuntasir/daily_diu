@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/widgets/bottom_navbar.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
@@ -29,10 +30,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
+        theme: lightTheme,
         home: const MyHomePage(),
       ),
     );
