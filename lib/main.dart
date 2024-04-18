@@ -14,7 +14,7 @@ import 'features/routine/data/repository/time_repository_implement.dart';
 
 void main() async{
   initializeDependency();
-  getStudentRoutineRemotely(batchSection: "41N").getRoutine();
+
   getTimesRemotely().getTime();
   runApp(const MyApp());
 }
