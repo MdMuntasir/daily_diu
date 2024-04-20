@@ -20,8 +20,6 @@ class _RoutinePageState extends State<RoutinePage> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-
-
     return Scaffold(
 
       body: Column(
