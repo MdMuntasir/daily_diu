@@ -23,8 +23,8 @@ class HeroButton extends StatelessWidget {
     return Hero(
       tag: tag,
       child: Material(
+        color: Colors.blue.shade50,
         child: InkWell(
-            
           onTap: function,
           child: Container(
             height: h*.08,

@@ -1,10 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomNavbar extends StatefulWidget {
-  const BottomNavbar({super.key});
+  final VoidCallback func;
+
+  const BottomNavbar({super.key, required this.func});
 
   @override
   State<BottomNavbar> createState() => _BottomNavbarState();
@@ -15,7 +18,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    int index = 2;
+
 
     final items = <Widget>[
       Icon(FontAwesomeIcons.leanpub, size: 25,),
@@ -28,14 +31,17 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
     return CurvedNavigationBar(
       height: h*.065,
-      index: index,
+      index: PageIndex,
       items: items,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 300),
       color: Colors.blueAccent,
       backgroundColor: Colors.transparent,
       buttonBackgroundColor: Colors.blueAccent,
-
+      onTap: (value){
+        PageIndex = value;
+        widget.func();
+      },
     );
   }
 }

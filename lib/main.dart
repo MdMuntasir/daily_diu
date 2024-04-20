@@ -1,5 +1,10 @@
 import 'package:diu_student/config/theme/Themes.dart';
+import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/core/widgets/bottom_navbar.dart';
+import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
+import 'package:diu_student/features/home/homePage.dart';
+import 'package:diu_student/features/notes/notes.dart';
+import 'package:diu_student/features/notice%20board/noticeBoard.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
 import 'package:diu_student/features/routine/presentation/pages/student_routine.dart';
@@ -47,20 +52,31 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    List Screens = [
 
+    List Screens = [
+      notePage(),
+      blcPage(),
+      homePage(),
+      RoutinePage(),
+      noticeBoardPage(),
     ];
 
 
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.blue.shade50,
-      body: RoutinePage(),
+      body: Screens[PageIndex],
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           iconTheme: const IconThemeData(color: Colors.white)
         ),
-          child: const BottomNavbar()),
+          child: BottomNavbar(
+            func: (){
+              print(PageIndex);
+              setState(() {
+              });
+            },
+          )),
     );
   }
 }
