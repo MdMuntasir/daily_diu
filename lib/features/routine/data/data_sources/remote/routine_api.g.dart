@@ -22,10 +22,9 @@ class _RoutineApi implements RoutineApi {
 
   @override
   Future<HttpResponse<List<SlotModel>>> getStudentRoutineJson(
-      String? batchSection) async {
+      String batchSection) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'batchSection': batchSection};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
@@ -36,7 +35,7 @@ class _RoutineApi implements RoutineApi {
     )
             .compose(
               _dio.options,
-              '/student-routine/',
+              '/student-routine',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -54,12 +53,11 @@ class _RoutineApi implements RoutineApi {
 
   @override
   Future<HttpResponse<List<SlotModel>>> getTeacherRoutineJson(
-      String? teacherInitial) async {
+      String teacherInitial) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'teacherInitial': teacherInitial
     };
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
@@ -70,7 +68,7 @@ class _RoutineApi implements RoutineApi {
     )
             .compose(
               _dio.options,
-              '/teacher-routine/',
+              '/teacher-routine',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -81,6 +79,36 @@ class _RoutineApi implements RoutineApi {
             ))));
     var value = _result.data!
         .map((dynamic i) => SlotModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<List<EmptySlotModel>>> getEmptySlots() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<HttpResponse<List<EmptySlotModel>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/empty-slot',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => EmptySlotModel.fromJson(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;

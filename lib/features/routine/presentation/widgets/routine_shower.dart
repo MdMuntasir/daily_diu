@@ -20,9 +20,7 @@ class RoutineShower extends StatelessWidget {
     Color headColor = Colors.blue.shade500;
     Color baseColor = Colors.lightBlue.shade100;
 
-    body.forEach((element) {
 
-    });
     Map day_short = {
       "Saturday" : "Sat",
       "Sunday" : "Sun",

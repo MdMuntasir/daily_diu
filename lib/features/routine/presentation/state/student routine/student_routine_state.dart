@@ -5,7 +5,7 @@ import '../../../domain/entities/slot.dart';
 import '../../../domain/entities/time.dart';
 
 abstract class StudentRoutineState extends Equatable{
-  final List<SlotEntity> ? slots;
+  final List<SlotModel> ? slots;
   final DioException ? exception;
 
   StudentRoutineState({this.slots, this.exception});
