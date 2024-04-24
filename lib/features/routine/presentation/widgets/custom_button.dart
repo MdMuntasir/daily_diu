@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HeroButton extends StatelessWidget {
@@ -43,16 +44,20 @@ class HeroButton extends StatelessWidget {
               children: [
                 Icon(icon, color: Colors.white,),
                 SizedBox(width: w*.08,),
-                Text(
-                  text,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white
+                    ),
                   ),
                 ),
               ],
-            ))
+            )
+            )
           ),
         ),
       ),

@@ -86,33 +86,46 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
     
-    Column upperPart = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: w*.5,
-          child: CustomTextField(
-            controller: batchController,
-            textHint: "Enter your batch",
-            label: "Batch",
-            maxLen: 2,
-            isDigit: true,),
-        ),
-        SizedBox(
-          width: w*.5,
-          child: CustomTextField(
-            controller: sectionController,
-            textHint: "Enter your section",
-            label: "Section",
-            maxLen: 1,
-            ),
-        ),
-        ElevatedButton(
-            onPressed: showRoutine,
-            child: Text("See Routine",style: TextStyle(fontWeight: FontWeight.bold),),
-        )
-      ],
+    Widget upperPart = SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: routineShowed? 0 : h*.05,),
+
+          SizedBox(
+            width: w*.5,
+            child: CustomTextField(
+              controller: batchController,
+              textHint: "Enter your batch",
+              label: "Batch",
+              maxLen: 2,
+              isDigit: true,),
+          ),
+
+          SizedBox(height: routineShowed? 0 : h*.03,),
+
+
+          SizedBox(
+            width: w*.5,
+            child: CustomTextField(
+              controller: sectionController,
+              textHint: "Enter your section",
+              label: "Section",
+              maxLen: 1,
+              ),
+          ),
+
+
+          SizedBox(height: routineShowed? 0 : h*.035,),
+
+
+          ElevatedButton(
+              onPressed: showRoutine,
+              child: Text("See Routine",style: TextStyle(fontWeight: FontWeight.bold),),
+          )
+        ],
+      ),
     );
 
 
@@ -123,6 +136,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
             future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
             builder: (context,slots){
               if(slots.connectionState == ConnectionState.done) {
+
                 return RoutineShower(times: Times, body: slots.data!);
               }
               else{
@@ -216,8 +230,8 @@ class _StudentRoutineState extends State<StudentRoutine> {
             return Center(child: Text("Something went wrong"));
           }
           if(state is StudentRoutineDone){
-            // return RoutineShower(times: Times, body: state.slots!);
-            return Center(child: Text("Done"),);
+            return RoutineShower(times: Times, body: state.slots!);
+            // return Center(child: Text("Done"),);
           }
           return const SizedBox();
         }

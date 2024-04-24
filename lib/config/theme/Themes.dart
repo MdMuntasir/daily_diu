@@ -9,14 +9,14 @@ ThemeData lightTheme = ThemeData(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Colors.blue.shade900),
-        foregroundColor: MaterialStatePropertyAll(Colors.white),
-      shape: MaterialStatePropertyAll(RoundedRectangleBorder
+        foregroundColor: const MaterialStatePropertyAll(Colors.white),
+      shape: const MaterialStatePropertyAll(RoundedRectangleBorder
         (borderRadius: BorderRadius.all(Radius.circular(10))
       )
       )
     )
   ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     displayLarge: TextStyle(
         fontSize: 50,
         color: Colors.blueAccent,

@@ -1,5 +1,8 @@
 import 'package:diu_student/features/routine/data/models/slot.dart';
 
+import '../../data/models/empty_slot_model.dart';
+import '../entities/empty_slot.dart';
+
 class Information {
   static Map departments
   = {
@@ -29,6 +32,7 @@ class Information {
 
 var Times = [];
 
+List<EmptySlotModel> emptySlots = [];
 
 List<SlotModel> test_body = [
   SlotModel.fromJson({
@@ -183,3 +187,6 @@ Map<String, dynamic> test =   {
   "course": "SE212",
   "ti": "FRR"
 };
+
+
+List<SlotModel> allSlots = [];

@@ -13,6 +13,10 @@ class EmptySlotEntity extends Equatable{
   });
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [
+    day,
+    room,
+    time
+  ];
 
 }

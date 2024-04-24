@@ -1,4 +1,5 @@
 import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
+import 'package:diu_student/features/routine/presentation/pages/blank_routine.dart';
 import 'package:diu_student/features/routine/presentation/pages/student_routine.dart';
 import 'package:diu_student/features/routine/presentation/pages/teacher_routine.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_button.dart';
@@ -51,7 +52,9 @@ class _RoutinePageState extends State<RoutinePage> {
             text: "Teacher",
               icon: FontAwesomeIcons.userTie),
           SizedBox(height: h*.05, width: w,),
-          HeroButton(function: (){},
+          HeroButton(function: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> EmptySlots()));
+          },
             tag: "Empty Slots",
             text: "Empty Slots",
               icon: FontAwesomeIcons.file),
