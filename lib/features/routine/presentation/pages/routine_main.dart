@@ -1,3 +1,5 @@
+import 'package:diu_student/core/constants&variables/variables.dart';
+import 'package:diu_student/core/controller/boolean_controller.dart';
 import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
 import 'package:diu_student/features/routine/presentation/pages/blank_routine.dart';
 import 'package:diu_student/features/routine/presentation/pages/manual_routine.dart';
@@ -17,10 +19,18 @@ class RoutinePage extends StatefulWidget {
 }
 
 class _RoutinePageState extends State<RoutinePage> {
+  BooleanController studentController = BooleanController();
+  BooleanController teacherController = BooleanController();
+  BooleanController emptyController   = BooleanController();
+  BooleanController manualController  = BooleanController();
+
+
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
 
     return Scaffold(
 
@@ -37,35 +47,45 @@ class _RoutinePageState extends State<RoutinePage> {
             ),
           ),
           SizedBox(height: h*.04, width: w,),
-          const ChooseDepartment(),
+          ChooseDepartment(func: (){
+            studentController.setValue(hasFunction);
+            teacherController.setValue(hasFunction);
+            emptyController.setValue(hasFunction);
+            manualController.setValue(hasFunction);
+            setState(() {});
+          },),
           SizedBox(height: h*.05, width: w,),
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> StudentRoutine()));
           },
             tag: "Student",
             text: "Student",
-            icon: FontAwesomeIcons.user,),
+            icon: FontAwesomeIcons.user,
+            controller: studentController,),
           SizedBox(height: h*.05, width: w,),
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> TeacherRoutine()));
           },
             tag: "Teacher",
             text: "Teacher",
-              icon: FontAwesomeIcons.userTie),
+              icon: FontAwesomeIcons.userTie,
+            controller: teacherController,),
           SizedBox(height: h*.05, width: w,),
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> EmptySlots()));
           },
             tag: "Empty Slots",
             text: "Empty Slots",
-              icon: FontAwesomeIcons.file),
+              icon: FontAwesomeIcons.file,
+            controller: emptyController,),
           SizedBox(height: h*.05, width: w,),
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> ManualRoutine()));
           },
               tag: "Manual",
               text: "Manual",
-              icon: FontAwesomeIcons.sliders),
+              icon: FontAwesomeIcons.sliders,
+            controller: manualController,),
         ],
       ),
     );
