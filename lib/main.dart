@@ -21,9 +21,6 @@ import 'features/routine/data/repository/time_repository_implement.dart';
 
 void main() async{
   initializeDependency();
-  getAllSlotsRemotely().getAllSlots();
-  getEmptySlotRemotely().getEmptySlots();
-  getTimesRemotely().getTime();
   runApp(const MyApp());
 }
 

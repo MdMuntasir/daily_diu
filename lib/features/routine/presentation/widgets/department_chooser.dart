@@ -5,14 +5,15 @@ import 'package:popover/popover.dart';
 import '../../domain/repository/information_repository.dart';
 
 class ChooseDepartment extends StatefulWidget {
-  const ChooseDepartment({super.key});
+  final VoidCallback func;
+  const ChooseDepartment({super.key, required this.func});
 
   @override
   State<ChooseDepartment> createState() => _ChooseDepartmentState();
 }
 
 class _ChooseDepartmentState extends State<ChooseDepartment> {
-  String selected = "SWE";
+  String selected = "Select Department";
   Map departments = Information.departments;
 
   @override
@@ -20,19 +21,29 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    List<RadioListTile> options = [];
+    List<PopupMenuItem> options = [];
 
     departments.forEach((key, value) {
-      options.add(RadioListTile(
-          title: Text(value[0]),
-          value: key,
-          groupValue: selected,
-          onChanged: (val){
-            value[1];
-            // setState(() {
-            //   selected = val;
-            // });
-          }));
+      options.add(PopupMenuItem(
+          value: value[0],
+          onTap: (){
+            value[1]();
+            widget.func();
+            setState(() {
+              selected = key;
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: h*.001),
+            padding: EdgeInsets.symmetric(vertical: h*.005),
+              color: Colors.blue.shade50,
+              child: Center(
+                child: Text(
+                  value[0],
+                  style: TextStyle(color: Colors.blue.shade500, fontWeight: FontWeight.bold),
+                ),
+              ))
+      ));
     });
 
 

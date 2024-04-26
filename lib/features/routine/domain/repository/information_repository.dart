@@ -1,32 +1,49 @@
+import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
 
 import '../../data/models/empty_slot_model.dart';
+import '../../data/repository/empty slots/empty_slot_repo_impl.dart';
+import '../../data/repository/manual/manual.dart';
+import '../../data/repository/time_repository_implement.dart';
 import '../entities/empty_slot.dart';
 
 class Information {
   static Map departments
   = {
-  'SWE': ['Software Engineering', (){}],
-  'CSE': ['Computer Science & Engineering', (){}],
-  'ITM': ['Information Technology & Management', (){}],
-  'CIS': ['Computing and Information System', (){}],
-  'ARCH': ['Architecture', (){}],
-  'EEE': ['Electrical and Electronic Engineering', (){}],
-  'TE': ['Textile Engineering', (){}],
-  'ICE': ['Information and Communication Engineering', (){}],
-  'THM': ['Tourism & Hospitality Management', (){}],
-  'ACC': ['Accounting', (){}],
-  'RE': ['Real Estate', (){}],
-  'DBA': ['Business Administration', (){}],
-  'DE': ['Innovation & Entrepreneurship', (){}],
-  'AGRI': ['Agricultural Science', (){}],
-  'PHARM': ['Pharmacy', (){}],
-  'NFE': ['Nutrition and Food Engineering', (){}],
-  'BPH': ['Public Health', (){}],
-  'ESDM': ['Environmental Science and Disaster Management', (){}],
-  'PESS': ['Physical Education & Sports Science', (){}],
-  'ENG': ['English', (){}],
-  'LAW': ['Law', (){}]
+  'SWE': ['Software Engineering', (){
+      try{
+          getAllSlotsRemotely().getAllSlots();
+          getEmptySlotRemotely().getEmptySlots();
+          getTimesRemotely().getTime();
+        }
+        catch(e){
+          print(e);
+        }
+        allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty ?
+        hasFunction = true : hasFunction = false;
+
+      }],
+  'CSE': ['Computer Science & Engineering', (){
+    hasFunction = false;
+  }],
+  'ITM': ['Information Technology & Management', (){hasFunction = false;}],
+  'CIS': ['Computing and Information System', (){hasFunction = false;}],
+  'ARCH': ['Architecture', (){hasFunction = false;}],
+  'EEE': ['Electrical and Electronic Engineering', (){hasFunction = false;}],
+  'TE': ['Textile Engineering', (){hasFunction = false;}],
+  'ICE': ['Information and Communication Engineering', (){hasFunction = false;}],
+  'THM': ['Tourism & Hospitality Management', (){hasFunction = false;}],
+  'ACC': ['Accounting', (){hasFunction = false;}],
+  'RE': ['Real Estate', (){hasFunction = false;}],
+  'DE': ['Innovation & Entrepreneurship', (){hasFunction = false;}],
+  'AGRI': ['Agricultural Science', (){hasFunction = false;}],
+  'PHARM': ['Pharmacy', (){hasFunction = false;}],
+  'NFE': ['Nutrition and Food Engineering', (){hasFunction = false;}],
+  'BPH': ['Public Health', (){hasFunction = false;}],
+  'ESDM': ['Environmental Science and Disaster Management', (){hasFunction = false;}],
+  'PESS': ['Physical Education & Sports Science', (){hasFunction = false;}],
+  'ENG': ['English', (){hasFunction = false;}],
+  'LAW': ['Law', (){hasFunction = false;}]
   };
 }
 
