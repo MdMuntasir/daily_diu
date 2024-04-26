@@ -34,7 +34,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
             // });
           }));
     });
-    print(selected);
+
 
     return ElevatedButton(
         onPressed: (){

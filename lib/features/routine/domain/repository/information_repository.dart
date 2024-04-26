@@ -30,9 +30,19 @@ class Information {
   };
 }
 
-var Times = [];
+List Times = [];
 
 List<EmptySlotModel> emptySlots = [];
+
+
+List Days = [
+  "Saturday",
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday"
+];
 
 List<SlotModel> test_body = [
   SlotModel.fromJson({

@@ -2,7 +2,6 @@ import 'package:diu_student/features/routine/domain/entities/slot.dart';
 
 class SlotModel extends SlotEntity {
   const SlotModel({
-    String? id,
     String? room,
     String? time,
     String? batch,
@@ -11,7 +10,6 @@ class SlotModel extends SlotEntity {
     String? ti,
     String? day
     }) : super(
-    id: id,
     room: room,
     time: time,
     batch: batch,
@@ -23,7 +21,6 @@ class SlotModel extends SlotEntity {
 
   factory SlotModel.fromJson(Map<String, dynamic> map){
     return SlotModel(
-      id: map["id"] ?? "",
       room: map["room"] ?? "",
       time: map["time"] ?? "",
       batch: map["batch"] ?? "",
