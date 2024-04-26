@@ -6,6 +6,7 @@ import 'package:diu_student/features/home/homePage.dart';
 import 'package:diu_student/features/notes/notes.dart';
 import 'package:diu_student/features/notice%20board/noticeBoard.dart';
 import 'package:diu_student/features/routine/data/repository/empty%20slots/empty_slot_repo_impl.dart';
+import 'package:diu_student/features/routine/data/repository/manual/manual.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
 import 'package:diu_student/features/routine/presentation/pages/student_routine.dart';
@@ -20,6 +21,7 @@ import 'features/routine/data/repository/time_repository_implement.dart';
 
 void main() async{
   initializeDependency();
+  getAllSlotsRemotely().getAllSlots();
   getEmptySlotRemotely().getEmptySlots();
   getTimesRemotely().getTime();
   runApp(const MyApp());
@@ -73,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
           child: BottomNavbar(
             func: (){
-              print(PageIndex);
               setState(() {
               });
             },
