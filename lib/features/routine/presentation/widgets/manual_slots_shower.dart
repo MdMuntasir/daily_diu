@@ -101,7 +101,7 @@ class _ManualSlotShowerState extends State<ManualSlotShower> {
       if(widget.Room != "" && widget.Room != slot.room){
         matched = false;
       }
-      if(widget.Section != "" && widget.Section != slot.section){
+      if(widget.Section != "" && widget.Section != slot.section?[0]){
         matched = false;
       }
       if(matched == true) {
@@ -129,8 +129,8 @@ class _ManualSlotShowerState extends State<ManualSlotShower> {
         texts.add(boldText("Batch : " + widget.Batch)) :
         texts.add(normalText("Batch : " + slot.batch!));
 
-        widget.Section != "" && widget.Section == slot.section ?
-        texts.add(boldText("Section : " + widget.Section)) :
+        widget.Section != "" && widget.Section == slot.section?[0] ?
+        texts.add(boldText("Section : " + slot.section!)) :
         texts.add(normalText("Section : " + slot.section!));
 
         filteredSlots.add(SlotCard(texts));

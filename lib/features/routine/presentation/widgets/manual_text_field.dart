@@ -40,10 +40,11 @@ class ManualTextField extends StatelessWidget {
               keyboardType: isDigit ? TextInputType.number : TextInputType.text,
               inputFormatters: isDigit? [
                 FilteringTextInputFormatter.digitsOnly
-              ] : [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),],
+              ] : [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\-]')),],
               decoration: const InputDecoration(
                 hintStyle: TextStyle(fontSize: 18, color: Colors.black54),
                 focusColor: Colors.white,
+
               ),
               cursorColor: Colors.blueAccent.shade700,
               style: TextStyle(color: Colors.lightBlueAccent.shade700, fontWeight: FontWeight.bold),

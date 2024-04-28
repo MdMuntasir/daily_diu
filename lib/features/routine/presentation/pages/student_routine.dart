@@ -1,6 +1,5 @@
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
-import 'package:diu_student/core/widgets/bottom_navbar.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
 import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_bloc.dart';
 import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_state.dart';

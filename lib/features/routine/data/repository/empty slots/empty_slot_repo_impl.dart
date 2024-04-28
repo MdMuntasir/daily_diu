@@ -49,17 +49,18 @@ class EmptySlotRepoImpl extends EmptySlotRepository{
 
 
 class getEmptySlotRemotely{
-  void getEmptySlots() async {
+  Future getEmptySlots() async {
     final response = await http.get(Uri.https(routine_api_base , "/empty-slot"));
-
+    List<EmptySlotModel> map = [];
     if(response.statusCode == 200){
-      List<EmptySlotModel> map = [];
+
       List<dynamic> json = jsonDecode(response.body);
       json.forEach((element) {
         map.add(EmptySlotModel.fromJson(element));
       });
-      emptySlots = map;
+      // emptySlots = map;
     }
+    return map;
   }
 
 }

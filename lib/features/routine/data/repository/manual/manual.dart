@@ -6,16 +6,17 @@ import 'package:diu_student/features/routine/domain/repository/information_repos
 import 'package:http/http.dart' as http;
 
 class getAllSlotsRemotely{
-  void getAllSlots() async{
+  Future getAllSlots() async{
     var response = await http.get(Uri.https(routine_api_base));
-
+    List<SlotModel> map = [];
     if(response.statusCode == 200){
-      List<SlotModel> map = [];
+
       List<dynamic> json = jsonDecode(response.body);
       json.forEach((element) {
         map.add(SlotModel.fromJson(element));
       });
-      allSlots = map;
+      // allSlots = map;
     }
+    return map;
   }
 }

@@ -10,18 +10,18 @@ import '../entities/empty_slot.dart';
 class Information {
   static Map departments
   = {
-  'SWE': ['Software Engineering', (){
+  'SWE': ['Software Engineering', ()async{
       try{
-          getAllSlotsRemotely().getAllSlots();
-          getEmptySlotRemotely().getEmptySlots();
-          getTimesRemotely().getTime();
+          allSlots = await getAllSlotsRemotely().getAllSlots();
+          emptySlots = await getEmptySlotRemotely().getEmptySlots();
+          Times = await getTimesRemotely().getTime();
         }
         catch(e){
           print(e);
         }
-        allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty ?
-        hasFunction = true : hasFunction = false;
-
+        if(allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
+          hasFunction = true;
+        }
       }],
   'CSE': ['Computer Science & Engineering', (){
     hasFunction = false;
