@@ -37,12 +37,15 @@ class TimeRepoImpl extends TimeRepository{
 
 class getTimesRemotely{
 
-  void getTime() async{
+  Future getTime() async{
     var response = await http.get(Uri.https("diuroutineapi-production.up.railway.app","/times"));
 
     if(response.statusCode == 200){
       List<dynamic> json = jsonDecode(response.body);
-      Times = TimeModel.fromJson(json[0]).times!;
+      return TimeModel.fromJson(json[0]).times!;
+    }
+    else{
+      return [];
     }
   }
 }

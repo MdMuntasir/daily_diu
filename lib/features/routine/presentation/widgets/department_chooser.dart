@@ -15,6 +15,7 @@ class ChooseDepartment extends StatefulWidget {
 class _ChooseDepartmentState extends State<ChooseDepartment> {
   String selected = "Select Department";
   Map departments = Information.departments;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,15 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     departments.forEach((key, value) {
       options.add(PopupMenuItem(
           value: value[0],
-          onTap: (){
-            value[1]();
+          onTap: ()async{
+            setState(() {
+              _isLoading = true;
+            });
+            await value[1]();
             widget.func();
             setState(() {
               selected = key;
+              _isLoading = false;
             });
           },
           child: Container(
@@ -47,7 +52,9 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     });
 
 
-    return ElevatedButton(
+    return _isLoading ?
+        Center(child: CircularProgressIndicator(),)
+    : ElevatedButton(
         onPressed: (){
       showPopover(
         width: w*.9,

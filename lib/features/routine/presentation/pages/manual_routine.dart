@@ -65,7 +65,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
         CustomChooser(list: Times, controller: timeController, label: "Time",),
         ManualTextField(controller: roomController, title: "Room"),
         ManualTextField(controller: teacherController, title: "Teacher Initial"),
-        ManualTextField(controller: batchController, title: "Batch", isDigit: true,),
+        ManualTextField(controller: batchController, title: "Batch", isDigit: true),
         ManualTextField(controller: sectionController, title: "Section"),
         ManualTextField(controller: courseController, title: "Course Code"),
 
@@ -82,12 +82,12 @@ class _ManualRoutineState extends State<ManualRoutine> {
 
 
     ManualSlotShower showSlots = ManualSlotShower(
-      Batch: batchController.text,
-      CourseCode: courseController.text,
+      Batch: batchController.text.toUpperCase(),
+      CourseCode: courseController.text.toUpperCase(),
       Day: dayController.text,
-      Room: roomController.text,
-      Section: sectionController.text,
-      TeacherInitial: teacherController.text,
+      Room: roomController.text.toUpperCase(),
+      Section: sectionController.text.toUpperCase(),
+      TeacherInitial: teacherController.text.toUpperCase(),
       Time: timeController.text,
     );
 
