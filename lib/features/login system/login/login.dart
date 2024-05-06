@@ -161,13 +161,10 @@ class _loginScreenState extends State<loginScreen> {
     );
   }
 
-  void _login()
+void _login()
   {
 
-    setState(() {
-      emailController.clear();
-      passwordController.clear();
-    });
+
 
     if(emailController.text == "admin" && passwordController.text == "admin")
       {
@@ -175,6 +172,13 @@ class _loginScreenState extends State<loginScreen> {
           context,
           MaterialPageRoute(builder: (context) => const MyHomePage()),
         );
+      }
+    else
+      {
+        setState(() {
+          emailController.clear();
+          passwordController.clear();
+        });
       }
 
   }
