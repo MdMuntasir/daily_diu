@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -104,8 +106,8 @@ class _EmptySlotShowState extends State<EmptySlotShow> {
 
     if(button_height==0 && button_width == 0 && selected_width == 0){
       button_height = h*.05;
-      button_width = w*.12;
-      selected_width = w*.2;
+      button_width = w*.1;
+      selected_width = w*.3;
     }
 
     Map day_short = {
@@ -134,18 +136,22 @@ class _EmptySlotShowState extends State<EmptySlotShow> {
     day_short.forEach((key, value) {
       bool current = value[0] == choosed_day;
       buttons.add(
-        AnimatedContainer(
-          width: current ? selected_width : button_width,
-          height: button_height,
-          duration: const Duration(milliseconds: 200),
-          child: ElevatedButton(
-              onPressed: value[1],
-              style: ButtonStyle(
-                  backgroundColor : current? MaterialStatePropertyAll(Colors.lightBlueAccent.shade700)
-                      : MaterialStatePropertyAll(Colors.blue.shade900),
-
-              ),
-              child: Text(current? value[0] : value[0][0],)),
+        InkWell(
+          onTap: value[1],
+          child: AnimatedContainer(
+            width: current ? selected_width : button_width,
+            height: button_height,
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              color: current? Colors.lightBlueAccent.shade700
+                  : Colors.blue.shade900,
+              borderRadius: BorderRadius.all(Radius.circular(h>w? w*.05 : h*.05))
+            ),
+            child: Center(
+                child: Text(
+                  current? value[0] : value[0][0],
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+          ),
         )
       );
     });
@@ -186,9 +192,11 @@ class _EmptySlotShowState extends State<EmptySlotShow> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: buttons,),
-            SizedBox(height: h*.06,),
+            SizedBox(height: h*.05,),
 
-            Column(children: rows,)
+            Column(children: rows,),
+
+            SizedBox(height: h*.05,)
           ],
         ));
   }

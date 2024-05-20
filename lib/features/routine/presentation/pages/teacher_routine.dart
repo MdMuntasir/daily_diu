@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../../config/theme/Themes.dart';
 import '../../domain/repository/information_repository.dart';
 
@@ -48,25 +49,29 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
 
 
-    void downloadRoutine(){
+    Future<void> downloadRoutine() async {
       teacherInitial = tiController.text;
-      FileDownloader.downloadFile(
-        url: "$routine_api/teacher-pdf/$teacherInitial",
-        downloadDestination: DownloadDestinations.publicDownloads,
-        onProgress: (fileName, progress) {
-          setState(() {
-            _progress = progress;
-          });
-        },
-        onDownloadError: (errorMessage) => print(errorMessage),
-        onDownloadCompleted: (path) {
-          _progress = null;
-          print(path);
-          setState(() {
-          });
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Downloaded at $path")));
-        },
-      );
+      if(await Permission.storage.request().isGranted)
+      {
+        FileDownloader.downloadFile(
+          url: "$routine_api/teacher-pdf/$teacherInitial",
+          name: teacherInitial + ".pdf",
+          downloadDestination: DownloadDestinations.publicDownloads,
+          onProgress: (fileName, progress) {
+            setState(() {
+              _progress = progress;
+            });
+          },
+          onDownloadError: (errorMessage) => print(errorMessage),
+          onDownloadCompleted: (path) {
+            _progress = null;
+            print(path);
+            setState(() {});
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Downloaded at $path")));
+          },
+        );
+      }
     }
 
 
