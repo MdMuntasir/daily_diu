@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
 
@@ -6,6 +7,13 @@ import '../../data/repository/empty slots/empty_slot_repo_impl.dart';
 import '../../data/repository/manual/manual.dart';
 import '../../data/repository/time_repository_implement.dart';
 import '../entities/empty_slot.dart';
+
+
+
+late var android_info;
+
+
+
 
 class Information {
   static Map departments

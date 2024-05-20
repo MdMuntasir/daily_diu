@@ -1,13 +1,11 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
 import 'package:diu_student/features/routine/data/repository/teacher/slot_repo_implement.dart';
-import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_bloc.dart';
-import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_state.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_textfield.dart';
 import 'package:diu_student/features/routine/presentation/widgets/routine_shower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../config/theme/Themes.dart';
@@ -51,7 +49,14 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
     Future<void> downloadRoutine() async {
       teacherInitial = tiController.text;
-      if(await Permission.storage.request().isGranted)
+      bool RequestAccepted;
+      if(android_info.version.sdkInt <= 32){
+        RequestAccepted = await Permission.storage.request().isGranted;
+      }
+      else{
+        RequestAccepted = await Permission.photos.request().isGranted;
+      }
+      if(RequestAccepted)
       {
         FileDownloader.downloadFile(
           url: "$routine_api/teacher-pdf/$teacherInitial",

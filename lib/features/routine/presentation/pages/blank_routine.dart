@@ -1,14 +1,9 @@
 
 import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
 import 'package:diu_student/features/routine/domain/usecases/empty%20slot/empty_slot_usercase.dart';
-import 'package:diu_student/features/routine/presentation/state/empty%20slots/empty_slots_bloc.dart';
-import 'package:diu_student/features/routine/presentation/state/empty%20slots/empty_slots_event.dart';
-import 'package:diu_student/features/routine/presentation/state/empty%20slots/empty_slots_state.dart';
-import 'package:diu_student/features/routine/presentation/state/student%20routine/student_routine_bloc.dart';
 import 'package:diu_student/features/routine/presentation/widgets/empty_slots_shower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../../../../injection_container.dart';
 
@@ -66,22 +61,5 @@ class _EmptySlotsState extends State<EmptySlots> {
     );
   }
 
-  _buildBody(){
-    return BlocProvider(
-      create: (context) => sl.get<EmptySlotBloc>(),
-      child: BlocBuilder<EmptySlotBloc,EmptySlotState>(
-      builder: (_,state){
-        if(state is EmptySlotLoading){
-          return Center(child: CupertinoActivityIndicator());
-        }
-        if(state is EmptySlotDone)
-        {
-          print(state.slots);
-          return Center(child: Text("Done"),);
-        }
-        return const SizedBox();
-      }
-      ),
-    );
-  }
+
 }
