@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        home: const loginScreen(),
+        home: const MyHomePage(),
       ),
     );
   }
@@ -66,32 +66,32 @@ class _MyHomePageState extends State<MyHomePage> {
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.leanpub,),
         title: "Notes",
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.white60
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.chalkboardUser),
         title: "BLC",
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.white60
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(FontAwesomeIcons.house),
         title: "Home",
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.white60
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.calendarCheck,),
         title: "Routine",
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.white60
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.bell,),
         title: "Notice",
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.white60
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.blueGrey
       ),
 
     ];
@@ -103,27 +103,27 @@ class _MyHomePageState extends State<MyHomePage> {
       screens: _screens,
       items: _navBarItems,
       confineInSafeArea: true,
-      backgroundColor: Colors.blueAccent, // Default is Colors.white.
+      backgroundColor: Colors.blue.shade50, // Default is Colors.blue.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
       stateManagement: true, // Default is true.
       hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        colorBehindNavBar: Colors.blue.shade50,
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+      itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
-      screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+      screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
         animateTabTransition: true,
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style3, // Choose the nav bar style with this property.
+      navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
     );
   }
 }
