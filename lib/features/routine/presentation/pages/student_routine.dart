@@ -40,10 +40,20 @@ class _StudentRoutineState extends State<StudentRoutine> {
     double h = MediaQuery.of(context).size.height;
     if(!routineShowed) {
       space = h * .08;
-      height1 = h*.5;
-      width1 = w*.9;
-      height2 = h*.05;
-      width2 = w*.9;
+
+      if(h>w) {
+        height1 = h * .5;
+        width1 = w * .9;
+        height2 = h * .05;
+        width2 = w * .9;
+      }
+      else{
+
+        height1 = w * .5;
+        width1 = h * .9;
+        height2 = h * .05;
+        width2 = w * .9;
+      }
     }
 
 
@@ -86,9 +96,9 @@ class _StudentRoutineState extends State<StudentRoutine> {
       batchSection = batchController.text + sectionController.text;
       BatchSection = batchSection;
       routineShowed = true;
-      height1 = h*.3;
-      height2 = h*.45;
-      space = h*.02;
+      height1 = h>w? h*.3 : w*.3;
+      height2 = h>w? h*.45 : h*.8;
+      space = h>w? h*.02 : w*.02;
       setState(() {});
     }
     
@@ -104,7 +114,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
           SizedBox(height: routineShowed? 0 : h*.05,),
 
           SizedBox(
-            width: w*.5,
+            width: h>w ? w*.5 : h*.5,
             child: CustomTextField(
               controller: batchController,
               textHint: "Enter your batch",
@@ -117,7 +127,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
           SizedBox(
-            width: w*.5,
+            width: h>w ? w*.5 : h*.5,
             child: CustomTextField(
               controller: sectionController,
               textHint: "Enter your section",

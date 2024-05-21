@@ -18,7 +18,7 @@ ThemeData lightTheme = ThemeData(
   ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
-        fontSize: 50,
+        fontSize: 45,
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold
     ),

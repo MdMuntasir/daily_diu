@@ -52,14 +52,14 @@ class _HeroButtonState extends State<HeroButton> {
               padding: EdgeInsets.symmetric(horizontal: w*.05),
                 child: Row(
               children: [
-                Icon(widget.icon, color: Colors.white,),
+                Icon(widget.icon, color: Colors.white,size: 22,),
                 SizedBox(width: w*.08,),
                 Flexible(
                   fit: FlexFit.loose,
                   child: Text(
                     widget.text,
-                    style: TextStyle(
-                      fontSize: 25,
+                    style: const TextStyle(
+                      fontSize: 24,
                       fontWeight: FontWeight.w400,
                       color: Colors.white
                     ),

@@ -15,6 +15,12 @@ class ManualTextField extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
+    if(h<w){
+      h = w;
+      w = MediaQuery.of(context).size.height;
+    }
+
+
     double space = w*.05;
 
     return SizedBox(
