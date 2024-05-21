@@ -38,13 +38,9 @@ class _RoutinePageState extends State<RoutinePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
+          Text(
               "Search Routine",
-            style: TextStyle(
-              fontSize: 50,
-              color: Colors.blueAccent,
-              fontWeight: FontWeight.bold
-            ),
+            style: Theme.of(context).textTheme.displayLarge
           ),
           SizedBox(height: h*.04, width: w,),
           ChooseDepartment(func: (){

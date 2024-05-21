@@ -38,11 +38,20 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     if(!routineShowed) {
-      space = h * .1;
-      height1 = h*.4;
-      width1 = w*.9;
-      height2 = h*.05;
-      width2 = w*.9;
+      if(h>w) {
+        space = h * .1;
+        height1 = h * .4;
+        width1 = w * .9;
+        height2 = h * .05;
+        width2 = w * .9;
+      }
+      else{
+        space = h * .1;
+        height1 = w * .4;
+        width1 = h * .9;
+        height2 = h * .05;
+        width2 = w * .9;
+      }
     }
 
 
@@ -83,9 +92,9 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
     void showRoutine() async{
       teacherInitial = tiController.text;
       routineShowed = true;
-      height1 = h*.3;
-      height2 = h*.45;
-      space = h*.02;
+      height1 = h>w? h*.3 : w*.3;
+      height2 = h>w? h*.45 : h*.8;
+      space = h>w? h*.02 : w*.02;
       setState(() {});
     }
 
@@ -99,7 +108,7 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
       children: [
         SizedBox(height: h*.005,),
         SizedBox(
-          width: w*.5,
+          width: h>w ? w*.5 : h*.5,
           child: CustomTextField(
             controller: tiController,
             textHint: "Enter Teacher Initial",

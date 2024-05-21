@@ -33,8 +33,12 @@ class _ManualRoutineState extends State<ManualRoutine> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    double height1 = h*.5;
-    double width1 = w*.9;
+    double width1 = w * .9, height1 = h * .5;
+
+    if(h<w){
+      height1 = w * .5;
+      width1 = h * .9;
+    }
 
     if(!routineShowed) {
       space = h * .08;
@@ -108,6 +112,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
         appBar: AppBar(),
         body: SingleChildScrollView(
           child: Column(
+
             children: [
               SizedBox(height: h*.03,width: w,),
               Hero(

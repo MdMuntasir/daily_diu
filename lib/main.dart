@@ -60,31 +60,31 @@ class _MyHomePageState extends State<MyHomePage> {
     
     List<PersistentBottomNavBarItem> _navBarItems = [
       PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.leanpub,),
+          icon: Icon(FontAwesomeIcons.leanpub, size: 20,),
         title: "Notes",
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.chalkboardUser),
+          icon: Icon(FontAwesomeIcons.chalkboardUser,size: 20,),
         title: "BLC",
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.house),
+          icon: Icon(FontAwesomeIcons.house,size: 20),
         title: "Home",
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.calendarCheck,),
+          icon: Icon(FontAwesomeIcons.calendarCheck,size: 20,),
         title: "Routine",
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.bell,),
+          icon: Icon(FontAwesomeIcons.bell,size: 20,),
         title: "Notice",
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.blueGrey
