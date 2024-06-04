@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
@@ -19,7 +18,6 @@ import 'features/routine/domain/repository/information_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  android_info = await DeviceInfoPlugin().androidInfo;
   runApp(const MyApp());
 }
 
@@ -29,10 +27,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        home: const MyHomePage(),
-      );
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      home: const MyHomePage(),
+    );
   }
 }
 
@@ -56,38 +54,38 @@ class _MyHomePageState extends State<MyHomePage> {
       RoutinePage(),
       noticeBoardPage(),
     ];
-    
-    
+
+
     List<PersistentBottomNavBarItem> _navBarItems = [
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.leanpub, size: 20,),
-        title: "Notes",
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.blueGrey
+          title: "Notes",
+          activeColorPrimary: Colors.blue,
+          inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.chalkboardUser,size: 20,),
-        title: "BLC",
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.blueGrey
+          title: "BLC",
+          activeColorPrimary: Colors.blue,
+          inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.house,size: 20),
-        title: "Home",
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.blueGrey
+          title: "Home",
+          activeColorPrimary: Colors.blue,
+          inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.calendarCheck,size: 20,),
-        title: "Routine",
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.blueGrey
+          title: "Routine",
+          activeColorPrimary: Colors.blue,
+          inactiveColorPrimary: Colors.blueGrey
       ),
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.bell,size: 20,),
-        title: "Notice",
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.blueGrey
+          title: "Notice",
+          activeColorPrimary: Colors.blue,
+          inactiveColorPrimary: Colors.blueGrey
       ),
 
     ];
@@ -123,4 +121,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

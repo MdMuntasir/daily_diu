@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
 
