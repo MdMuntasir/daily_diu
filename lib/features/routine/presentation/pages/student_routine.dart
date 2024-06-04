@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../config/theme/Themes.dart';
-import '../../domain/repository/information_repository.dart';
+import '../../../../core/resources/information_repository.dart';
 
 class StudentRoutine extends StatefulWidget {
   const StudentRoutine({super.key});

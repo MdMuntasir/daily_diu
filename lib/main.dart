@@ -1,7 +1,7 @@
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
-import 'package:diu_student/features/home/homePage.dart';
+import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/login/login.dart';
 import 'package:diu_student/features/notes/notes.dart';
 import 'package:diu_student/features/notice%20board/noticeBoard.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'features/routine/data/repository/time_repository_implement.dart';
-import 'features/routine/domain/repository/information_repository.dart';
+import 'core/resources/information_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +44,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+
 
     PersistentTabController _controller = PersistentTabController(initialIndex: 2);
 

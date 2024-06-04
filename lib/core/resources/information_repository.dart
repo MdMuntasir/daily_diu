@@ -1,11 +1,11 @@
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
 
-import '../../data/models/empty_slot_model.dart';
-import '../../data/repository/empty slots/empty_slot_repo_impl.dart';
-import '../../data/repository/manual/manual.dart';
-import '../../data/repository/time_repository_implement.dart';
-import '../entities/empty_slot.dart';
+import '../../features/routine/data/models/empty_slot_model.dart';
+import '../../features/routine/data/repository/empty slots/empty_slot_repo_impl.dart';
+import '../../features/routine/data/repository/manual/manual.dart';
+import '../../features/routine/data/repository/time_repository_implement.dart';
+import '../../features/routine/domain/entities/empty_slot.dart';
 
 
 
@@ -69,7 +69,7 @@ List Days = [
 ];
 
 List<SlotModel> test_body = [
-  SlotModel.fromJson({
+  SlotModel.fromJson(const {
     "id": "1",
     "day": "Saturday",
     "room": "704",
@@ -79,7 +79,7 @@ List<SlotModel> test_body = [
     "course": "SE212",
     "ti": "FRR"
   }),
-  SlotModel.fromJson({
+  SlotModel.fromJson(const {
     "id": "2",
     "day": "Saturday",
     "room": "712B",
@@ -89,7 +89,7 @@ List<SlotModel> test_body = [
     "course": "MAT102",
     "ti": "MSH"
   }),
-  SlotModel.fromJson({
+  SlotModel.fromJson(const {
     "id": "3",
     "day": "Saturday",
     "room": "703",
@@ -99,7 +99,7 @@ List<SlotModel> test_body = [
     "course": "SE121",
     "ti": "SUP"
   }),
-  SlotModel.fromJson({
+  SlotModel.fromJson(const {
     "id": "4",
     "day": "Sunday",
     "room": "704",
@@ -109,7 +109,7 @@ List<SlotModel> test_body = [
     "course": "SE213",
     "ti": "MT"
   }),
-  SlotModel.fromJson({
+  SlotModel.fromJson(const {
     "id": "5",
     "day": "Sunday",
     "room": "814B",
@@ -119,7 +119,7 @@ List<SlotModel> test_body = [
     "course": "PHY101",
     "ti": "AAM"
   }),
-  SlotModel.fromJson({
+  SlotModel.fromJson(const {
     "id": "6",
     "day": "Sunday",
     "room": "703",
@@ -129,7 +129,7 @@ List<SlotModel> test_body = [
     "course": "SE212",
     "ti": "FRR"
   }),
-SlotModel.fromJson({
+SlotModel.fromJson(const {
     "id": "7",
     "day": "Sunday",
     "room": "701A",
@@ -139,7 +139,7 @@ SlotModel.fromJson({
     "course": "SE123",
     "ti": "RHH"
   }),
-SlotModel.fromJson({
+SlotModel.fromJson(const {
     "id": "8",
     "day": "Monday",
     "room": "710",
@@ -149,7 +149,7 @@ SlotModel.fromJson({
     "course": "SE123",
     "ti": "RHH"
   }),
-SlotModel.fromJson({
+SlotModel.fromJson(const {
     "id": "9",
     "day": "Monday",
     "room": "914",
@@ -159,7 +159,7 @@ SlotModel.fromJson({
     "course": "SE121",
     "ti": "SUP"
   }),
-SlotModel.fromJson({
+SlotModel.fromJson(const {
     "id": "10",
     "day": "Tuesday",
     "room": "913",
@@ -169,7 +169,7 @@ SlotModel.fromJson({
     "course": "MAT102",
     "ti": "MSH"
   }),
-SlotModel.fromJson({
+SlotModel.fromJson(const {
     "id": "11",
     "day": "Tuesday",
     "room": "812",
@@ -179,7 +179,7 @@ SlotModel.fromJson({
     "course": "SE213",
     "ti": "MT"
   }),
-SlotModel.fromJson({
+SlotModel.fromJson(const {
     "id": "12",
     "day": "Wednesday",
     "room": "616",
@@ -189,7 +189,7 @@ SlotModel.fromJson({
     "course": "SE122",
     "ti": "SUP"
   }),
-  SlotModel.fromJson({
+  SlotModel.fromJson(const {
     "id": "13",
     "day": "Wednesday",
     "room": "616",
@@ -199,7 +199,7 @@ SlotModel.fromJson({
     "course": "SE122",
     "ti": "SUP"
   }),
-SlotModel.fromJson({
+SlotModel.fromJson(const {
     "id": "14",
     "day": "Wednesday",
     "room": "814B",
@@ -222,5 +222,18 @@ Map<String, dynamic> test =   {
   "ti": "FRR"
 };
 
+List test_time = [
+  {
+    "Time": [
+      "08:30-09:45",
+      "09:45-11:00",
+      "11:00-12:15",
+      "12:15-01:30",
+      "01:30 - 02:45",
+      "02:45 - 04:00",
+      "04:00-05:15"
+    ]
+  }
+];
 
 List<SlotModel> allSlots = [];

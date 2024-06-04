@@ -1,5 +1,5 @@
 
-import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
+import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/routine/domain/usecases/empty%20slot/empty_slot_usercase.dart';
 import 'package:diu_student/features/routine/presentation/widgets/empty_slots_shower.dart';
 import 'package:flutter/cupertino.dart';

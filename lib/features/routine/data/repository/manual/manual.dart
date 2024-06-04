@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
-import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
+import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:http/http.dart' as http;
 
 class getAllSlotsRemotely{
