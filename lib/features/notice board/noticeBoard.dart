@@ -52,6 +52,12 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade50,
+        toolbarHeight: 40,
+
+      ),
       body: WebViewWidget(controller: controller),
     );
   }

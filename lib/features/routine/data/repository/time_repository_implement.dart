@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/routine/data/data_sources/remote/routine_api.dart';
 import 'package:diu_student/features/routine/data/models/time.dart';
-import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
+import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/routine/domain/repository/time_repository.dart';
 import 'package:http/http.dart' as http;
 

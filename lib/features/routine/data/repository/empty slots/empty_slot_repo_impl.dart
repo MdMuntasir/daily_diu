@@ -8,7 +8,7 @@ import 'package:diu_student/features/routine/data/models/empty_slot_model.dart';
 import 'package:diu_student/features/routine/domain/repository/empty_slot_repository.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../domain/repository/information_repository.dart';
+import '../../../../../core/resources/information_repository.dart';
 
 class EmptySlotRepoImpl extends EmptySlotRepository{
 

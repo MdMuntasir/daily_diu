@@ -1,4 +1,4 @@
-import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
+import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_chooser.dart';
 import 'package:diu_student/features/routine/presentation/widgets/manual_slots_shower.dart';
 import 'package:diu_student/features/routine/presentation/widgets/manual_text_field.dart';
