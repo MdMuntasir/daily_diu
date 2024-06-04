@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
 import 'package:diu_student/features/routine/data/repository/teacher/slot_repo_implement.dart';
@@ -114,7 +113,7 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
             textHint: "Enter Teacher Initial",
             label: "Teacher Initial",
             maxLen: 4,
-            ),
+          ),
         ),
 
         ElevatedButton(

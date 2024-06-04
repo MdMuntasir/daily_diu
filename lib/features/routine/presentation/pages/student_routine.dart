@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
@@ -25,7 +24,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
   bool routineShowed = false;
 
   Duration duration = Duration(milliseconds: 300);
-  
+
   TextEditingController batchController = TextEditingController();
   TextEditingController sectionController = TextEditingController();
   String batchSection = "";
@@ -101,11 +100,11 @@ class _StudentRoutineState extends State<StudentRoutine> {
       space = h>w? h*.02 : w*.02;
       setState(() {});
     }
-    
 
 
 
-    
+
+
     Widget upperPart = SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -133,7 +132,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
               textHint: "Enter your section",
               label: "Section",
               maxLen: 1,
-              ),
+            ),
           ),
 
 
@@ -141,8 +140,8 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
           ElevatedButton(
-              onPressed: showRoutine,
-              child: Text("See Routine",style: TextStyle(fontWeight: FontWeight.bold),),
+            onPressed: showRoutine,
+            child: Text("See Routine",style: TextStyle(fontWeight: FontWeight.bold),),
           )
         ],
       ),
@@ -152,17 +151,17 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
     Widget lowerPart = routineShowed ?
-        FutureBuilder(
-            future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
-            builder: (context,slots){
-              if(slots.connectionState == ConnectionState.done) {
+    FutureBuilder(
+        future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
+        builder: (context,slots){
+          if(slots.connectionState == ConnectionState.done) {
 
-                return RoutineShower(times: Times, body: slots.data!);
-              }
-              else{
-                return Center(child: CupertinoActivityIndicator());
-              }
-            })
+            return RoutineShower(times: Times, body: slots.data!);
+          }
+          else{
+            return Center(child: CupertinoActivityIndicator());
+          }
+        })
         : SizedBox();
 
 
@@ -200,10 +199,10 @@ class _StudentRoutineState extends State<StudentRoutine> {
                 ),
                 child: upperPart,
               ),
-          
+
               SizedBox(height: h*.03,width: w,),
-          
-          
+
+
               AnimatedContainer(
                 height: height2,
                 width: width2,
@@ -218,11 +217,11 @@ class _StudentRoutineState extends State<StudentRoutine> {
               ),
 
               SizedBox(height: h*.03,width: w,),
-          
+
               routineShowed ?
               _progress == null ? ElevatedButton(
-                  onPressed: downloadRoutine,
-                  child: Text("Download Routine", style: TextStyle(fontWeight: FontWeight.bold),),
+                onPressed: downloadRoutine,
+                child: Text("Download Routine", style: TextStyle(fontWeight: FontWeight.bold),),
               ) : CircularProgressIndicator()
                   : SizedBox(),
 
