@@ -57,8 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
       RoutinePage(),
       noticeBoardPage(),
     ];
-    
-    
+
+
     List<PersistentBottomNavBarItem> _navBarItems = [
       PersistentBottomNavBarItem(
           icon: Icon(FontAwesomeIcons.leanpub, size: 20,),
