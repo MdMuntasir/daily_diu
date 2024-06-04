@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';
 
-import '../../domain/repository/information_repository.dart';
+import '../../../../core/resources/information_repository.dart';
 
 class ChooseDepartment extends StatefulWidget {
   final VoidCallback func;

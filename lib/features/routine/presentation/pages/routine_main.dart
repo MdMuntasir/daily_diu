@@ -1,6 +1,6 @@
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/core/controller/boolean_controller.dart';
-import 'package:diu_student/features/routine/domain/repository/information_repository.dart';
+import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/routine/presentation/pages/blank_routine.dart';
 import 'package:diu_student/features/routine/presentation/pages/manual_routine.dart';
 import 'package:diu_student/features/routine/presentation/pages/student_routine.dart';
@@ -42,7 +42,9 @@ class _RoutinePageState extends State<RoutinePage> {
               "Search Routine",
             style: Theme.of(context).textTheme.displayLarge
           ),
+
           SizedBox(height: h*.04, width: w,),
+
           ChooseDepartment(func: (){
             studentController.setValue(hasFunction);
             teacherController.setValue(hasFunction);
@@ -50,7 +52,9 @@ class _RoutinePageState extends State<RoutinePage> {
             manualController.setValue(hasFunction);
             setState(() {});
           },),
+
           SizedBox(height: h*.05, width: w,),
+
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> StudentRoutine()));
           },
@@ -58,7 +62,9 @@ class _RoutinePageState extends State<RoutinePage> {
             text: "Student",
             icon: FontAwesomeIcons.user,
             controller: studentController,),
+
           SizedBox(height: h*.05, width: w,),
+
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> TeacherRoutine()));
           },
@@ -66,7 +72,9 @@ class _RoutinePageState extends State<RoutinePage> {
             text: "Teacher",
               icon: FontAwesomeIcons.userTie,
             controller: teacherController,),
+
           SizedBox(height: h*.05, width: w,),
+
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> EmptySlots()));
           },
@@ -74,7 +82,9 @@ class _RoutinePageState extends State<RoutinePage> {
             text: "Empty Slots",
               icon: FontAwesomeIcons.file,
             controller: emptyController,),
+
           SizedBox(height: h*.05, width: w,),
+
           HeroButton(function: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> ManualRoutine()));
           },
