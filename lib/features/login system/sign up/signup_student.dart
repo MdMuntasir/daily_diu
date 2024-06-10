@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diu_student/features/home/presentation/pages/homePage.dart';
+import 'package:diu_student/features/login%20system/firebase_auth/firebase_auth_services.dart';
 import 'package:diu_student/features/login%20system/login/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../customs/btnStyle.dart';
 import '../customs/customWidgets.dart';
 import '../customs/textStyle.dart';
 
@@ -13,12 +17,26 @@ class signupStudent extends StatefulWidget {
 
 class _signupStudentState extends State<signupStudent> {
 
+  final firebaseAuthService _auth = firebaseAuthService();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController batchController = TextEditingController();
   final TextEditingController sectionController = TextEditingController();
   final TextEditingController studentIdController = TextEditingController();
+
+  @override
+  void dispose()
+  {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    batchController.dispose();
+    sectionController.dispose();
+    studentIdController.dispose();
+    super.dispose();
+  }
 
   // get textTitleStyle => null;
 
@@ -87,13 +105,21 @@ class _signupStudentState extends State<signupStudent> {
                         border: InputBorder.none,
                       ),
                     ),
-                    TextField(
+                    TextFormField(
                       controller: emailController,
                       decoration: InputDecoration(
                         hintText: "E.g: softenge@diu.edu.bd",
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        } else if (!value.endsWith('@diu.edu.bd')) {
+                          return 'Please enter a valid DIU email';
+                        }
+                        return null;
+                      },
                     ),
                     TextField(
                       controller: passwordController,
@@ -107,7 +133,7 @@ class _signupStudentState extends State<signupStudent> {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: _signUp,
                   child: Text('Create Account'),
                 ),
                 SizedBox(height: 15),
@@ -130,4 +156,39 @@ class _signupStudentState extends State<signupStudent> {
       ),
     );
   }
+
+  // signup
+  void _signUp() async
+  {
+    String name = nameController.text;
+    String batch = batchController.text;
+    String section = sectionController.text;
+    String studentId = studentIdController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+    if (user != null) {
+
+      CollectionReference collRef = FirebaseFirestore.instance.collection('student');
+      collRef.add({
+        'name': name,
+        'batch': batch,
+        'section': section,
+        'studentid': studentId,
+        'email': email,
+        'password': password,
+      });
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => homePage()));
+    }
+    else
+      {
+        log("Error Occurred!");
+      }
+
+  }
+
 }
