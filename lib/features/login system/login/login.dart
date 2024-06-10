@@ -1,5 +1,6 @@
+import 'package:diu_student/features/login%20system/customs/textStyle.dart';
+import 'package:diu_student/features/login%20system/openLogin.dart';
 import 'package:diu_student/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class loginScreen extends StatefulWidget {
@@ -59,8 +60,7 @@ class _loginScreenState extends State<loginScreen> {
                 // Welcome text
                 Text(
                   "Welcome Back!",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                  style: TextTittleStyle,
                 ),
                 SizedBox(height: 20),
                 // Email field
@@ -143,11 +143,9 @@ class _loginScreenState extends State<loginScreen> {
 
                 // Create account button
                 TextButton(
-                  onPressed: () {
-                    // Navigate to create account screen
-                  },
+                  onPressed: _CreateAccount,
                   child: Text(
-                    'Don\'t Have a account? Create Account.',
+                    'Don\'t have an account? Create Account.',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -163,9 +161,6 @@ class _loginScreenState extends State<loginScreen> {
 
 void _login()
   {
-
-
-
     if(emailController.text == "admin" && passwordController.text == "admin")
       {
         Navigator.pushReplacement(
@@ -180,7 +175,14 @@ void _login()
           passwordController.clear();
         });
       }
-
   }
 
-}
+void _CreateAccount()
+  {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => OpenLoginPage()),
+    );
+  }
+
+} // end line
