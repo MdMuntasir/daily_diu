@@ -1,5 +1,6 @@
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/home/presentation/widgets/customText.dart';
+import 'package:diu_student/features/home/presentation/widgets/informationShower.dart';
 import 'package:diu_student/features/home/presentation/widgets/slotShower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,52 +29,41 @@ class _homePageState extends State<homePage> {
     double w = MediaQuery.of(context).size.width;
 
 
-    Widget _information = Container(
-      width: w,
-      height: h*.48,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [BoxShadow(spreadRadius: -10,blurRadius: 20,color: Colors.blue)],
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(w*.25),bottomRight: Radius.circular(w*.25)),
-        ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 35),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: h*.05,),
-            Text(
-              "Welcome "+ _name,
-              style: Theme.of(context).textTheme.displayLarge,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: h*.05,),
-            CustomText(first: "ID", second: _id),
-            SizedBox(height: h*.035,),
-            CustomText(first: "Department", second: Information.departments[_dept][0]),
-            SizedBox(height: h*.035,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(first: "Batch", second: _batch),
-                SizedBox(width: w*.001,),
-                CustomText(first: "Section", second: _sec),
-                SizedBox(width: w*.001,)
-              ],
-            ),
 
 
-          ],
-        ),
-      ),
-    );
+    List timeStamps = [];
+
+    for (var time in test_time[0]["Time"]) {
+      List splited = time.toString().split("-");
+
+      List start = [int.parse(splited[0].split(":")[0]),int.parse(splited[0].split(":")[1])],
+          end = [int.parse(splited[1].split(":")[0]),int.parse(splited[1].split(":")[1])];
+
+      start[0] = start[0] < 7 ? start[0] + 12 : start[0];
+      end[0] = end[0] < 7 ? end[0] + 12 : end[0];
+
+      splited[0] = "${start[0] + start[1]/60}";
+      splited[1] = "${end[0] + end[1]/60 - .01}";
+      timeStamps.add((
+      splited[0],
+      splited[1]));
+    }
+    print(timeStamps);
+    print(DateTime.now());
+
+
+
+    Widget _information = InfoShow(Name: _name, ID: _id, Department: _dept, Batch: _batch, Section: _sec);
+
+
+
 
 
     return Scaffold(
       body: Column(
         children: [
           _information,
-          SizedBox(height: h*.1,),
+          SizedBox(height: h*.05,),
           SlotShower()
         ],
       ),

@@ -24,7 +24,7 @@ ThemeData lightTheme = ThemeData(
     ),
 
   ),
-  
+  backgroundColor: Colors.blue.shade50
 );
 
 
