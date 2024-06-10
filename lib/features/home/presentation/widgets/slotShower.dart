@@ -7,43 +7,56 @@ class SlotShower extends StatefulWidget {
 }
 
 class _SlotShowerState extends State<SlotShower> {
+  Duration _duration = Duration(milliseconds: 300);
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-
-    List timeStamps = [];
-
-    for (var time in test_time[0]["Time"]) {
-      List splited = time.toString().split("-");
-
-      List start = [int.parse(splited[0].split(":")[0]),splited[0].split(":")[1]],
-          end = [int.parse(splited[1].split(":")[0]),splited[1].split(":")[1]];
-
-      start[0] = start[0] < 7 ? start[0] + 12 : start[0];
-      end[0] = end[0] < 7 ? end[0] + 12 : end[0];
-
-      splited[0] = "${start[0]}:${start[1]}";
-      splited[1] = "${end[0]}:${end[1]}";
-      timeStamps.add((
-      splited[0],
-      splited[1]));
-    }
-    print(timeStamps);
-    print(DateTime.now());
-
-
+    double mainHeight = h*.25;
+    double mainWidth = w*.85;
+    double round = 20;
 
     return Container(
-      width: w,
-      height: h*.15,
-      color: Colors.white,
-      child: Row(
+      width: mainWidth,
+      height: mainHeight,
+      color: Colors.transparent,
+      child: Column(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            height: h*.05,
-          )
+            duration: _duration,
+            height: mainHeight*.25,
+            width: mainWidth,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(round),
+                topRight: Radius.circular(round)
+              ),
+              boxShadow: [
+                BoxShadow(
+                  spreadRadius: -5 ,
+                  blurRadius: 7,
+                  offset: Offset(0, 1),
+                  color: Colors.teal
+                )
+              ]
+            ),
+
+          ),
+          Divider(height: mainHeight*.05,color: Colors.transparent,),
+          AnimatedContainer(
+            duration: _duration,
+            height: mainHeight*.70,
+            width: mainWidth,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(round),
+                    bottomRight: Radius.circular(round)
+                )
+            ),
+          ),
         ],
       ),
     );
