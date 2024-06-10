@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // custom neomorphic form
 class CustomForm extends StatelessWidget {
-  final List<TextField> fields;
+  final List<Widget> fields;
 
   CustomForm({required this.fields});
 
