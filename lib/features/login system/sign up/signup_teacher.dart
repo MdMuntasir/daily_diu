@@ -16,6 +16,7 @@ class _signupTeacherState extends State<signupTeacher> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController teacherInitialController = TextEditingController();
 
   // get textTitleStyle => null;
 
@@ -61,7 +62,7 @@ class _signupTeacherState extends State<signupTeacher> {
                       ),
                     ),
                     TextField(
-                      controller: nameController,
+                      controller: teacherInitialController,
                       decoration: InputDecoration(
                         hintText: "Teacher Initial",
                         hintStyle: TextStyle(color: Colors.grey),

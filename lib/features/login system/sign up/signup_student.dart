@@ -16,6 +16,9 @@ class _signupStudentState extends State<signupStudent> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController batchController = TextEditingController();
+  final TextEditingController sectionController = TextEditingController();
+  final TextEditingController studentIdController = TextEditingController();
 
   // get textTitleStyle => null;
 
@@ -61,7 +64,7 @@ class _signupStudentState extends State<signupStudent> {
                       ),
                     ),
                     TextField(
-                      controller: nameController,
+                      controller: batchController,
                       decoration: InputDecoration(
                         hintText: "Batch",
                         hintStyle: TextStyle(color: Colors.grey),
@@ -69,7 +72,7 @@ class _signupStudentState extends State<signupStudent> {
                       ),
                     ),
                     TextField(
-                      controller: nameController,
+                      controller: sectionController,
                       decoration: InputDecoration(
                         hintText: "Section",
                         hintStyle: TextStyle(color: Colors.grey),
@@ -77,7 +80,7 @@ class _signupStudentState extends State<signupStudent> {
                       ),
                     ),
                     TextField(
-                      controller: nameController,
+                      controller: studentIdController,
                       decoration: InputDecoration(
                         hintText: "Student ID",
                         hintStyle: TextStyle(color: Colors.grey),
