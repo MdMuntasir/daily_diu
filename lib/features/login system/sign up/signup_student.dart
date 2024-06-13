@@ -75,7 +75,7 @@ class _signupStudentState extends State<signupStudent> {
                   fields: [
                     TextField(
                       controller: nameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Name",
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
@@ -142,7 +142,7 @@ class _signupStudentState extends State<signupStudent> {
                   onPressed: (){
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => loginScreen()));
                   },
-                  child: Text(
+                  child: const Text(
                     'Already have an account? Login Now.',
                     style: TextStyle(
                       fontSize: 18,

@@ -1,7 +1,7 @@
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
-
 import '../../features/routine/data/models/empty_slot_model.dart';
+
 import '../../features/routine/data/repository/empty slots/empty_slot_repo_impl.dart';
 import '../../features/routine/data/repository/manual/manual.dart';
 import '../../features/routine/data/repository/time_repository_implement.dart';

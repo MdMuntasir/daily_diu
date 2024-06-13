@@ -1,5 +1,6 @@
 import 'package:diu_student/features/routine/domain/entities/slot.dart';
 
+
 class SlotModel extends SlotEntity {
   const SlotModel({
     String? room,

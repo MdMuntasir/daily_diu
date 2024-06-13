@@ -10,9 +10,9 @@ part of 'routine_api.dart';
 
 class _RoutineApi implements RoutineApi {
   _RoutineApi(
-    this._dio, {
-    this.baseUrl,
-  }) {
+      this._dio, {
+        this.baseUrl,
+      }) {
     baseUrl ??= 'https://diuroutineapi-production.up.railway.app';
   }
 
@@ -29,18 +29,18 @@ class _RoutineApi implements RoutineApi {
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
         _setStreamType<HttpResponse<List<SlotModel>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
+          method: 'GET',
+          headers: _headers,
+          extra: _extra,
+        )
             .compose(
-              _dio.options,
-              '/student-routine',
-              queryParameters: queryParameters,
-              data: _data,
-            )
+          _dio.options,
+          '/student-routine',
+          queryParameters: queryParameters,
+          data: _data,
+        )
             .copyWith(
-                baseUrl: _combineBaseUrls(
+            baseUrl: _combineBaseUrls(
               _dio.options.baseUrl,
               baseUrl,
             ))));
@@ -62,18 +62,18 @@ class _RoutineApi implements RoutineApi {
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
         _setStreamType<HttpResponse<List<SlotModel>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
+          method: 'GET',
+          headers: _headers,
+          extra: _extra,
+        )
             .compose(
-              _dio.options,
-              '/teacher-routine',
-              queryParameters: queryParameters,
-              data: _data,
-            )
+          _dio.options,
+          '/teacher-routine',
+          queryParameters: queryParameters,
+          data: _data,
+        )
             .copyWith(
-                baseUrl: _combineBaseUrls(
+            baseUrl: _combineBaseUrls(
               _dio.options.baseUrl,
               baseUrl,
             ))));
@@ -92,18 +92,18 @@ class _RoutineApi implements RoutineApi {
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
         _setStreamType<HttpResponse<List<EmptySlotModel>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
+          method: 'GET',
+          headers: _headers,
+          extra: _extra,
+        )
             .compose(
-              _dio.options,
-              '/empty-slot',
-              queryParameters: queryParameters,
-              data: _data,
-            )
+          _dio.options,
+          '/empty-slot',
+          queryParameters: queryParameters,
+          data: _data,
+        )
             .copyWith(
-                baseUrl: _combineBaseUrls(
+            baseUrl: _combineBaseUrls(
               _dio.options.baseUrl,
               baseUrl,
             ))));
@@ -122,18 +122,18 @@ class _RoutineApi implements RoutineApi {
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
         _setStreamType<HttpResponse<List<TimeModel>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
+          method: 'GET',
+          headers: _headers,
+          extra: _extra,
+        )
             .compose(
-              _dio.options,
-              '/times',
-              queryParameters: queryParameters,
-              data: _data,
-            )
+          _dio.options,
+          '/times',
+          queryParameters: queryParameters,
+          data: _data,
+        )
             .copyWith(
-                baseUrl: _combineBaseUrls(
+            baseUrl: _combineBaseUrls(
               _dio.options.baseUrl,
               baseUrl,
             ))));
@@ -158,9 +158,9 @@ class _RoutineApi implements RoutineApi {
   }
 
   String _combineBaseUrls(
-    String dioBaseUrl,
-    String? baseUrl,
-  ) {
+      String dioBaseUrl,
+      String? baseUrl,
+      ) {
     if (baseUrl == null || baseUrl.trim().isEmpty) {
       return dioBaseUrl;
     }

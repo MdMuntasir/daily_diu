@@ -5,19 +5,37 @@ class CustomText extends StatelessWidget {
   final String first;
   final String second;
   final double size;
-  const CustomText({super.key, required this.first, required this.second, this.size = 18});
+  final Color color;
+  final Color shadowColor;
+  const CustomText({
+    super.key,
+    required this.first,
+    required this.second,
+    this.shadowColor = Colors.black54,
+    this.color = Colors.black87,
+    this.size = 18});
 
   @override
   Widget build(BuildContext context) {
     return RichText(text: TextSpan(
+      style: TextStyle(
+        shadows: [Shadow(
+            color: shadowColor,
+          blurRadius: 4,
+          offset: Offset(1,1.5)
+        )]
+      ),
       children: [
         TextSpan(
           text: first + " : ",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: size,color: Colors.black)
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: size,color: color,
+          )
         ),
         TextSpan(
           text: second,
-          style: TextStyle( fontSize: size, color: Colors.black)
+          style: TextStyle( fontSize: size, color: color)
         ),
       ]
     ),);

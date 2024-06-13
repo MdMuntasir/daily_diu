@@ -1,9 +1,15 @@
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
+import 'package:diu_student/features/home/data/models/slot.dart';
+import 'package:diu_student/features/home/data/repository/routine_repo_implement.dart';
 import 'package:diu_student/features/home/presentation/widgets/customText.dart';
 import 'package:diu_student/features/home/presentation/widgets/informationShower.dart';
+import 'package:diu_student/features/home/presentation/widgets/showRoutine.dart';
 import 'package:diu_student/features/home/presentation/widgets/slotShower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
 
 class homePage extends StatefulWidget {
   const homePage({super.key});
@@ -13,13 +19,14 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
-  String _name = "Muntasir Vai",
+  String _name = "Muntasir",
       _dept = "SWE",
       _batch = "41",
       _sec = "N",
       _id = "232-35-689",
       _ti = "SUP";
 
+  bool isNow = false;
 
 
 
@@ -28,6 +35,8 @@ class _homePageState extends State<homePage> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
+
+    Box _database = Hive.box("routine_box");
 
 
 
@@ -48,24 +57,29 @@ class _homePageState extends State<homePage> {
       splited[0],
       splited[1]));
     }
-    print(timeStamps);
-    print(DateTime.now());
+
 
 
 
     Widget _information = InfoShow(Name: _name, ID: _id, Department: _dept, Batch: _batch, Section: _sec);
 
 
-
-
-
     return Scaffold(
-      body: Column(
-        children: [
-          _information,
-          SizedBox(height: h*.05,),
-          SlotShower()
-        ],
+      backgroundColor: Colors.teal.shade100,
+      body: SizedBox(
+        width: w,
+        height: h,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _information,
+
+              ShowRoutine(slots: MainRoutine,)
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
+import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/openLogin.dart';
 import 'package:diu_student/features/login%20system/login/login.dart';
@@ -14,13 +15,18 @@ import 'package:diu_student/injection_container.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'features/home/data/repository/routine_repo_implement.dart';
 import 'features/routine/data/repository/time_repository_implement.dart';
 import 'core/resources/information_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  var box = await Hive.openBox("routine_box");
+  await getRoutineLocally("41A");
   runApp(const MyApp());
 }
 
@@ -32,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
-      home: loginScreen(),
+      home: const MyHomePage(),
     );
   }
 }
