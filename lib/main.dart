@@ -26,7 +26,7 @@ void main() async {
   await Hive.initFlutter();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   var box = await Hive.openBox("routine_box");
-  await getRoutineLocally("41A");
+  await getRoutineLocally("41N");
   runApp(const MyApp());
 }
 
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
-      home: const MyHomePage(),
+      home: OpenLoginPage(),
     );
   }
 }

@@ -1,7 +1,8 @@
-import 'package:diu_student/features/login%20system/customs/textStyle.dart';
 import 'package:diu_student/features/login%20system/openLogin.dart';
 import 'package:diu_student/main.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/textStyle.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});

@@ -2,29 +2,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // custom neomorphic form
-class CustomForm extends StatelessWidget {
+class CustomForm extends StatefulWidget {
   final List<Widget> fields;
+  final int duration;
 
-  CustomForm({required this.fields});
+  CustomForm({required this.fields, this.duration = 300});
 
   @override
+  State<CustomForm> createState() => _CustomFormState();
+}
+
+class _CustomFormState extends State<CustomForm> {
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromRGBO(27, 95, 225, 0.3),
-              blurRadius: 20,
-              offset: Offset(0, 10),
-            )
-          ],
-        ),
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
+
+    return AnimatedContainer(
+      height: h* .08 * widget.fields.length,
+      width: w*.85,
+      duration: Duration(milliseconds: widget.duration),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(27, 95, 225, 0.3),
+            blurRadius: 20,
+            offset: Offset(0, 10),
+          )
+        ],
+      ),
+      child: SingleChildScrollView(
         child: Column(
-          children: fields.map((field) {
+          children: widget.fields.map((field) {
             return Container(
               padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
@@ -56,7 +67,9 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.of(context).size.width;
     return Container(
+      width: w,
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Color(0xffeeeeee))),

@@ -15,12 +15,13 @@ class StudentRoutineAPI{
     var response = await http.get(uri);
 
     if(response.statusCode == 200){
-      List map = [];
+      List _routine = [];
       List<dynamic> json = jsonDecode(response.body);
       json.forEach((element) {
-        map.add(element);
+        Map<String,dynamic> map= element;
+        _routine.add(map);
       });
-      return map;
+      return _routine;
     }
     else{
       return [];

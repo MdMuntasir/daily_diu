@@ -42,6 +42,6 @@ import '../models/slot.dart';
 Future<void> StoreRoutine(section) async{
   final _routineBox = Hive.box("routine_box");
   List _routine = await StudentRoutineAPI(batchSection: section).getRoutine();
-  _routineBox.put(2, _routine);
+  _routineBox.put("Routine", _routine);
 }
 
