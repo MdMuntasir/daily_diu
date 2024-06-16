@@ -19,24 +19,15 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
-  String _name = "Muntasir",
-      _dept = "SWE",
-      _batch = "41",
-      _sec = "N",
-      _id = "232-35-689",
-      _ti = "SUP";
-
   bool isNow = false;
 
-
+  Widget _information = SizedBox();
 
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-
-    Box _database = Hive.box("routine_box");
 
 
 
@@ -58,11 +49,27 @@ class _homePageState extends State<homePage> {
       splited[1]));
     }
 
+    if(studentInfo.user != null){
+      String name = studentInfo.name.toString().split(" ")[0];
+      _information = StudentInfoShow(
+          Name: name,
+          ID: studentInfo.id!,
+          Department: studentInfo.department!,
+          Batch: studentInfo.batch!,
+          Section: studentInfo.section!);
+    }
 
 
-
-    Widget _information = StudentInfoShow(Name: _name, ID: _id, Department: _dept, Batch: _batch, Section: _sec);
-
+    else {
+      String dept = teacherInfo.department.toString().split('-').join("+");
+      String name = studentInfo.name.toString().split(" ")[0];
+      _information = TeacherInfoShow(
+        Name: name,
+        Department: dept,
+        Faculty: teacherInfo.faculty!,
+        TeacherInitial: teacherInfo.ti!,
+      );
+    }
 
     return Scaffold(
       backgroundColor: Colors.teal.shade100,
