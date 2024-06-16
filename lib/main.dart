@@ -3,30 +3,42 @@ import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
-import 'package:diu_student/features/login%20system/openLogin.dart';
-import 'package:diu_student/features/login%20system/login/login.dart';
-import 'package:diu_student/features/login%20system/sign%20up/signup_student.dart';
-import 'package:diu_student/features/login%20system/sign%20up/signup_teacher.dart';
+import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
+import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/features/notes/notes.dart';
 import 'package:diu_student/features/notice%20board/noticeBoard.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
 import 'package:diu_student/firebase_options.dart';
 import 'package:diu_student/injection_container.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'features/home/data/data_sources/local/local_user_info.dart';
 import 'features/home/data/repository/routine_repo_implement.dart';
+import 'features/home/data/repository/user_info_store.dart';
 import 'features/routine/data/repository/time_repository_implement.dart';
 import 'core/resources/information_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Hive.initFlutter();
   var box = await Hive.openBox("routine_box");
-  await getRoutineLocally("41N");
+  User? user = FirebaseAuth.instance.currentUser;
+  if(user!=null){
+    Box _box = Hive.box("routine_box");
+    Map _info = _box.get("UserInfo");
+    getUserInfo();
+    if(_info["user"] == "Student"){
+      await getRoutineLocally("${_info["batch"]}${_info["section"]}", true);
+    }
+    else{
+      await getRoutineLocally(_info["ti"], false);
+    }
+  }
   runApp(const MyApp());
 }
 
@@ -35,11 +47,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      home: OpenLoginPage(),
-    );
+          debugShowCheckedModeBanner: false,
+          theme: lightTheme,
+          home: user != null ? MyHomePage() : loginScreen());
+
+
   }
 }
 

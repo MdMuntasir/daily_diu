@@ -64,9 +64,9 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
       );
     },
         style: ButtonStyle(
-          backgroundColor: MaterialStatePropertyAll(Colors.blueAccent.shade700),
-          foregroundColor: MaterialStatePropertyAll(Colors.white),
-          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(11))))
+          backgroundColor: WidgetStatePropertyAll(Colors.blueAccent.shade700),
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(11))))
         ),
         child: Text(selected, style: TextStyle(fontSize: 18),)
     );

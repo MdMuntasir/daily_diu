@@ -5,13 +5,14 @@ import 'package:hive/hive.dart';
 
 List<SlotModel> MainRoutine = [];
 
-Future<void> getRoutineLocally(batchSec) async{
+
+Future<void> getRoutineLocally(batchSec, isStudent) async{
   Box _data = Hive.box("routine_box");
   final _checkConnection = await Connectivity().checkConnectivity();
 
   bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
   if(isConnected) {
-    await StoreRoutine(batchSec);
+    await StoreRoutine(batchSec, isStudent);
   }
   List _routine = _data.get("Routine");
   List<SlotModel> jsonModel = [];
@@ -20,7 +21,7 @@ Future<void> getRoutineLocally(batchSec) async{
     Map<String, dynamic> map = {};
     if(isConnected) {
       map = slot;
-      jsonModel.add(SlotModel.fromJson(map));
+      jsonModel.add(SlotModel.fromJson(slot));
     }
     else{
       slot.forEach((key, value){

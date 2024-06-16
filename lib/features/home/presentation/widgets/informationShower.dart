@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import '../../../../core/resources/information_repository.dart';
 import 'customText.dart';
 
-class InfoShow extends StatelessWidget {
+class StudentInfoShow extends StatelessWidget {
   final String Name;
   final String ID;
   final String Department;
   final String Batch;
   final String Section;
-  const InfoShow({super.key, required this.Name, required this.ID, required this.Department, required this.Batch, required this.Section});
+  const StudentInfoShow({super.key, required this.Name, required this.ID, required this.Department, required this.Batch, required this.Section});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class InfoShow extends StatelessWidget {
 
     return Container(
       width: horizontal? w : w*.8,
-      height: horizontal? h*.35 : h*.6,
+      height: horizontal? h*.38 : h*.6,
       decoration: BoxDecoration(
         color: Colors.white,
         gradient: const LinearGradient(

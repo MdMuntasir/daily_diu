@@ -61,7 +61,7 @@ class _homePageState extends State<homePage> {
 
 
 
-    Widget _information = InfoShow(Name: _name, ID: _id, Department: _dept, Batch: _batch, Section: _sec);
+    Widget _information = StudentInfoShow(Name: _name, ID: _id, Department: _dept, Batch: _batch, Section: _sec);
 
 
     return Scaffold(

@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-import '../login/login.dart';
-import '../widgets/customWidgets.dart';
-import '../widgets/textStyle.dart';
+import 'customWidgets.dart';
+import 'textStyle.dart';
 
 
 
@@ -12,9 +11,10 @@ import '../widgets/textStyle.dart';
 class signupTeacher extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController confirmPassController;
   final TextEditingController nameController;
   final TextEditingController teacherInitialController;
-  const signupTeacher({super.key, required this.emailController, required this.passwordController, required this.nameController, required this.teacherInitialController});
+  const signupTeacher({super.key, required this.emailController, required this.passwordController, required this.nameController, required this.teacherInitialController, required this.confirmPassController,});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +49,15 @@ class signupTeacher extends StatelessWidget {
             controller: passwordController,
             decoration: InputDecoration(
               hintText: "Password",
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none,
+            ),
+            obscureText: true,
+          ),
+          TextField(
+            controller: confirmPassController,
+            decoration: InputDecoration(
+              hintText: "Confirm Password",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),
