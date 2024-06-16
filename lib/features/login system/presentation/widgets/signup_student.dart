@@ -3,24 +3,25 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/firebase_auth/firebase_auth_services.dart';
-import 'package:diu_student/features/login%20system/login/login.dart';
+import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/customWidgets.dart';
-import '../widgets/textStyle.dart';
+import 'customWidgets.dart';
+import 'textStyle.dart';
 
 
 
 class signupStudent extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController confirmPassController;
   final TextEditingController nameController;
   final TextEditingController batchController;
   final TextEditingController sectionController;
   final TextEditingController studentIdController;
-  const signupStudent({super.key, required this.emailController, required this.passwordController, required this.nameController, required this.batchController, required this.sectionController, required this.studentIdController});
+  const signupStudent({super.key, required this.emailController, required this.passwordController, required this.nameController, required this.batchController, required this.sectionController, required this.studentIdController, required this.confirmPassController});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class signupStudent extends StatelessWidget {
           TextField(
             controller: batchController,
             decoration: InputDecoration(
-              hintText: "Batch",
+              hintText: "Batch;   Ex: 41",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),
@@ -46,7 +47,7 @@ class signupStudent extends StatelessWidget {
           TextField(
             controller: sectionController,
             decoration: InputDecoration(
-              hintText: "Section",
+              hintText: "Section;   Ex: N",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),
@@ -54,7 +55,7 @@ class signupStudent extends StatelessWidget {
           TextField(
             controller: studentIdController,
             decoration: InputDecoration(
-              hintText: "Student ID",
+              hintText: "Student ID;   Ex: 232-35-689",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),
@@ -79,6 +80,15 @@ class signupStudent extends StatelessWidget {
             controller: passwordController,
             decoration: InputDecoration(
               hintText: "Password",
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none,
+            ),
+            obscureText: true,
+          ),
+          TextField(
+            controller: confirmPassController,
+            decoration: InputDecoration(
+              hintText: "Confirm Password",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),

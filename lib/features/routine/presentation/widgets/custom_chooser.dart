@@ -98,9 +98,9 @@ class _CustomChooserState extends State<CustomChooser> {
                   );
                 },
                 style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.white),
-                    foregroundColor: MaterialStatePropertyAll(Colors.blue.shade500),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))))
+                    backgroundColor: WidgetStatePropertyAll(Colors.white),
+                    foregroundColor: WidgetStatePropertyAll(Colors.blue.shade500),
+                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))))
                 ),
                 child: Text(selected, style: TextStyle(fontSize: 18),)
             );

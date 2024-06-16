@@ -1,8 +1,19 @@
-import 'package:diu_student/features/login%20system/openLogin.dart';
-import 'package:diu_student/main.dart';
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diu_student/features/home/data/data_sources/local/local_user_info.dart';
+import 'package:diu_student/features/home/data/models/user_info.dart';
+import 'package:diu_student/features/home/data/repository/user_info_store.dart';
+import 'package:diu_student/features/login%20system/firebase_auth/firebase_auth_services.dart';
+import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
+import 'package:diu_student/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
+import '../../../home/data/data_sources/local/local_routine.dart';
 import '../widgets/textStyle.dart';
+
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
@@ -160,21 +171,63 @@ class _loginScreenState extends State<loginScreen> {
     );
   }
 
-void _login()
-  {
-    if(emailController.text == "admin" && passwordController.text == "admin")
+Future<void> _login()
+  async {
+    String email = emailController.text;
+    String pass = passwordController.text;
+
+
+
+    if(email.isNotEmpty && pass.isNotEmpty)
       {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MyHomePage()),
-        );
+        UserCredential? user;
+        try {
+          user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: pass).then((val) async {
+
+            FirebaseFirestore _db = FirebaseFirestore.instance;
+
+            final snapshot1 = await _db.collection("student").where("email", isEqualTo: email).get();
+            final snapshot2 = await _db.collection("teacher").where("email", isEqualTo: email).get();
+
+            if(snapshot1.docs.isNotEmpty){
+              StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
+
+              await getRoutineLocally("${userData.batch}${userData.section}", true);
+              StoreUserInfo(userData, true);
+              getUserInfo();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyHomePage()),
+              );
+            }
+
+
+
+            else{
+              TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
+
+              await getRoutineLocally(userData.ti, false);
+              StoreUserInfo(userData, false);
+              getUserInfo();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyHomePage()),
+              );
+            }
+
+
+            return null;
+          });
+        }
+
+        on FirebaseAuthException catch(e){
+          log(e.code.toString());
+        }
+
       }
     else
       {
-        setState(() {
-          emailController.clear();
-          passwordController.clear();
-        });
+        log("Fill all the information to continue");
       }
   }
 
@@ -182,7 +235,7 @@ void _CreateAccount()
   {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => OpenLoginPage()),
+      MaterialPageRoute(builder: (context) => SignupPage()),
     );
   }
 

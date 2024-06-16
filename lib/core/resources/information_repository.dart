@@ -1,5 +1,6 @@
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
+import '../../features/home/data/models/user_info.dart';
 import '../../features/routine/data/models/empty_slot_model.dart';
 
 import '../../features/routine/data/repository/empty slots/empty_slot_repo_impl.dart';
@@ -53,6 +54,32 @@ class Information {
   'LAW': ['Law', (){hasFunction = false;}]
   };
 }
+
+
+
+Map Faculty_Info = {
+  "FSIT": {
+    'SWE': 'Software Engineering',
+    'CSE': 'Computer Science & Engineering',
+    'ITM': 'Information Technology & Management',
+    'CIS': 'Computing and Information System',
+  },
+  "FBE" : {},
+  "FHSS" : {},
+  "FHLS" : {},
+  "Engineering" : {
+    'ARCH': 'Architecture',
+    'EEE': 'Electrical and Electronic Engineering',
+    'CE': 'Civil Engineering',
+    'TE': 'Textile Engineering',
+    'ICE': 'Information and Communication Engineering',
+  },
+};
+
+
+StudentInfoModel studentInfo = StudentInfoModel();
+TeacherInfoModel teacherInfo = TeacherInfoModel();
+
 
 List Times = [];
 

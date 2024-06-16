@@ -8,9 +8,9 @@ ThemeData lightTheme = ThemeData(
   primaryColor: Colors.blue,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(Colors.blue.shade900),
-        foregroundColor: const MaterialStatePropertyAll(Colors.white),
-      shape: const MaterialStatePropertyAll(RoundedRectangleBorder
+        backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+        foregroundColor: const WidgetStatePropertyAll(Colors.white),
+      shape: const WidgetStatePropertyAll(RoundedRectangleBorder
         (borderRadius: BorderRadius.all(Radius.circular(10))
       )
       )

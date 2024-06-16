@@ -172,7 +172,7 @@ class _ShowRoutineState extends State<ShowRoutine> {
 
           SlotCards.isEmpty ?
               SizedBox(
-                height: h*.5,
+                height: h*.45,
                 child: Center(child: Text(
                   days[_toDay] == choosed_day?
                   "No class today\nEnjoy your day" :
@@ -191,7 +191,7 @@ class _ShowRoutineState extends State<ShowRoutine> {
               )
               :
           SizedBox(
-            height: h*.5,
+            height: h*.45,
             child: SingleChildScrollView(
               child: Column(
                 children: SlotCards,
