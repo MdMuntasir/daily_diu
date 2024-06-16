@@ -2,10 +2,14 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/features/home/data/models/user_info.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../home/data/data_sources/local/local_routine.dart';
+import '../../../home/data/data_sources/local/local_user_info.dart';
+import '../../../home/data/repository/user_info_store.dart';
 import '../../../home/presentation/pages/homePage.dart';
 import '../../firebase_auth/firebase_auth_services.dart';
 import '../widgets/multi_chooser.dart';
@@ -259,9 +263,9 @@ class _SignupPageState extends State<SignupPage> {
 
     UserCredential? user;
     try {
-      user = await _auth.signUpWithEmailAndPassword(email, password).then((value){
+      user = await _auth.signUpWithEmailAndPassword(email, password).then((value) async {
         CollectionReference collRef = FirebaseFirestore.instance.collection('student');
-        collRef.add({
+        Map<String,dynamic> userData = {
           'user' : "Student",
           'name': name,
           'batch': batch,
@@ -271,7 +275,13 @@ class _SignupPageState extends State<SignupPage> {
           'department' : dept,
           'email': email,
           'password': password,
-        });
+        };
+        collRef.add(userData);
+
+        await getRoutineLocally("${userData["batch"]}${userData["section"]}", true);
+        StoreUserInfo(StudentInfoModel.fromJson(userData), true);
+        getUserInfo();
+
 
         log("Successfully Signed Up");
 
@@ -298,9 +308,9 @@ class _SignupPageState extends State<SignupPage> {
 
     UserCredential? user;
     try {
-      user = await _auth.signUpWithEmailAndPassword(email, password).then((value){
+      user = await _auth.signUpWithEmailAndPassword(email, password).then((value) async {
         CollectionReference collRef = FirebaseFirestore.instance.collection('teacher');
-        collRef.add({
+        Map<String,dynamic> userData = {
           'user' : "Teacher",
           'name': name,
           'ti': teacherInitial,
@@ -308,7 +318,17 @@ class _SignupPageState extends State<SignupPage> {
           'department' : dept,
           'email': email,
           'password': password,
-        });
+        };
+
+        collRef.add(userData);
+
+
+        await getRoutineLocally(userData["ti"], true);
+        StoreUserInfo(TeacherInfoModel.fromJson(userData), true);
+        getUserInfo();
+
+
+        log("Successfully Signed Up");
 
         log("Successfully Signed Up");
         Navigator.push(
