@@ -29,21 +29,26 @@ class signupTeacher extends StatelessWidget {
               border: InputBorder.none,
             ),
           ),
-          TextField(
+          CustomTextField(
             controller: teacherInitialController,
-            decoration: InputDecoration(
-              hintText: "Teacher Initial",
-              hintStyle: TextStyle(color: Colors.grey),
-              border: InputBorder.none,
-            ),
+            hintText: "Teacher Initial, Ex: IM",
+            maxLen: 4,
           ),
-          TextField(
+          TextFormField(
             controller: emailController,
             decoration: InputDecoration(
               hintText: "E.g: softenge@diu.edu.bd",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              } else if (!value.endsWith('@diu.edu.bd')) {
+                return 'Please enter a valid DIU email';
+              }
+              return null;
+            },
           ),
           TextField(
             controller: passwordController,

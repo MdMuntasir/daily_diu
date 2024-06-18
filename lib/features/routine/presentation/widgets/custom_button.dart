@@ -34,7 +34,7 @@ class _HeroButtonState extends State<HeroButton> {
     return Hero(
       tag: widget.tag,
       child: Material(
-        color: Colors.blue.shade50,
+        color: Colors.transparent,
         child: InkWell(
           onTap: enabled ? widget.function : (){},
           child: Container(

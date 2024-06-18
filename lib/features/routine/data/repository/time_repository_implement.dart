@@ -6,6 +6,7 @@ import 'package:diu_student/features/routine/data/data_sources/remote/routine_ap
 import 'package:diu_student/features/routine/data/models/time.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/routine/domain/repository/time_repository.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 class TimeRepoImpl extends TimeRepository{
@@ -35,17 +36,24 @@ class TimeRepoImpl extends TimeRepository{
 }
 
 
-class getTimesRemotely{
+class getTimes{
+  final Box _box = Hive.box("routine_box");
 
-  Future getTime() async{
+  Future getTimesRemotely(String department) async{
     var response = await http.get(Uri.https("diuroutineapi-production.up.railway.app","/times"));
 
     if(response.statusCode == 200){
       List<dynamic> json = jsonDecode(response.body);
+      _box.put("${department}Times", json[0]["Time"]);
       return TimeModel.fromJson(json[0]).times!;
     }
     else{
       return [];
     }
+  }
+
+  getTimesLocally(String department){
+    List time = _box.get("${department}Times");
+    return time;
   }
 }

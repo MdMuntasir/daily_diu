@@ -9,7 +9,7 @@ import '../../data/models/slot.dart';
 
 
 class SlotShower extends StatefulWidget {
-  final SlotModel slots; // change path later
+  final HomeSlotModel slots; // change path later
   final bool isActive;
   const SlotShower({required this.slots, this.isActive = false});
   @override
@@ -29,7 +29,7 @@ class _SlotShowerState extends State<SlotShower> {
     double mainWidth = horizontal ? w*.75 : h*.75;
     double round = 20;
 
-    SlotModel slots = widget.slots;
+    HomeSlotModel slots = widget.slots;
     bool now = widget.isActive;
 
     return Container(

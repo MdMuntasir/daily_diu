@@ -9,6 +9,7 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../config/theme/Themes.dart';
 import '../../../../core/resources/information_repository.dart';
+import '../../data/models/slot.dart';
 
 class TeacherRoutine extends StatefulWidget {
   const TeacherRoutine({super.key});
@@ -89,7 +90,7 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
 
     void showRoutine() async{
-      teacherInitial = tiController.text;
+      teacherInitial = tiController.text.toUpperCase();
       routineShowed = true;
       height1 = h>w? h*.3 : w*.3;
       height2 = h>w? h*.45 : h*.8;
@@ -97,6 +98,14 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
       setState(() {});
     }
 
+
+
+    List<SlotModel> slots = [];
+    allSlots.forEach((slot){
+      if(slot.ti == teacherInitial){
+        slots.add(slot);
+      }
+    });
 
 
 
@@ -126,18 +135,20 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
 
 
+    // FutureBuilder _showRoutineRemotely = FutureBuilder(
+    //     future: getTeacherRoutineRemotely(ti: teacherInitial).getRoutine(),
+    //     builder: (context,slots){
+    //       if(slots.connectionState == ConnectionState.done) {
+    //         return RoutineShower(times: Times, body: slots.data!);
+    //       }
+    //       else{
+    //         return Center(child: CupertinoActivityIndicator());
+    //       }
+    //     });
+
 
     Widget lowerPart = routineShowed ?
-    FutureBuilder(
-        future: getTeacherRoutineRemotely(ti: teacherInitial).getRoutine(),
-        builder: (context,slots){
-          if(slots.connectionState == ConnectionState.done) {
-            return RoutineShower(times: Times, body: slots.data!);
-          }
-          else{
-            return Center(child: CupertinoActivityIndicator());
-          }
-        })
+    RoutineShower(times: Times, body: slots)
         : SizedBox();
 
 

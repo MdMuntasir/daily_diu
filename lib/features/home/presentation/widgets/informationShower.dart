@@ -34,15 +34,23 @@ class StudentInfoShow extends StatelessWidget {
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(round),bottomRight: Radius.circular(round)),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: h*.04,),
-            Text(
-              "Welcome "+ Name,
-              style: Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 40),
-              textAlign: TextAlign.center,
+            SizedBox(height: h*.08,),
+            SizedBox(
+              width: horizontal? w : w*.8,
+              child: Center(
+                child: Text(
+                  "Welcome "+ Name,
+                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                      fontSize: horizontal ? w*.085 : 40,
+                      color: Colors.teal.shade900,
+                      fontFamily : "Funky_Coffee"),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
             SizedBox(height: h*.045,),
             CustomText(first: "ID", second: ID,color: Colors.teal.shade900,shadowColor: Colors.black45,),
@@ -103,10 +111,13 @@ class TeacherInfoShow extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: h*.04,),
+            SizedBox(height: h*.08,),
             Text(
               "Welcome "+ Name,
-              style: Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 40),
+              style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                  fontSize: horizontal ? w*.085 : 40,
+                  color: Colors.teal.shade900,
+                  fontFamily : "Funky_Coffee"),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: h*.045,),
