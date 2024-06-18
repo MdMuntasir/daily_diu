@@ -16,11 +16,18 @@ ThemeData lightTheme = ThemeData(
       )
     )
   ),
-  textTheme: const TextTheme(
+  textTheme: TextTheme(
     displayLarge: TextStyle(
         fontSize: 45,
-        color: Colors.blueAccent,
-        fontWeight: FontWeight.bold
+        color: Colors.blue.shade900,
+        fontWeight: FontWeight.bold,
+      fontFamily: "Welcome_Magic",
+      shadows: [Shadow(
+        color: Colors.black87,
+        offset: Offset(.5, 1.5),
+        blurRadius: 5
+      )],
+
     ),
 
   ),

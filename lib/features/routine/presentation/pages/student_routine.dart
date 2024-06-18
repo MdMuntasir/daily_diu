@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../config/theme/Themes.dart';
 import '../../../../core/resources/information_repository.dart';
+import '../../data/models/slot.dart';
 
 class StudentRoutine extends StatefulWidget {
   const StudentRoutine({super.key});
@@ -91,8 +94,8 @@ class _StudentRoutineState extends State<StudentRoutine> {
     }
 
 
-    void showRoutine() async{
-      batchSection = batchController.text + sectionController.text;
+    void showRoutine() {
+      batchSection = batchController.text + sectionController.text.toUpperCase();
       BatchSection = batchSection;
       routineShowed = true;
       height1 = h>w? h*.3 : w*.3;
@@ -100,6 +103,15 @@ class _StudentRoutineState extends State<StudentRoutine> {
       space = h>w? h*.02 : w*.02;
       setState(() {});
     }
+
+
+    List<SlotModel> slots = [];
+    allSlots.forEach((slot){
+      if("${slot.batch}${slot.section}" == batchSection){
+        slots.add(slot);
+      }
+
+    });
 
 
 
@@ -110,7 +122,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: routineShowed? 0 : h*.05,),
+          SizedBox(height: routineShowed? h*.02 : h*.05,),
 
           SizedBox(
             width: h>w ? w*.5 : h*.5,
@@ -122,7 +134,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
               isDigit: true,),
           ),
 
-          SizedBox(height: routineShowed? 0 : h*.03,),
+          SizedBox(height: routineShowed? h*.01 : h*.05,),
 
 
           SizedBox(
@@ -136,7 +148,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
           ),
 
 
-          SizedBox(height: routineShowed? 0 : h*.035,),
+          SizedBox(height: routineShowed? h*.01 : h*.05,),
 
 
           ElevatedButton(
@@ -150,18 +162,24 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
 
-    Widget lowerPart = routineShowed ?
-    FutureBuilder(
-        future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
-        builder: (context,slots){
-          if(slots.connectionState == ConnectionState.done) {
+    // FutureBuilder _showRoutineRemotely =  FutureBuilder(
+    //       future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
+    //       builder: (context,Slots){
+    //         if(Slots.connectionState == ConnectionState.done) {
+    //
+    //           return RoutineShower(times: Times, body: Slots.data!);
+    //         }
+    //         else{
+    //           return Center(child: CupertinoActivityIndicator());
+    //         }
+    //       });
 
-            return RoutineShower(times: Times, body: slots.data!);
-          }
-          else{
-            return Center(child: CupertinoActivityIndicator());
-          }
-        })
+
+
+
+
+    Widget lowerPart = routineShowed ?
+    RoutineShower(times: Times, body: slots)
         : SizedBox();
 
 

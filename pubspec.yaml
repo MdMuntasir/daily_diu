@@ -103,6 +103,14 @@ flutter:
         - asset: assets/fonts/Takota-BRa8.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
+
+    - family: Funky_Coffee
+      fonts:
+        - asset: assets/fonts/Funky Coffee.ttf
+
+    - family: Welcome_Magic
+      fonts:
+        - asset: assets/fonts/Welcome Magic.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

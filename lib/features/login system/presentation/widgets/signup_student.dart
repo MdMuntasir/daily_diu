@@ -28,37 +28,24 @@ class signupStudent extends StatelessWidget {
     return Center(
       child: CustomForm(
         fields: [
-          TextField(
+          CustomTextField(
             controller: nameController,
-            decoration: const InputDecoration(
-              hintText: "Name",
-              hintStyle: TextStyle(color: Colors.grey),
-              border: InputBorder.none,
-            ),
+            hintText: "Name",
           ),
-          TextField(
+          CustomTextField(
             controller: batchController,
-            decoration: InputDecoration(
-              hintText: "Batch;   Ex: 41",
-              hintStyle: TextStyle(color: Colors.grey),
-              border: InputBorder.none,
-            ),
+            hintText: "Batch;   Ex: 41",
+            isDigit: true,
+            maxLen: 2,
           ),
-          TextField(
+          CustomTextField(
             controller: sectionController,
-            decoration: InputDecoration(
-              hintText: "Section;   Ex: N",
-              hintStyle: TextStyle(color: Colors.grey),
-              border: InputBorder.none,
-            ),
+            hintText: "Section;   Ex: N",
+            maxLen: 2,
           ),
-          TextField(
+          CustomTextField(
             controller: studentIdController,
-            decoration: InputDecoration(
-              hintText: "Student ID;   Ex: 232-35-689",
-              hintStyle: TextStyle(color: Colors.grey),
-              border: InputBorder.none,
-            ),
+            hintText: "Student ID;   Ex: 232-35-689",
           ),
           TextFormField(
             controller: emailController,

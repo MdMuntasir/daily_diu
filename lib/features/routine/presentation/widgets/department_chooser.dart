@@ -60,7 +60,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
         width: w*.9,
           context: context,
           bodyBuilder: (context) => SingleChildScrollView(child: Center(child: Column(children: options,))),
-        direction: PopoverDirection.top
+        direction: PopoverDirection.bottom
       );
     },
         style: ButtonStyle(

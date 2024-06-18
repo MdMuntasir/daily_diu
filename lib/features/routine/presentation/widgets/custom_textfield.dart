@@ -27,6 +27,7 @@ class CustomTextField extends StatelessWidget {
         ] : [],
         decoration: InputDecoration(
           hintText: textHint,
+          counterText: "",
           hintStyle: TextStyle(fontSize: 18, color: Colors.black54),
           focusColor: Colors.white,
           labelText: label,

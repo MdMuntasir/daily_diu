@@ -8,6 +8,7 @@ import 'package:diu_student/features/home/presentation/widgets/showRoutine.dart'
 import 'package:diu_student/features/home/presentation/widgets/slotShower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 
 
@@ -72,6 +73,26 @@ class _homePageState extends State<homePage> {
     }
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                  onPressed: (){},
+                  color: Colors.black87,
+                  icon: Icon(FontAwesomeIcons.barsStaggered)),
+              IconButton(
+                  onPressed: (){},
+                  color: Colors.black87,
+                  icon: Icon(FontAwesomeIcons.penToSquare)),
+            ],
+          ),
+        ),
+      ),
       backgroundColor: Colors.teal.shade100,
       body: SizedBox(
         width: w,

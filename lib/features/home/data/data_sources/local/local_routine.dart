@@ -3,7 +3,7 @@ import 'package:diu_student/features/home/data/models/slot.dart';
 import 'package:diu_student/features/home/data/repository/routine_repo_implement.dart';
 import 'package:hive/hive.dart';
 
-List<SlotModel> MainRoutine = [];
+List<HomeSlotModel> MainRoutine = [];
 
 
 Future<void> getRoutineLocally(batchSec, isStudent) async{
@@ -15,19 +15,19 @@ Future<void> getRoutineLocally(batchSec, isStudent) async{
     await StoreRoutine(batchSec, isStudent);
   }
   List _routine = _data.get("Routine");
-  List<SlotModel> jsonModel = [];
+  List<HomeSlotModel> jsonModel = [];
 
   _routine.forEach((slot){
     Map<String, dynamic> map = {};
     if(isConnected) {
       map = slot;
-      jsonModel.add(SlotModel.fromJson(slot));
+      jsonModel.add(HomeSlotModel.fromJson(slot));
     }
     else{
       slot.forEach((key, value){
         map[key.toString()] = value;
       });
-      jsonModel.add(SlotModel.fromJson(map));
+      jsonModel.add(HomeSlotModel.fromJson(map));
     }
   });
   MainRoutine = jsonModel;

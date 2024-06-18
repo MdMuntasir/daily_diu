@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
+import 'package:diu_student/features/routine/data/data_sources/local/local_slots.dart';
 import 'package:diu_student/features/routine/data/models/slot.dart';
 import '../../features/home/data/models/user_info.dart';
 import '../../features/routine/data/models/empty_slot_model.dart';
@@ -19,39 +23,31 @@ class Information {
   static Map departments
   = {
   'SWE': ['Software Engineering', ()async{
+    final _checkConnection = await Connectivity().checkConnectivity();
+
+    bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+    if(isConnected) {
       try{
-          allSlots = await getAllSlotsRemotely().getAllSlots();
-          emptySlots = await getEmptySlotRemotely().getEmptySlots();
-          Times = await getTimesRemotely().getTime();
-        }
-        catch(e){
-          print(e);
-        }
-        if(allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
-          hasFunction = true;
-        }
+        allSlots = await getAllSlots().getAllSlotsRemotely("SWE");
+        emptySlots = await getEmptySlots().getEmptySlotsRemotely("SWE");
+        Times = await getTimes().getTimesRemotely("SWE");
+      }
+      catch(e){
+        log(e.toString());
+      }
+    }
+    else{
+      allSlots = await getAllSlots().getAllSlotsLocally("SWE");
+      emptySlots = await getEmptySlots().getEmptySlotsLocally("SWE");
+      Times = await getTimes().getTimesLocally("SWE");
+    }
+    if(allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
+      hasFunction = true;
+    }
       }],
   'CSE': ['Computer Science & Engineering', (){
     hasFunction = false;
   }],
-  'ITM': ['Information Technology & Management', (){hasFunction = false;}],
-  'CIS': ['Computing and Information System', (){hasFunction = false;}],
-  'ARCH': ['Architecture', (){hasFunction = false;}],
-  'EEE': ['Electrical and Electronic Engineering', (){hasFunction = false;}],
-  'TE': ['Textile Engineering', (){hasFunction = false;}],
-  'ICE': ['Information and Communication Engineering', (){hasFunction = false;}],
-  'THM': ['Tourism & Hospitality Management', (){hasFunction = false;}],
-  'ACC': ['Accounting', (){hasFunction = false;}],
-  'RE': ['Real Estate', (){hasFunction = false;}],
-  'DE': ['Innovation & Entrepreneurship', (){hasFunction = false;}],
-  'AGRI': ['Agricultural Science', (){hasFunction = false;}],
-  'PHARM': ['Pharmacy', (){hasFunction = false;}],
-  'NFE': ['Nutrition and Food Engineering', (){hasFunction = false;}],
-  'BPH': ['Public Health', (){hasFunction = false;}],
-  'ESDM': ['Environmental Science and Disaster Management', (){hasFunction = false;}],
-  'PESS': ['Physical Education & Sports Science', (){hasFunction = false;}],
-  'ENG': ['English', (){hasFunction = false;}],
-  'LAW': ['Law', (){hasFunction = false;}]
   };
 }
 
@@ -64,9 +60,28 @@ Map Faculty_Info = {
     'ITM': 'Information Technology & Management',
     'CIS': 'Computing and Information System',
   },
-  "FBE" : {},
-  "FHSS" : {},
-  "FHLS" : {},
+  "FBE" : {
+    "DBA" : "Business Administration",
+    "BS" : "Business Studies",
+    'THM': 'Tourism & Hospitality Management',
+    'ACC': 'Accounting',
+    'RE': 'Real Estate',
+    'DE': 'Innovation & Entrepreneurship',
+  },
+  "FHSS" : {
+    'ENG': 'English',
+    'LAW': 'Law',
+    'JMC' : "Journalism, Media and Communication",
+    'DS' : "Development Studies",
+  },
+  "FHLS" : {
+    'AGRI': 'Agricultural Science',
+    'PHARM': 'Pharmacy',
+    'NFE': 'Nutrition and Food Engineering',
+    'BPH': 'Public Health',
+    'ESDM': 'Environmental Science and Disaster Management',
+    'PESS': 'Physical Education & Sports Science',
+  },
   "Engineering" : {
     'ARCH': 'Architecture',
     'EEE': 'Electrical and Electronic Engineering',

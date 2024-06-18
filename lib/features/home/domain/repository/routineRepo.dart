@@ -3,5 +3,5 @@ import '../../data/models/slot.dart';
 
 
 abstract class RoutineRepo {
-  Future<DataState<List<SlotModel>>> getRoutine();
+  Future<DataState<List<HomeSlotModel>>> getRoutine();
 }

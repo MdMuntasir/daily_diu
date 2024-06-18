@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // custom neomorphic form
 class CustomForm extends StatefulWidget {
   final List<Widget> fields;
   final int duration;
+
 
   CustomForm({required this.fields, this.duration = 300});
 
@@ -56,6 +58,8 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final Color hintColor;
   final bool obscureText;
+  final bool isDigit;
+  final int ? maxLen;
 
   const CustomTextField({
     Key? key,
@@ -63,26 +67,28 @@ class CustomTextField extends StatelessWidget {
     this.hintText = "Password",
     this.hintColor = Colors.grey,
     this.obscureText = false,
+    this.isDigit = false,
+    this.maxLen
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    return Container(
-      width: w,
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0xffeeeeee))),
+    double h = MediaQuery.of(context).size.height;
+    return TextField(
+      controller: controller,
+      keyboardType: isDigit ? TextInputType.number : TextInputType.text,
+      inputFormatters: isDigit? [
+        FilteringTextInputFormatter.digitsOnly
+      ] : [],
+      maxLength: maxLen,
+      decoration: InputDecoration(
+        hintText: hintText,
+        counterText: "",
+        hintStyle: TextStyle(color: hintColor),
+        border: InputBorder.none,
       ),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(color: hintColor),
-          border: InputBorder.none,
-        ),
-        obscureText: obscureText,
-      ),
+      obscureText: obscureText,
     );
   }
 }

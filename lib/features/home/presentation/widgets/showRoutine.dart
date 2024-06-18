@@ -11,7 +11,7 @@ import '../../data/models/slot.dart';
 
 
 class ShowRoutine extends StatefulWidget {
-  final List<SlotModel> slots;// change model later
+  final List<HomeSlotModel> slots;// change model later
   const ShowRoutine({super.key, required this.slots});
 
   @override
@@ -95,7 +95,7 @@ class _ShowRoutineState extends State<ShowRoutine> {
       start = false;
     }
 
-    List<SlotModel> TodaySlots = [];
+    List<HomeSlotModel> TodaySlots = [];
 
     widget.slots.forEach((slot){
       if(slot.day == choosed_day){
