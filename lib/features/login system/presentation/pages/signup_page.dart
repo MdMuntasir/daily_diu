@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/home/data/models/user_info.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
+import 'package:diu_student/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../home/data/data_sources/local/local_routine.dart';
@@ -27,6 +29,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool isToggled = false;
+  bool isLoading = false;
   double formHeight = 0;
   Duration duration = Duration(milliseconds: 300);
   double position = .045, changePose = 0;
@@ -82,54 +85,89 @@ class _SignupPageState extends State<SignupPage> {
     void createAccount(){
       String name = nameController.text;
       String batch = batchController.text;
-      String section = sectionController.text;
+      String section = sectionController.text.toUpperCase();
       String studentId = studentIdController.text;
-      String teacherInitial = teacherInitialController.text;
+      String teacherInitial = teacherInitialController.text.toUpperCase();
       String faculty = facultyController.text;
       String dept = departmentController.text;
       String email = emailController.text;
       String password = passwordController.text;
       String confirmPass = confirmPassController.text;
 
-      print("$name $batch $section $studentId $teacherInitial $faculty $dept $email $password");
+
+      setState(() {
+        isLoading = true;
+      });
 
       if(!isToggled){
-        print('s');
         if(
             name.isEmpty || batch.isEmpty || section.isEmpty ||
                 studentId.isEmpty || faculty.isEmpty || dept.isEmpty ||
                 email.isEmpty || password.isEmpty || confirmPass.isEmpty){
-          log("Fill all the information to continue");
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Fill all the information to continue"))
+          );
+          
         }
 
         else{
           if(confirmPass == password){
-            _studentSignup();
+            if(email.endsWith("@diu.edu.bd")){
+             password.length >= 8 ? _studentSignup() :
+             ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Enter a strong password")));
+            }
+            else{
+              ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Enter a valid DIU mail")));
+            }
+
           }
           else{
-            log("Password didn't match");
+            ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Password didn't match")));
           }
         }
       }
 
       else{
-        print("t");
         if(
         name.isEmpty || teacherInitial.isEmpty || faculty.isEmpty || dept.isEmpty ||
             email.isEmpty || password.isEmpty || confirmPass.isEmpty){
-          log("Fill all the information to continue");
+          ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Fill all the information to continue")));
         }
 
         else{
           if(confirmPass == password){
-            _teacherSignup();
+            if(email.endsWith("@diu.edu.bd")){
+              password.length >= 8 ? _teacherSignup() :
+              ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Enter a strong password")));
+
+            }
+            else{
+              ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Enter a valid DIU mail")));
+            }
           }
           else{
-            log("Password didn't match");
+            ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Password didn't match")));
           }
         }
       }
-
+      setState(() {
+        isLoading = false;
+      });
     }
 
 
@@ -223,7 +261,9 @@ class _SignupPageState extends State<SignupPage> {
                 ),
 
                 SizedBox(height: h*.001),
-                ElevatedButton(
+                isLoading ?
+                const CupertinoActivityIndicator()
+                    : ElevatedButton(
                   onPressed: createAccount,
                   child: Text('Create Account'),
                 ),
@@ -254,11 +294,11 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _studentSignup() async {
     String name = nameController.text;
     String batch = batchController.text;
-    String section = sectionController.text;
+    String section = sectionController.text.toUpperCase();
     String studentId = studentIdController.text;
     String faculty = facultyController.text;
     String dept = departmentController.text;
-    String email = emailController.text;
+    String email = emailController.text.toLowerCase();
     String password = passwordController.text;
 
     UserCredential? user;
@@ -283,15 +323,19 @@ class _SignupPageState extends State<SignupPage> {
         getUserInfo();
 
 
-        log("Successfully Signed Up");
+        ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Successfully Signed Up")));
 
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const homePage()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const MyHomePage()));
         return null;
       });
     }
     on FirebaseAuthException catch(e){
-      log(e.code.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text(e.code.toString())));
     }
 
   }
@@ -300,14 +344,15 @@ class _SignupPageState extends State<SignupPage> {
 
   Future<void> _teacherSignup() async {
     String name = nameController.text;
-    String teacherInitial = teacherInitialController.text;
+    String teacherInitial = teacherInitialController.text.toUpperCase();
     String faculty = facultyController.text;
     String dept = departmentController.text;
-    String email = emailController.text;
+    String email = emailController.text.toLowerCase();
     String password = passwordController.text;
 
     UserCredential? user;
     try {
+      
       user = await _auth.signUpWithEmailAndPassword(email, password).then((value) async {
         CollectionReference collRef = FirebaseFirestore.instance.collection('teacher');
         Map<String,dynamic> userData = {
@@ -319,25 +364,27 @@ class _SignupPageState extends State<SignupPage> {
           'email': email,
           'password': password,
         };
-
         collRef.add(userData);
 
 
-        await getRoutineLocally(userData["ti"], true);
-        StoreUserInfo(TeacherInfoModel.fromJson(userData), true);
+        await getRoutineLocally(userData["ti"], false);
+        StoreUserInfo(TeacherInfoModel.fromJson(userData), false);
         getUserInfo();
 
 
-        log("Successfully Signed Up");
 
-        log("Successfully Signed Up");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const homePage()));
+        ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text("Successfully Signed Up")));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const MyHomePage()));
         return null;
       },);
     }
     on FirebaseAuthException catch(e){
-      log(e.code.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+            SnackBar(content: Text(e.code.toString())));
     }
 
   }

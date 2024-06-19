@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
@@ -39,6 +40,7 @@ void main() async {
       await getRoutineLocally(_info["ti"], false);
     }
   }
+  android_info = await DeviceInfoPlugin().androidInfo;
   runApp(const MyApp());
 }
 
