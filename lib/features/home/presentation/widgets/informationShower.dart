@@ -21,7 +21,7 @@ class StudentInfoShow extends StatelessWidget {
 
     return Container(
       width: horizontal? w : w*.8,
-      height: horizontal? h*.38 : h*.6,
+      height: horizontal? h*.4 : h*.6,
       decoration: BoxDecoration(
         color: Colors.white,
         gradient: const LinearGradient(
@@ -94,7 +94,7 @@ class TeacherInfoShow extends StatelessWidget {
 
     return Container(
       width: horizontal? w : w*.8,
-      height: horizontal? h*.38 : h*.6,
+      height: horizontal? h*.4 : h*.6,
       decoration: BoxDecoration(
         color: Colors.white,
         gradient: const LinearGradient(
@@ -125,7 +125,11 @@ class TeacherInfoShow extends StatelessWidget {
             SizedBox(height: h*.03,),
             CustomText(first: "Faculty", second: Faculty,color: Colors.teal.shade900,shadowColor: Colors.black45,),
             SizedBox(height: h*.03,),
-            CustomText(first: "Department", second: Department,color: Colors.teal.shade900,shadowColor: Colors.black45,),
+            CustomText(
+              first: "Department",
+              second: Department.split("+").length >1 ? "${Department.split("+")[0]}..." : Department,
+              color: Colors.teal.shade900,
+              shadowColor: Colors.black45,),
           ],
         ),
       ),

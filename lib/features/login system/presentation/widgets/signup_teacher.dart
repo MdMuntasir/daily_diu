@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 import 'customWidgets.dart';
@@ -23,8 +24,10 @@ class signupTeacher extends StatelessWidget {
         fields: [
           TextField(
             controller: nameController,
-            decoration: InputDecoration(
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+            decoration: const InputDecoration(
               hintText: "Name",
+              counterText: "",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),

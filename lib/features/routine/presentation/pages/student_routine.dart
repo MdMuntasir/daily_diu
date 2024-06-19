@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
@@ -36,6 +38,11 @@ class _StudentRoutineState extends State<StudentRoutine> {
   Color ShadowColor = Colors.lightBlueAccent, BodyColor = Colors.lightBlue.shade50;
 
 
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -61,7 +68,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
     Future<void> downloadRoutine() async {
-      batchSection = batchController.text + sectionController.text;
+
       bool RequestAccepted;
       print(android_info.version.sdkInt);
       if(android_info.version.sdkInt <= 32){
@@ -95,6 +102,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
     void showRoutine() {
+
       batchSection = batchController.text + sectionController.text.toUpperCase();
       BatchSection = batchSection;
       routineShowed = true;

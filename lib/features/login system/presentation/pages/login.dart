@@ -8,6 +8,7 @@ import 'package:diu_student/features/login%20system/firebase_auth/firebase_auth_
 import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
 import 'package:diu_student/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -23,7 +24,7 @@ class loginScreen extends StatefulWidget {
 }
 
 class _loginScreenState extends State<loginScreen> {
-
+  bool isLoading = false;
   late TextEditingController emailController, passwordController;
 
   // <----- to hide keyboard ----->
@@ -43,6 +44,8 @@ class _loginScreenState extends State<loginScreen> {
     // Disposing the FocusNode instance
     // emailController.dispose();
     // passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -147,7 +150,9 @@ class _loginScreenState extends State<loginScreen> {
                   ),
                 ),
                 // Login button
-                ElevatedButton(
+                isLoading ?
+                    const CupertinoActivityIndicator()
+                    : ElevatedButton(
                   onPressed: _login,
                   child: Text('Login'),
                 ),
@@ -177,6 +182,9 @@ Future<void> _login()
     String pass = passwordController.text;
 
 
+    setState(() {
+      isLoading = true;
+    });
 
     if(email.isNotEmpty && pass.isNotEmpty)
       {
@@ -209,7 +217,7 @@ Future<void> _login()
               await getRoutineLocally(userData.ti, false);
               StoreUserInfo(userData, false);
               getUserInfo();
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const MyHomePage()),
               );
@@ -221,14 +229,19 @@ Future<void> _login()
         }
 
         on FirebaseAuthException catch(e){
-          log(e.code.toString());
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.code.toString())));
         }
 
       }
     else
       {
-        log("Fill all the information to continue");
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Fill all the information to continue")));
       }
+    setState(() {
+      isLoading = false;
+    });
   }
 
 void _CreateAccount()

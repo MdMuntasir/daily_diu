@@ -1,4 +1,5 @@
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/core/util/widgets/NavBar.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
 import 'package:diu_student/features/home/data/models/slot.dart';
 import 'package:diu_student/features/home/data/repository/routine_repo_implement.dart';
@@ -6,6 +7,7 @@ import 'package:diu_student/features/home/presentation/widgets/customText.dart';
 import 'package:diu_student/features/home/presentation/widgets/informationShower.dart';
 import 'package:diu_student/features/home/presentation/widgets/showRoutine.dart';
 import 'package:diu_student/features/home/presentation/widgets/slotShower.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,6 +52,9 @@ class _homePageState extends State<homePage> {
       splited[1]));
     }
 
+    print(FirebaseAuth.instance.currentUser?.email);
+
+
     if(studentInfo.user != null){
       String name = studentInfo.name.toString().split(" ")[0];
       _information = StudentInfoShow(
@@ -63,7 +68,8 @@ class _homePageState extends State<homePage> {
 
     else {
       String dept = teacherInfo.department.toString().split('-').join("+");
-      String name = studentInfo.name.toString().split(" ")[0];
+      String name = teacherInfo.name.toString().split(" ")[0];
+
       _information = TeacherInfoShow(
         Name: name,
         Department: dept,
@@ -73,6 +79,7 @@ class _homePageState extends State<homePage> {
     }
 
     return Scaffold(
+
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -82,7 +89,9 @@ class _homePageState extends State<homePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavBar()));
+                  },
                   color: Colors.black87,
                   icon: Icon(FontAwesomeIcons.barsStaggered)),
               IconButton(

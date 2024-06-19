@@ -7,6 +7,7 @@ import 'package:diu_student/features/login%20system/presentation/pages/login.dar
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'customWidgets.dart';
 import 'textStyle.dart';
@@ -28,9 +29,15 @@ class signupStudent extends StatelessWidget {
     return Center(
       child: CustomForm(
         fields: [
-          CustomTextField(
+          TextField(
             controller: nameController,
-            hintText: "Name",
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+            decoration: const InputDecoration(
+              hintText: "Name",
+              counterText: "",
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none,
+            ),
           ),
           CustomTextField(
             controller: batchController,
@@ -43,9 +50,15 @@ class signupStudent extends StatelessWidget {
             hintText: "Section;   Ex: N",
             maxLen: 2,
           ),
-          CustomTextField(
+          TextField(
             controller: studentIdController,
-            hintText: "Student ID;   Ex: 232-35-689",
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9-]'))],
+            decoration: const InputDecoration(
+              hintText: "Student ID;   Ex: 232-35-689",
+              counterText: "",
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none,
+            ),
           ),
           TextFormField(
             controller: emailController,
