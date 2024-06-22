@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/home/data/models/user_info.dart';
+import 'package:diu_student/features/login%20system/presentation/pages/email_varification_page.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,7 +35,7 @@ class _SignupPageState extends State<SignupPage> {
   Duration duration = Duration(milliseconds: 300);
   double position = .045, changePose = 0;
 
-  final firebaseAuthService _auth = firebaseAuthService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -82,7 +83,8 @@ class _SignupPageState extends State<SignupPage> {
       });
     }
 
-    void createAccount(){
+
+    void createAccount() async{
       String name = nameController.text;
       String batch = batchController.text;
       String section = sectionController.text.toUpperCase();
@@ -90,7 +92,7 @@ class _SignupPageState extends State<SignupPage> {
       String teacherInitial = teacherInitialController.text.toUpperCase();
       String faculty = facultyController.text;
       String dept = departmentController.text;
-      String email = emailController.text;
+      String email = emailController.text.trim().toLowerCase();
       String password = passwordController.text;
       String confirmPass = confirmPassController.text;
 
@@ -114,7 +116,7 @@ class _SignupPageState extends State<SignupPage> {
         else{
           if(confirmPass == password){
             if(email.endsWith("@diu.edu.bd")){
-             password.length >= 8 ? _studentSignup() :
+             password.length >= 8 ? await _studentSignup() :
              ScaffoldMessenger.of(context).showSnackBar(
             snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
             SnackBar(content: Text("Enter a strong password")));
@@ -146,7 +148,7 @@ class _SignupPageState extends State<SignupPage> {
         else{
           if(confirmPass == password){
             if(email.endsWith("@diu.edu.bd")){
-              password.length >= 8 ? _teacherSignup() :
+              password.length >= 8 ? await _teacherSignup() :
               ScaffoldMessenger.of(context).showSnackBar(
             snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
             SnackBar(content: Text("Enter a strong password")));
@@ -165,6 +167,7 @@ class _SignupPageState extends State<SignupPage> {
           }
         }
       }
+
       setState(() {
         isLoading = false;
       });
@@ -298,12 +301,12 @@ class _SignupPageState extends State<SignupPage> {
     String studentId = studentIdController.text;
     String faculty = facultyController.text;
     String dept = departmentController.text;
-    String email = emailController.text.toLowerCase();
+    String email = emailController.text.trim().toLowerCase();
     String password = passwordController.text;
 
     UserCredential? user;
     try {
-      user = await _auth.signUpWithEmailAndPassword(email, password).then((value) async {
+      user = await _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) async {
         CollectionReference collRef = FirebaseFirestore.instance.collection('student');
         Map<String,dynamic> userData = {
           'user' : "Student",
@@ -315,20 +318,25 @@ class _SignupPageState extends State<SignupPage> {
           'department' : dept,
           'email': email,
           'password': password,
+          'verified' : false
         };
-        collRef.add(userData);
+        collRef.add(userData).then((doc) async {
+          await _auth.currentUser?.sendEmailVerification().then((value) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => EmailVerifyScreen(isStudent: true, docId: doc.id,)));
+          },);
+        },);
 
-        await getRoutineLocally("${userData["batch"]}${userData["section"]}", true);
-        StoreUserInfo(StudentInfoModel.fromJson(userData), true);
-        getUserInfo();
+        // await getRoutineLocally("${userData["batch"]}${userData["section"]}", true);
+        // StoreUserInfo(StudentInfoModel.fromJson(userData), true);
+        // getUserInfo();
 
 
-        ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Successfully Signed Up")));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //     snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+        //     SnackBar(content: Text("Successfully Signed Up")));
 
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+
         return null;
       });
     }
@@ -343,19 +351,22 @@ class _SignupPageState extends State<SignupPage> {
 
 
   Future<void> _teacherSignup() async {
+
     String name = nameController.text;
     String teacherInitial = teacherInitialController.text.toUpperCase();
     String faculty = facultyController.text;
     String dept = departmentController.text;
-    String email = emailController.text.toLowerCase();
+    String email = emailController.text.trim().toLowerCase();
     String password = passwordController.text;
 
+    
     UserCredential? user;
     try {
       
-      user = await _auth.signUpWithEmailAndPassword(email, password).then((value) async {
+      user = await _auth.createUserWithEmailAndPassword( email: email, password: password).then((doc) async {
         CollectionReference collRef = FirebaseFirestore.instance.collection('teacher');
         Map<String,dynamic> userData = {
+          
           'user' : "Teacher",
           'name': name,
           'ti': teacherInitial,
@@ -363,21 +374,28 @@ class _SignupPageState extends State<SignupPage> {
           'department' : dept,
           'email': email,
           'password': password,
+          'verified' : false
         };
-        collRef.add(userData);
+        collRef.add(userData).then((doc) async {
+          await _auth.currentUser?.sendEmailVerification().then((value) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => EmailVerifyScreen(isStudent: false, docId: doc.id,)));
+          },);
+        },);
 
 
-        await getRoutineLocally(userData["ti"], false);
-        StoreUserInfo(TeacherInfoModel.fromJson(userData), false);
-        getUserInfo();
+        // await getRoutineLocally(userData["ti"], false);
+        // StoreUserInfo(TeacherInfoModel.fromJson(userData), false);
+        // getUserInfo();
 
 
 
-        ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Successfully Signed Up")));
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const MyHomePage()));
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //     snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+        //     SnackBar(content: Text("Successfully Signed Up")));
+
+
+
         return null;
       },);
     }

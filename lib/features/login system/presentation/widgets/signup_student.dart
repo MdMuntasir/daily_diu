@@ -31,7 +31,7 @@ class signupStudent extends StatelessWidget {
         fields: [
           TextField(
             controller: nameController,
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))],
             decoration: const InputDecoration(
               hintText: "Name",
               counterText: "",

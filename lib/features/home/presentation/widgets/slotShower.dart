@@ -25,8 +25,8 @@ class _SlotShowerState extends State<SlotShower> {
     double w = MediaQuery.of(context).size.width;
     bool horizontal = h>w;
 
-    double mainHeight = horizontal? h*.2 : w*.2;
-    double mainWidth = horizontal ? w*.75 : h*.75;
+    double mainHeight = horizontal? h*.23 : w*.23;
+    double mainWidth = horizontal ? w*.7 : h*.7;
     double round = 20;
 
     HomeSlotModel slots = widget.slots;
@@ -40,7 +40,7 @@ class _SlotShowerState extends State<SlotShower> {
         children: [
           AnimatedContainer(
             duration: _duration,
-            height: mainHeight*.25,
+            height: mainHeight*.22,
             width: mainWidth,
             decoration: BoxDecoration(
               gradient: now ?
@@ -128,7 +128,7 @@ class _SlotShowerState extends State<SlotShower> {
                   CustomText(first: "Course", second: slots.course!, size: 16, color: Colors.white, ),
                   CustomText(first: "Room", second: slots.room!, size: 16, color: Colors.white,),
                   CustomText(first: "Section", second: "${slots.batch} - ${slots.section!}", size: 16, color: Colors.white),
-
+                  CustomText(first: "Teacher Initial", second: slots.ti!, size: 16, color: Colors.white, ),
                 ],
               ),
             ),
