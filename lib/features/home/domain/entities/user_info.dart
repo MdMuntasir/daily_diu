@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class StudentInfoEntity extends Equatable{
+  final String? docID;
   final String? user;
   final String? name;
   final String? batch;
@@ -10,8 +11,11 @@ class StudentInfoEntity extends Equatable{
   final String? department;
   final String? email;
   final String? password;
+  final bool? verified;
 
   const StudentInfoEntity({
+    this.docID,
+    this.verified,
     this.user,
     this.name,
     this.batch,
@@ -24,6 +28,7 @@ class StudentInfoEntity extends Equatable{
 
   @override
   List<Object?> get props => [
+    docID,
     user,
     name,
     batch,
@@ -32,13 +37,15 @@ class StudentInfoEntity extends Equatable{
     faculty,
     department,
     email,
-    password
+    password,
+    verified
   ];
 }
 
 
 
 class TeacherInfoEntity extends Equatable{
+  final String? docID;
   final String? user;
   final String? name;
   final String? ti;
@@ -46,8 +53,11 @@ class TeacherInfoEntity extends Equatable{
   final String? department;
   final String? email;
   final String? password;
+  final bool? verified;
 
   const TeacherInfoEntity({
+    this.docID,
+    this.verified,
     this.user,
     this.name,
     this.ti,
@@ -58,12 +68,14 @@ class TeacherInfoEntity extends Equatable{
 
   @override
   List<Object?> get props => [
+    docID,
     user,
     name,
     ti,
     faculty,
     department,
     email,
-    password
+    password,
+    verified
   ];
 }

@@ -12,6 +12,7 @@ void getUserInfo(){
   _info.forEach((key,value){
     _map[key.toString()] = value;
   });
+  print(_info["user"]);
   if(_info["user"] == "Student"){
     studentInfo = StudentInfoModel.fromJson(_map);
   }

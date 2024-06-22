@@ -52,7 +52,7 @@ class _homePageState extends State<homePage> {
       splited[1]));
     }
 
-    print(FirebaseAuth.instance.currentUser?.email);
+
 
 
     if(studentInfo.user != null){
@@ -90,7 +90,7 @@ class _homePageState extends State<homePage> {
             children: [
               IconButton(
                   onPressed: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavBar()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> NavBar()));
                   },
                   color: Colors.black87,
                   icon: Icon(FontAwesomeIcons.barsStaggered)),

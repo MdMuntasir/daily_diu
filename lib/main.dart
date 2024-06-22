@@ -1,9 +1,14 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
+import 'package:diu_student/features/home/data/models/user_info.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
+import 'package:diu_student/features/login%20system/presentation/pages/email_varification_page.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/features/notes/notes.dart';
@@ -26,10 +31,62 @@ import 'core/resources/information_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  User? user = FirebaseAuth.instance.currentUser;
+  bool hasUser = user != null;
   await Hive.initFlutter();
   var box = await Hive.openBox("routine_box");
-  User? user = FirebaseAuth.instance.currentUser;
-  if(user!=null){
+  android_info = await DeviceInfoPlugin().androidInfo;
+
+  if(hasUser){
+    final snapshot1 = await FirebaseFirestore.instance.collection("student").where('email' , isEqualTo: user.email).get();
+    final snapshot2 = await FirebaseFirestore.instance.collection("teacher").where('email' , isEqualTo: user.email).get();
+
+    if(snapshot1.docs.isNotEmpty){
+      StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
+      if(userData.verified == false){
+        hasUser = false;
+
+
+        await user.reauthenticateWithCredential(
+            EmailAuthProvider.credential(
+                email: user.email!,
+                password: userData.password!)
+        ).then((value) async {
+          await user.delete().then((value) async {
+            await FirebaseFirestore.instance.collection("student").doc(userData.docID).delete();
+          },);
+        },);
+
+
+      }
+    }
+
+    else if(snapshot2.docs.isNotEmpty){
+      TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
+      if(userData.verified == false){
+        hasUser = false;
+
+        await user.reauthenticateWithCredential(
+          EmailAuthProvider.credential(
+              email: user.email!,
+              password: userData.password!)
+        ).then((value) async {
+          await user.delete().then((value) async {
+            await FirebaseFirestore.instance.collection("teacher").doc(userData.docID).delete();
+          },);
+        },);
+
+      }
+    }
+
+    else{
+      hasUser = false;
+      await user.delete();
+    }
+  }
+
+
+  if(hasUser){
     Box _box = Hive.box("routine_box");
     Map _info = _box.get("UserInfo");
     getUserInfo();
@@ -40,22 +97,23 @@ void main() async {
       await getRoutineLocally(_info["ti"], false);
     }
   }
-  android_info = await DeviceInfoPlugin().androidInfo;
-  runApp(const MyApp());
+
+
+  runApp( MyApp(hasUser: hasUser,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool hasUser;
+  const MyApp({super.key, required this.hasUser});
 
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
 
     return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
-          home: user != null ? MyHomePage() : loginScreen());
-          // home:  loginScreen());
+          home: hasUser ? MyHomePage() : loginScreen());
+          // home:  EmailVerifyScreen());
 
 
   }

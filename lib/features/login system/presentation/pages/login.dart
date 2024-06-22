@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diu_student/core/util/widgets/show_message.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_user_info.dart';
 import 'package:diu_student/features/home/data/models/user_info.dart';
 import 'package:diu_student/features/home/data/repository/user_info_store.dart';
@@ -141,9 +142,7 @@ class _loginScreenState extends State<loginScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {
-                          // Navigate to forgot password screen
-                        },
+                        onPressed: _forgotPass,
                         child: Text('Forgot Password?'),
                       ),
                     ],
@@ -176,80 +175,114 @@ class _loginScreenState extends State<loginScreen> {
     );
   }
 
-Future<void> _login()
-  async {
-    String email = emailController.text;
-    String pass = passwordController.text;
+  Future<void> _login()
+    async {
+      String email = emailController.text.trim();
+      String pass = passwordController.text;
 
 
-    setState(() {
-      isLoading = true;
-    });
+      setState(() {
+        isLoading = true;
+      });
 
-    if(email.isNotEmpty && pass.isNotEmpty)
-      {
-        UserCredential? user;
-        try {
-          user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: pass).then((val) async {
+      if(email.isNotEmpty && pass.isNotEmpty)
+        {
+          UserCredential? user;
+          try {
+            user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: pass).then((val) async {
 
-            FirebaseFirestore _db = FirebaseFirestore.instance;
+              FirebaseFirestore _db = FirebaseFirestore.instance;
 
-            final snapshot1 = await _db.collection("student").where("email", isEqualTo: email).get();
-            final snapshot2 = await _db.collection("teacher").where("email", isEqualTo: email).get();
+              final snapshot1 = await _db.collection("student").where("email", isEqualTo: email).get();
+              final snapshot2 = await _db.collection("teacher").where("email", isEqualTo: email).get();
 
-            if(snapshot1.docs.isNotEmpty){
-              StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
+              if(snapshot1.docs.isNotEmpty){
+                StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
 
-              await getRoutineLocally("${userData.batch}${userData.section}", true);
-              StoreUserInfo(userData, true);
-              getUserInfo();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyHomePage()),
-              );
-            }
+                await getRoutineLocally("${userData.batch}${userData.section}", true);
+                StoreUserInfo(userData, true);
+                getUserInfo();
 
-
-
-            else{
-              TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
-
-              await getRoutineLocally(userData.ti, false);
-              StoreUserInfo(userData, false);
-              getUserInfo();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const MyHomePage()),
-              );
-            }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                );
+              }
 
 
-            return null;
-          });
+
+              else{
+                TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
+
+                await getRoutineLocally(userData.ti, false);
+                StoreUserInfo(userData, false);
+                getUserInfo();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                );
+              }
+
+
+              return null;
+            });
+          }
+
+          on FirebaseAuthException catch(e){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(e.code.toString())));
+          }
+
         }
-
-        on FirebaseAuthException catch(e){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(e.code.toString())));
+      else
+        {
+          showDialog(context: context, builder: (context) => const ShowAlertMessage(
+            hasSucceed: false,
+            text: "Fill all the information to continue",
+          ),);
         }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
+  void _CreateAccount() {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignupPage()),
+      );
+    }
+
+
+  void _forgotPass(){
+    String email = emailController.text.trim();
+
+    if(email != "" && email.endsWith("@diu.edu.bd")){
+      try {
+
+        FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value) {
+
+              showDialog(context: context, builder: (context) => const ShowAlertMessage(
+                hasSucceed: true,
+                text: "Password reset email has been sent to your mail address",
+              ),);
+            },
+        );
+
 
       }
-    else
-      {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Fill all the information to continue")));
+      on FirebaseException catch(e){
+        showDialog(context: context, builder: (context) => ShowAlertMessage(
+          text: e.code.toString(),
+        ));
       }
-    setState(() {
-      isLoading = false;
-    });
+    }
+    else{
+      showDialog(context: context, builder: (context) => const ShowAlertMessage(
+        text: "Enter a valid email address",
+      ),);
+    }
   }
 
-void _CreateAccount()
-  {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => SignupPage()),
-    );
-  }
 
 } // end line
