@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class notePage extends StatefulWidget {
   const notePage({super.key});
@@ -10,6 +11,15 @@ class notePage extends StatefulWidget {
 class _notePageState extends State<notePage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Text(
+          "Coming Soon...",
+          style: Theme.of(context).textTheme.displayLarge!.copyWith(
+            color: Colors.green.shade700
+          ),
+        ),
+      ),
+    );
   }
 }

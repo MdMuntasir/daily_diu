@@ -85,7 +85,7 @@ class _SignupPageState extends State<SignupPage> {
 
 
     void createAccount() async{
-      String name = nameController.text;
+      String name = nameController.text.trim();
       String batch = batchController.text;
       String section = sectionController.text.toUpperCase();
       String studentId = studentIdController.text;
@@ -295,9 +295,9 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Future<void> _studentSignup() async {
-    String name = nameController.text;
+    String name = nameController.text.trim();
     String batch = batchController.text;
-    String section = sectionController.text.toUpperCase();
+    String section = sectionController.text.trim().toUpperCase();
     String studentId = studentIdController.text;
     String faculty = facultyController.text;
     String dept = departmentController.text;
@@ -317,7 +317,6 @@ class _SignupPageState extends State<SignupPage> {
           'faculty' : faculty,
           'department' : dept,
           'email': email,
-          'password': password,
           'verified' : false
         };
         collRef.add(userData).then((doc) async {
@@ -352,8 +351,8 @@ class _SignupPageState extends State<SignupPage> {
 
   Future<void> _teacherSignup() async {
 
-    String name = nameController.text;
-    String teacherInitial = teacherInitialController.text.toUpperCase();
+    String name = nameController.text.trim();
+    String teacherInitial = teacherInitialController.text.trim().toUpperCase();
     String faculty = facultyController.text;
     String dept = departmentController.text;
     String email = emailController.text.trim().toLowerCase();
@@ -373,7 +372,6 @@ class _SignupPageState extends State<SignupPage> {
           'faculty' : faculty,
           'department' : dept,
           'email': email,
-          'password': password,
           'verified' : false
         };
         collRef.add(userData).then((doc) async {

@@ -136,6 +136,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                   temp += dept + "-";
                 }
               });
+              if(temp.isNotEmpty){temp = temp.substring(0,temp.length-1);}
               widget.controller.text = temp;
               widget.func();
               Navigator.pop(context);

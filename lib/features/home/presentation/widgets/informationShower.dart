@@ -17,11 +17,11 @@ class StudentInfoShow extends StatelessWidget {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     bool horizontal = h>w;
-    double round = horizontal ? w*.15 : h*.25;
+    double round = horizontal ? w*.1 : h*.2;
 
     return Container(
       width: horizontal? w : w*.8,
-      height: horizontal? h*.4 : h*.6,
+      height: horizontal? h*.38 : h*.6,
       decoration: BoxDecoration(
         color: Colors.white,
         gradient: const LinearGradient(
