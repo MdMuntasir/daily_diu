@@ -1,5 +1,5 @@
 import 'package:diu_student/core/resources/information_repository.dart';
-import 'package:diu_student/core/util/widgets/NavBar.dart';
+import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
 import 'package:diu_student/features/home/data/models/slot.dart';
 import 'package:diu_student/features/home/data/repository/routine_repo_implement.dart';
@@ -78,6 +78,7 @@ class _homePageState extends State<homePage> {
       );
     }
 
+
     return Scaffold(
 
       extendBodyBehindAppBar: true,
@@ -86,7 +87,7 @@ class _homePageState extends State<homePage> {
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
                   onPressed: (){
@@ -94,10 +95,6 @@ class _homePageState extends State<homePage> {
                   },
                   color: Colors.black87,
                   icon: Icon(FontAwesomeIcons.barsStaggered)),
-              IconButton(
-                  onPressed: (){},
-                  color: Colors.black87,
-                  icon: Icon(FontAwesomeIcons.penToSquare)),
             ],
           ),
         ),

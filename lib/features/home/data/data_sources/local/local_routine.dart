@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/features/home/data/models/slot.dart';
 import 'package:diu_student/features/home/data/repository/routine_repo_implement.dart';
@@ -12,7 +14,12 @@ Future<void> getRoutineLocally(batchSec, isStudent) async{
 
   bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
   if(isConnected) {
-    await StoreRoutine(batchSec, isStudent);
+    try {
+      await StoreRoutine(batchSec, isStudent);
+    }
+    on Exception{
+      log("Couldn't fetch routine");
+    }
   }
   List _routine = _data.get("Routine");
   List<HomeSlotModel> jsonModel = [];

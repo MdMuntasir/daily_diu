@@ -127,8 +127,8 @@ class _SlotShowerState extends State<SlotShower> {
                 children: [
                   CustomText(first: "Course", second: slots.course!, size: 16, color: Colors.white, ),
                   CustomText(first: "Room", second: slots.room!, size: 16, color: Colors.white,),
-                  CustomText(first: "Section", second: "${slots.batch} - ${slots.section!}", size: 16, color: Colors.white),
-                  CustomText(first: "Teacher Initial", second: slots.ti!, size: 16, color: Colors.white, ),
+                  CustomText(first: "Section", second: "${slots.batch}_${slots.section!}", size: 16, color: Colors.white),
+                  CustomText(first: "Teacher", second: slots.ti!, size: 16, color: Colors.white, ),
                 ],
               ),
             ),

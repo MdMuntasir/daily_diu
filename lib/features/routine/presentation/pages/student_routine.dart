@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
@@ -68,9 +69,10 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
     Future<void> downloadRoutine() async {
-
       bool RequestAccepted;
-      print(android_info.version.sdkInt);
+      final _checkConnection = await Connectivity().checkConnectivity();
+      bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+
       if(android_info.version.sdkInt <= 32){
         RequestAccepted = await Permission.storage.request().isGranted;
       }
@@ -79,24 +81,31 @@ class _StudentRoutineState extends State<StudentRoutine> {
       }
       if(RequestAccepted)
       {
-        FileDownloader.downloadFile(
-          url: "$routine_api/routine-pdf/$batchSection",
-          name: batchSection + ".pdf",
-          downloadDestination: DownloadDestinations.publicDownloads,
-          onProgress: (fileName, progress) {
-            setState(() {
-              _progress = progress;
-            });
-          },
-          onDownloadError: (errorMessage) => print(errorMessage),
-          onDownloadCompleted: (path) {
-            _progress = null;
-            print(path);
-            setState(() {});
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Downloaded at $path")));
-          },
-        );
+        if(isConnected) {
+          FileDownloader.downloadFile(
+            url: "$routine_api/routine-pdf/$batchSection",
+            name: batchSection + ".pdf",
+            downloadDestination: DownloadDestinations.publicDownloads,
+            onProgress: (fileName, progress) {
+              setState(() {
+                _progress = progress;
+              });
+            },
+            onDownloadError: (errorMessage) => print(errorMessage),
+            onDownloadCompleted: (path) {
+              _progress = null;
+              print(path);
+              setState(() {});
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Downloaded at $path")));
+            },
+          );
+        }
+
+        else{
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("No Internet Connection")));
+        }
       }
     }
 

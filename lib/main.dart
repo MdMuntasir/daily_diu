@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
@@ -11,6 +12,8 @@ import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/email_varification_page.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
+import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
+import 'package:diu_student/features/navbar/presentation/pages/profileEdit.dart';
 import 'package:diu_student/features/notes/notes.dart';
 import 'package:diu_student/features/notice%20board/noticeBoard.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
@@ -33,6 +36,10 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   User? user = FirebaseAuth.instance.currentUser;
   bool hasUser = user != null;
+
+  final _checkConnection = await Connectivity().checkConnectivity();
+  Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+
   await Hive.initFlutter();
   var box = await Hive.openBox("routine_box");
   android_info = await DeviceInfoPlugin().androidInfo;
@@ -45,8 +52,6 @@ void main() async {
       StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
       if(userData.verified == false){
         hasUser = false;
-
-
         await user.reauthenticateWithCredential(
             EmailAuthProvider.credential(
                 email: user.email!,
@@ -89,7 +94,7 @@ void main() async {
   if(hasUser){
     Box _box = Hive.box("routine_box");
     Map _info = _box.get("UserInfo");
-    getUserInfo();
+    await getUserInfo();
     if(_info["user"] == "Student"){
       await getRoutineLocally("${_info["batch"]}${_info["section"]}", true);
     }
@@ -113,7 +118,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           home: hasUser ? MyHomePage() : loginScreen());
-          // home:  EmailVerifyScreen());
+          // home:  EditProfile());
 
 
   }

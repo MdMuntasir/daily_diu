@@ -17,6 +17,8 @@ import '../../features/routine/domain/entities/empty_slot.dart';
 late var android_info;
 
 
+bool Online = false;
+
 
 
 class Information {

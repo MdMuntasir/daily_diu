@@ -130,33 +130,3 @@ class TeacherInfoModel extends TeacherInfoEntity{
 
 
 
-
-
-Map StudentModelToMap(StudentInfoModel map){
-  Map model = {
-    "user" : map.user ?? "",
-    "name": map.name ?? "",
-    "batch": map.batch ?? "",
-    "section": map.section ?? "",
-    "studentID": map.id ?? "",
-    "faculty": map.faculty ?? "",
-    "department": map.department ?? "",
-    "email": map.email ?? "",
-    "password": map.password ?? "",
-  };
-  return model;
-}
-
-
-Map TeacherModelToMap(TeacherInfoModel map){
-  Map model = {
-    "user" : map.user ?? "",
-    "name": map.name ?? "",
-    "ti" : map.ti ?? "",
-    "faculty": map.faculty ?? "",
-    "department": map.department ?? "",
-    "email": map.email ?? "",
-    "password": map.password ?? "",
-  };
-  return model;
-}

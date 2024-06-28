@@ -201,7 +201,7 @@ class _loginScreenState extends State<loginScreen> {
 
                 await getRoutineLocally("${userData.batch}${userData.section}", true);
                 StoreUserInfo(userData, true);
-                getUserInfo();
+                await getUserInfo();
 
                 Navigator.push(
                   context,
@@ -216,7 +216,7 @@ class _loginScreenState extends State<loginScreen> {
 
                 await getRoutineLocally(userData.ti, false);
                 StoreUserInfo(userData, false);
-                getUserInfo();
+                await getUserInfo();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const MyHomePage()),
