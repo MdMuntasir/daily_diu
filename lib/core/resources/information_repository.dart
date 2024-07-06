@@ -16,6 +16,7 @@ import '../../features/routine/domain/entities/empty_slot.dart';
 
 late var android_info;
 
+String selectedDepartment = "";
 
 bool Online = false;
 
@@ -25,30 +26,18 @@ class Information {
   static Map departments
   = {
   'SWE': ['Software Engineering', ()async{
-    final _checkConnection = await Connectivity().checkConnectivity();
-
-    bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
-    if(isConnected) {
-      try{
-        allSlots = await getAllSlots().getAllSlotsRemotely("SWE");
-        emptySlots = await getEmptySlots().getEmptySlotsRemotely("SWE");
-        Times = await getTimes().getTimesRemotely("SWE");
-      }
-      catch(e){
-        log(e.toString());
-      }
-    }
-    else{
-      allSlots = await getAllSlots().getAllSlotsLocally("SWE");
-      emptySlots = await getEmptySlots().getEmptySlotsLocally("SWE");
-      Times = await getTimes().getTimesLocally("SWE");
-    }
+    await getRoutine("SWE");
     if(allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
       hasFunction = true;
+      selectedDepartment = "SWE";
     }
       }],
-  'CSE': ['Computer Science & Engineering', (){
-    hasFunction = false;
+  'CSE': ['Computer Science & Engineering', () async {
+    await getRoutine("CSE");
+    if(allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
+      hasFunction = true;
+      selectedDepartment = "CSE";
+    }
   }],
   };
 }

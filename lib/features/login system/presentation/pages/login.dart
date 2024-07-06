@@ -199,7 +199,7 @@ class _loginScreenState extends State<loginScreen> {
               if(snapshot1.docs.isNotEmpty){
                 StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
 
-                await getRoutineLocally("${userData.batch}${userData.section}", true);
+                await getRoutineLocally(userData.department,"${userData.batch}${userData.section}", true);
                 StoreUserInfo(userData, true);
                 await getUserInfo();
 
@@ -214,7 +214,7 @@ class _loginScreenState extends State<loginScreen> {
               else{
                 TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
 
-                await getRoutineLocally(userData.ti, false);
+                await getRoutineLocally(userData.department,userData.ti, false);
                 StoreUserInfo(userData, false);
                 await getUserInfo();
                 Navigator.pushReplacement(

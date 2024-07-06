@@ -61,7 +61,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           final snapshot = await _db.collection("student").where("email", isEqualTo: _user.email).get();
           StudentInfoModel userData = snapshot.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
 
-          await getRoutineLocally("${userData.batch}${userData.section}", true);
+          await getRoutineLocally(userData.department,"${userData.batch}${userData.section}", true);
           StoreUserInfo(userData, true);
           getUserInfo();
 
@@ -82,7 +82,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           final snapshot = await _db.collection("teacher").where("email", isEqualTo: _user.email).get();
           TeacherInfoModel userData = snapshot.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
 
-          await getRoutineLocally(userData.ti, false);
+          await getRoutineLocally(userData.department,userData.ti, false);
           StoreUserInfo(userData, false);
           getUserInfo();
 

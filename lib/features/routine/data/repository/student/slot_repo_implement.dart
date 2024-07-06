@@ -40,11 +40,11 @@ class StudentRoutineImpl implements SlotRepository{
 
 
 class getStudentRoutineRemotely{
-  String batchSection;
-  getStudentRoutineRemotely({required this.batchSection});
+  String batchSection,dept;
+  getStudentRoutineRemotely({required this.batchSection, required this.dept});
 
   Future<List<SlotModel>> getRoutine() async{
-    final uri = Uri.parse(routine_api+"/student-routine?batchSection=$batchSection");
+    final uri = Uri.parse(routine_api+"/$dept/student-routine?batchSection=$batchSection");
     var response = await http.get(uri);
 
     if(response.statusCode == 200){

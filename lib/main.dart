@@ -96,10 +96,10 @@ void main() async {
     Map _info = _box.get("UserInfo");
     await getUserInfo();
     if(_info["user"] == "Student"){
-      await getRoutineLocally("${_info["batch"]}${_info["section"]}", true);
+      await getRoutineLocally(_info["department"] , "${_info["batch"]}${_info["section"]}", true);
     }
     else{
-      await getRoutineLocally(_info["ti"], false);
+      await getRoutineLocally(_info["department"] , _info["ti"], false);
     }
   }
 

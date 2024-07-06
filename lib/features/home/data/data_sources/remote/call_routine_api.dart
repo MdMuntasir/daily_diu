@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 
 
 class StudentRoutineAPI{
-  String batchSection;
-  StudentRoutineAPI({required this.batchSection});
+  final String batchSection, dept;
+  StudentRoutineAPI({required this.batchSection, required this.dept});
 
   Future<List> getRoutine() async{
-    final uri = Uri.parse(routine_api+"/student-routine?batchSection=$batchSection");
+    final uri = Uri.parse(routine_api+"/$dept/student-routine?batchSection=$batchSection");
     var response = await http.get(uri);
 
     if(response.statusCode == 200){
@@ -34,11 +34,11 @@ class StudentRoutineAPI{
 
 
 class TeacherRoutineAPI{
-  String ti;
-  TeacherRoutineAPI({required this.ti});
+  final String ti, dept;
+  TeacherRoutineAPI({required this.ti, required this.dept});
 
   Future<List> getRoutine() async{
-    final uri = Uri.parse(routine_api+"/teacher-routine?teacherInitial=$ti");
+    final uri = Uri.parse(routine_api+"/$dept/full-teacher-routine?teacherInitial=$ti");
     var response = await http.get(uri);
 
     if(response.statusCode == 200){
