@@ -1,42 +1,29 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/config/theme/Themes.dart';
-import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/blc/presentation/pages/blc_main.dart';
-import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
-import 'package:diu_student/features/home/data/models/user_info.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/email_varification_page.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
-import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
-import 'package:diu_student/features/navbar/presentation/pages/profileEdit.dart';
 import 'package:diu_student/features/notes/notes.dart';
 import 'package:diu_student/features/notice%20board/noticeBoard.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
-import 'package:diu_student/firebase_options.dart';
-import 'package:diu_student/injection_container.dart';
 import 'package:diu_student/splash_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'features/home/data/data_sources/local/local_user_info.dart';
-import 'features/home/data/repository/routine_repo_implement.dart';
-import 'features/home/data/repository/user_info_store.dart';
-import 'features/routine/data/repository/time_repository_implement.dart';
-import 'core/resources/information_repository.dart';
+
 
 void main() async {
-  runApp( MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp
+  ]).then((_){
+    runApp(MyApp());
+  });
+
+
 }
 
 class MyApp extends StatelessWidget {
+
   // final bool hasUser;
   const MyApp({super.key});
 

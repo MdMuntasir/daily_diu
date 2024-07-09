@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeApp() async{
-    WidgetsFlutterBinding.ensureInitialized();
+
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     await Hive.initFlutter();
     var box = await Hive.openBox("routine_box");
