@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class SlotEntity extends Equatable{
+  final String? dept;
   final String? room;
   final String? time;
   final String? batch;
@@ -10,6 +11,7 @@ class SlotEntity extends Equatable{
   final String? day;
 
   const SlotEntity({
+      this.dept,
       this.room,
       this.time,
       this.batch,
@@ -21,6 +23,7 @@ class SlotEntity extends Equatable{
   @override
 
   List<Object?> get props => [
+    dept,
     room,
     time,
     batch,

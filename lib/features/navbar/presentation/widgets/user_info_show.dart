@@ -54,7 +54,7 @@ class UserInfoShow extends StatelessWidget {
         children: [
           Text(
             studentInfo.name!,
-            style: TextStyle(
+            style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
                 fontFamily: "Madimi"
@@ -86,7 +86,7 @@ class UserInfoShow extends StatelessWidget {
           children: [
             Text(
               teacherInfo.name!,
-              style: TextStyle(
+              style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                   fontFamily: "Madimi"
@@ -116,7 +116,7 @@ class UserInfoShow extends StatelessWidget {
 
     return Container(
       width: horizontal ? w*.9 : h*.9,
-      height: horizontal? isStudent ? h*.35 : h*.3 : w*.35,
+      height: horizontal? isStudent ? h*.38 : h*.33 : w*.38,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(round)),
         color: Colors.blue.shade50,
@@ -127,7 +127,10 @@ class UserInfoShow extends StatelessWidget {
         )]
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: w*.1 ,vertical: h*.03),
+        padding: horizontal?
+        EdgeInsets.symmetric(horizontal: w*.1 ,vertical: h*.04) :
+        EdgeInsets.symmetric(horizontal: h*.1 ,vertical: w*.04),
+        
         child: _information,
       )
     );

@@ -11,6 +11,6 @@ TextStyle buttonTextStyle = const TextStyle(
 TextStyle TextTittleStyle = const TextStyle(
   fontSize: 48,
   fontWeight: FontWeight.bold,
-  color: Colors.blue,
+  color: Colors.teal,
   fontFamily: "Takota",
 );

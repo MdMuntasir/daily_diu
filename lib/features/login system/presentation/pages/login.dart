@@ -71,7 +71,13 @@ class _loginScreenState extends State<loginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo here
-                FlutterLogo(size: 100),
+                
+
+                Image.asset(
+                    "assets/images/logo.png",
+                  height: h>w ? h*.15 : w*.15,
+                ),
+
                 SizedBox(height: 20),
                 // Welcome text
                 Text(
@@ -199,7 +205,7 @@ class _loginScreenState extends State<loginScreen> {
               if(snapshot1.docs.isNotEmpty){
                 StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
 
-                await getRoutineLocally("${userData.batch}${userData.section}", true);
+                await getRoutineLocally(userData.department,"${userData.batch}${userData.section}", true);
                 StoreUserInfo(userData, true);
                 await getUserInfo();
 
@@ -214,7 +220,7 @@ class _loginScreenState extends State<loginScreen> {
               else{
                 TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
 
-                await getRoutineLocally(userData.ti, false);
+                await getRoutineLocally(userData.department,userData.ti, false);
                 StoreUserInfo(userData, false);
                 await getUserInfo();
                 Navigator.pushReplacement(

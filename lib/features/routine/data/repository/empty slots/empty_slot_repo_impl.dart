@@ -53,7 +53,9 @@ class getEmptySlots{
   final Box _box = Hive.box("routine_box");
 
   Future getEmptySlotsRemotely(String department) async {
-    final response = await http.get(Uri.https(routine_api_base , "/empty-slot"));
+    Uri uri = Uri.parse(routine_api + "/$department/empty-slot");
+    var response = await http.get(uri);
+
     List maps = [];
     List<EmptySlotModel> models = [];
     if(response.statusCode == 200){

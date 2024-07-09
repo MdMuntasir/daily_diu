@@ -99,7 +99,7 @@ class _EditProfileState extends State<EditProfile> {
                 }).then(
                   (value) async {
                     await getUserInfo();
-                    await getRoutineLocally(
+                    await getRoutineLocally(studentInfo.department,
                         "${studentInfo.batch}${studentInfo.section}", true);
 
                     nameController.clear();
@@ -146,7 +146,7 @@ class _EditProfileState extends State<EditProfile> {
                 }).then(
                   (value) async {
                     await getUserInfo();
-                    await getRoutineLocally(teacherInfo.ti, false);
+                    await getRoutineLocally(teacherInfo.department,teacherInfo.ti, false);
 
                     nameController.clear();
                     teacherInitialController.clear();

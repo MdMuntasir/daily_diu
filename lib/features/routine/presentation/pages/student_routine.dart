@@ -83,7 +83,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
       {
         if(isConnected) {
           FileDownloader.downloadFile(
-            url: "$routine_api/routine-pdf/$batchSection",
+            url: "$routine_api/$selectedDepartment/routine-pdf/$batchSection",
             name: batchSection + ".pdf",
             downloadDestination: DownloadDestinations.publicDownloads,
             onProgress: (fileName, progress) {

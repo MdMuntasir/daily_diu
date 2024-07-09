@@ -16,7 +16,7 @@ class ShowAlertMessage extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          hasSucceed ?  Text("Succeed!") : Text("Error!"),
+          hasSucceed ?  Text("Succeed!") : Text("Alert!"),
           IconButton(
               onPressed: (){
                 Navigator.pop(context);

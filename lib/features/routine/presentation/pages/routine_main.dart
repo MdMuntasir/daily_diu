@@ -10,6 +10,9 @@ import 'package:diu_student/features/routine/presentation/widgets/department_cho
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../../../navbar/presentation/pages/NavBar.dart';
 
 class RoutinePage extends StatefulWidget {
   const RoutinePage({super.key});
@@ -33,7 +36,27 @@ class _RoutinePageState extends State<RoutinePage> {
 
 
     return Scaffold(
-
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                  onPressed: (){
+                    PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        withNavBar: false,
+                        screen: NavBar());
+                  },
+                  color: Colors.black87,
+                  icon: Icon(FontAwesomeIcons.barsStaggered)),
+            ],
+          ),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,

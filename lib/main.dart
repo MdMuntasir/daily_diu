@@ -19,6 +19,7 @@ import 'package:diu_student/features/notice%20board/noticeBoard.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
 import 'package:diu_student/firebase_options.dart';
 import 'package:diu_student/injection_container.dart';
+import 'package:diu_student/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -32,84 +33,12 @@ import 'features/routine/data/repository/time_repository_implement.dart';
 import 'core/resources/information_repository.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  User? user = FirebaseAuth.instance.currentUser;
-  bool hasUser = user != null;
-
-  final _checkConnection = await Connectivity().checkConnectivity();
-  Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
-
-  await Hive.initFlutter();
-  var box = await Hive.openBox("routine_box");
-  android_info = await DeviceInfoPlugin().androidInfo;
-
-  if(hasUser){
-    final snapshot1 = await FirebaseFirestore.instance.collection("student").where('email' , isEqualTo: user.email).get();
-    final snapshot2 = await FirebaseFirestore.instance.collection("teacher").where('email' , isEqualTo: user.email).get();
-
-    if(snapshot1.docs.isNotEmpty){
-      StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
-      if(userData.verified == false){
-        hasUser = false;
-        await user.reauthenticateWithCredential(
-            EmailAuthProvider.credential(
-                email: user.email!,
-                password: userData.password!)
-        ).then((value) async {
-          await user.delete().then((value) async {
-            await FirebaseFirestore.instance.collection("student").doc(userData.docID).delete();
-          },);
-        },);
-
-
-      }
-    }
-
-    else if(snapshot2.docs.isNotEmpty){
-      TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
-      if(userData.verified == false){
-        hasUser = false;
-
-        await user.reauthenticateWithCredential(
-          EmailAuthProvider.credential(
-              email: user.email!,
-              password: userData.password!)
-        ).then((value) async {
-          await user.delete().then((value) async {
-            await FirebaseFirestore.instance.collection("teacher").doc(userData.docID).delete();
-          },);
-        },);
-
-      }
-    }
-
-    else{
-      hasUser = false;
-      await user.delete();
-    }
-  }
-
-
-  if(hasUser){
-    Box _box = Hive.box("routine_box");
-    Map _info = _box.get("UserInfo");
-    await getUserInfo();
-    if(_info["user"] == "Student"){
-      await getRoutineLocally("${_info["batch"]}${_info["section"]}", true);
-    }
-    else{
-      await getRoutineLocally(_info["ti"], false);
-    }
-  }
-
-
-  runApp( MyApp(hasUser: hasUser,));
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final bool hasUser;
-  const MyApp({super.key, required this.hasUser});
+  // final bool hasUser;
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +46,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
-          home: hasUser ? MyHomePage() : loginScreen());
-          // home:  EditProfile());
+          // home: hasUser ? MyHomePage() : loginScreen());
+          home:  SplashScreen());
 
 
   }

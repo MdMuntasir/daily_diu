@@ -75,7 +75,7 @@ class _NavBarState extends State<NavBar> {
 
               SizedBox(height: h*.02,),
 
-              UserInfoShow(),
+              const UserInfoShow(),
 
               SizedBox(height: h*.008,),
 
@@ -109,12 +109,12 @@ class _NavBarState extends State<NavBar> {
 
 
               Container(
-                width: horizontal ? w*.9: h*.9,
+                width: w*.9,
                 height: h*.65,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: Colors.blue.shade50,
-                    boxShadow: [BoxShadow(
+                    boxShadow: const [BoxShadow(
                         blurRadius: 20,
                         spreadRadius: -10,
                         offset: Offset(2,5)
@@ -122,40 +122,87 @@ class _NavBarState extends State<NavBar> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  child: Column(
-                    children: [
+                  child: SingleChildScrollView(
+                    child: horizontal?
+                    Column(
+                      children: [
 
-                      const Text(
-                        "Developers",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Madimi",
+                        const Text(
+                          "Developers",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Madimi",
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
-                      ),
 
-                      SizedBox(height: h*.02,),
+                        SizedBox(height: h*.02,),
 
-                      DeveloperInfo(
-                          name: "Md. Muntasir Hossain",
-                          linkedinURL: "https://www.linkedin.com/in/muntasir27/",
-                          githubURL: "https://github.com/MdMuntasir",
-                          portfolioURL: "https://live-mdmuntasir.pantheonsite.io",
-                          telegramURL: "https://t.me/muntasir27",
-                          imagePath: "assets/images/muntasir.jpg"),
+                        const DeveloperInfo(
+                            name: "Md. Muntasir Hossain",
+                            linkedinURL: "https://www.linkedin.com/in/muntasir27/",
+                            githubURL: "https://github.com/MdMuntasir",
+                            portfolioURL: "https://muntasir.infinityfreeapp.com/",
+                            telegramURL: "https://t.me/muntasir27",
+                            imagePath: "assets/images/Muntasir1.jpg"),
 
-                      SizedBox(height: h*.02,),
+                        SizedBox(height: h*.02,),
 
-                      DeveloperInfo(
-                          name: "Imranul Islam Shihab",
-                          linkedinURL: "https://www.linkedin.com/in/imransihab0/",
-                          githubURL: "https://github.com/imransihab0",
-                          portfolioURL: "https://imransihab.wordpress.com",
-                          telegramURL: "https://t.me/imransihab0",
-                          imagePath: "assets/images/Shihab.png"),
-                    ],
+                        const DeveloperInfo(
+                            name: "Imranul Islam Shihab",
+                            linkedinURL: "https://www.linkedin.com/in/imransihab0/",
+                            githubURL: "https://github.com/imransihab0",
+                            portfolioURL: "https://imransihab.wordpress.com",
+                            telegramURL: "https://t.me/imransihab0",
+                            imagePath: "assets/images/Shihab.jpeg"),
+                      ],
+                    )
+                    :
+                    Column(
+                      children: [
+
+                        const Text(
+                          "Developers",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Madimi",
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+
+                        SizedBox(height: h*.02,),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const DeveloperInfo(
+                                name: "Md. Muntasir Hossain",
+                                linkedinURL: "https://www.linkedin.com/in/muntasir27/",
+                                githubURL: "https://github.com/MdMuntasir",
+                                portfolioURL: "https://live-mdmuntasir.pantheonsite.io",
+                                telegramURL: "https://t.me/muntasir27",
+                                imagePath: "assets/images/muntasir.jpg"),
+
+                            SizedBox(width: w*.08,),
+
+                            const DeveloperInfo(
+                                name: "Imranul Islam Shihab",
+                                linkedinURL: "https://www.linkedin.com/in/imransihab0/",
+                                githubURL: "https://github.com/imransihab0",
+                                portfolioURL: "https://imransihab.wordpress.com",
+                                telegramURL: "https://t.me/imransihab0",
+                                imagePath: "assets/images/Shihab.jpeg"),
+                          ],
+                        ),
+                        SizedBox(height: h*.02,),
+
+                      ],
+                    )
+                    ,
                   ),
                 ),
               ),
@@ -166,6 +213,70 @@ class _NavBarState extends State<NavBar> {
               Divider(thickness: 2,),
 
               SizedBox(height: h*.02,),
+
+
+              // Container(
+              //   width: w*.9,
+              //   height: h*.2,
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(Radius.circular(20)),
+              //       color: Colors.blue.shade50,
+              //       boxShadow: const [BoxShadow(
+              //           blurRadius: 20,
+              //           spreadRadius: -10,
+              //           offset: Offset(2,5)
+              //       )]
+              //   ),
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              //     child: SingleChildScrollView(
+              //       child: Column(
+              //         children: [
+              //
+              //           const Text(
+              //             "Contact Info",
+              //             style: TextStyle(
+              //               color: Colors.black,
+              //               fontSize: 25,
+              //               fontWeight: FontWeight.bold,
+              //               fontFamily: "Madimi",
+              //             ),
+              //             textAlign: TextAlign.start,
+              //           ),
+              //
+              //           SizedBox(height: h*.02,),
+              //
+              //           const Text(
+              //             "+8801994587266",
+              //             style: TextStyle(
+              //                 fontWeight: FontWeight.w400,
+              //                 fontSize: 18,
+              //                 fontFamily: "Madimi"
+              //             ),
+              //           ),
+              //
+              //           SizedBox(height: h*.02,),
+              //
+              //           const Text(
+              //             "+8801994587266",
+              //             style: TextStyle(
+              //                 fontWeight: FontWeight.w400,
+              //                 fontSize: 18,
+              //                 fontFamily: "Madimi"
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              //
+              //
+              // SizedBox(height: h*.02,),
+              //
+              // Divider(thickness: 2,),
+              //
+              // SizedBox(height: h*.02,),
 
 
               SizedBox(

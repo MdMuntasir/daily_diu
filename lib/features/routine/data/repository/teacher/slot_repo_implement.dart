@@ -4,11 +4,11 @@ import 'package:diu_student/features/routine/data/models/slot.dart';
 import 'package:http/http.dart' as http;
 
 class getTeacherRoutineRemotely{
-  String ti;
-  getTeacherRoutineRemotely({required this.ti});
+  String ti,dept;
+  getTeacherRoutineRemotely({required this.ti, required this.dept});
 
   Future<List<SlotModel>> getRoutine() async{
-    final uri = Uri.parse(routine_api+"/teacher-routine?teacherInitial=$ti");
+    final uri = Uri.parse(routine_api+"/$dept/teacher-routine?teacherInitial=$ti");
     var response = await http.get(uri);
 
     if(response.statusCode == 200){

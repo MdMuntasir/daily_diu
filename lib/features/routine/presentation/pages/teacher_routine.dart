@@ -1,16 +1,18 @@
+import 'dart:convert';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
-import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
-import 'package:diu_student/features/routine/data/repository/teacher/slot_repo_implement.dart';
+import 'package:diu_student/core/util/widgets/show_message.dart';
+import 'package:diu_student/features/login%20system/presentation/widgets/multi_chooser.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_textfield.dart';
 import 'package:diu_student/features/routine/presentation/widgets/routine_shower.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:diu_student/features/routine/presentation/widgets/toogleText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../../../config/theme/Themes.dart';
 import '../../../../core/resources/information_repository.dart';
 import '../../data/models/slot.dart';
+import 'package:http/http.dart' as http;
 
 class TeacherRoutine extends StatefulWidget {
   const TeacherRoutine({super.key});
@@ -20,24 +22,33 @@ class TeacherRoutine extends StatefulWidget {
 }
 
 class _TeacherRoutineState extends State<TeacherRoutine> {
+  TextEditingController tiController = TextEditingController();
+  TextEditingController deptController = TextEditingController();
+
   double height1 = 0, width1 = 0;
   double height2 = 0, width2 = 0;
   double space = 0;
   bool routineShowed = false;
+  bool multiDepartment = false;
 
   Duration duration = Duration(milliseconds: 300);
 
-  TextEditingController tiController = TextEditingController();
   String teacherInitial = "";
   double? _progress;
 
   Color ShadowColor = Colors.lightBlueAccent, BodyColor = Colors.lightBlue.shade50;
+
+  List<SlotModel> slots = [];
+  Map Departments = {};
+  List time = Times;
+
 
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    // print(slots);
     if(!routineShowed) {
       if(h>w) {
         space = h * .1;
@@ -56,9 +67,16 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
     }
 
 
+    if(Departments.isEmpty){
+      Information.departments.forEach((key,val){
+        Departments[key] = val[0];
+      });
+    }
+
 
     Future<void> downloadRoutine() async {
       teacherInitial = tiController.text.trim();
+      String dept = deptController.text;
       bool RequestAccepted;
 
       final _checkConnection = await Connectivity().checkConnectivity();
@@ -75,7 +93,8 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
         if(isConnected) {
 
             FileDownloader.downloadFile(
-              url: "$routine_api/teacher-pdf/$teacherInitial",
+              url: !multiDepartment? "$routine_api/$selectedDepartment/teacher-pdf/$teacherInitial" :
+              "$routine_api/$dept/full-teacher-pdf/$teacherInitial",
               name: teacherInitial + ".pdf",
               downloadDestination: DownloadDestinations.publicDownloads,
               onProgress: (fileName, progress) {
@@ -106,23 +125,73 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
     }
 
 
-    void showRoutine() async{
-      teacherInitial = tiController.text.toUpperCase();
+    Future<void> showRoutine() async {
       routineShowed = true;
-      height1 = h>w? h*.3 : w*.3;
-      height2 = h>w? h*.45 : h*.8;
-      space = h>w? h*.02 : w*.02;
+      height1 = h > w ? h * .3 : w * .3;
+      height2 = h > w ? h * .45 : h * .8;
+      space = h > w ? h * .02 : w * .02;
+
+
+
+      if(multiDepartment){
+        final dept = deptController.text;
+        final ti = tiController.text.trim();
+       if(dept.isNotEmpty){
+         final _checkConnection = await Connectivity().checkConnectivity();
+         bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+
+         if(isConnected){
+           try{
+             final uri = Uri.parse(routine_api+"/${dept}/full-teacher-routine?teacherInitial=${ti}");
+             var response = await http.get(uri);
+
+             if(response.statusCode == 200){
+               List<dynamic> json = jsonDecode(response.body);
+               slots.clear();
+               json.forEach((slot){
+                 slots.add(SlotModel.fromJson(slot));
+               });
+
+             }
+           }
+
+           on Exception catch(e){
+             ScaffoldMessenger.of(context)
+                 .showSnackBar(SnackBar(content: Text(e.toString())));
+           }
+         }
+
+         else{
+           ScaffoldMessenger.of(context)
+               .showSnackBar(const SnackBar(content: Text("No Internet Connection")));
+         }
+       }
+
+       else{
+         ShowAlertMessage(text: "Select Department");
+       }
+      }
+
+      else{
+        teacherInitial = tiController.text.toUpperCase();
+      }
+
+
       setState(() {});
     }
 
 
 
-    List<SlotModel> slots = [];
-    allSlots.forEach((slot){
-      if(slot.ti == teacherInitial){
-        slots.add(slot);
-      }
-    });
+
+    if(!multiDepartment)
+    {
+      slots.clear();
+      allSlots.forEach((slot) {
+        if (slot.ti == teacherInitial) {
+          slots.add(slot);
+        }
+      });
+    }
 
 
 
@@ -191,7 +260,27 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
                 "Teacher",
                 style: Theme.of(context).textTheme.displayLarge,
               )),
-              SizedBox(height: space,width: w,),
+
+              SizedBox(height: space/2,width: w,),
+
+              TextToggle(func: (){
+                setState(() {
+                  multiDepartment = !multiDepartment;
+                });
+              },
+                toggled: multiDepartment,
+                text: "Select multiple department?",
+              ),
+
+
+              multiDepartment?
+              MultiChooser(controller: deptController, map: Departments, title: "Department",)
+                  :
+              SizedBox(),
+
+
+              SizedBox(height: space/2,width: w,),
+
               AnimatedContainer(
                 height: height1,
                 width: width1,
