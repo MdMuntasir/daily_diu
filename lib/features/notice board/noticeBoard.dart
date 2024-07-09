@@ -68,12 +68,7 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
     double w = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.blue.shade50,
-        toolbarHeight: 40,
 
-      ),
       body: Online?
       WebViewWidget(controller: controller)
           :

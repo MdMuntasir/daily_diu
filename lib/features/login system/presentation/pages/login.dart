@@ -71,7 +71,13 @@ class _loginScreenState extends State<loginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo here
-                FlutterLogo(size: 100),
+                
+
+                Image.asset(
+                    "assets/images/logo.png",
+                  height: h>w ? h*.15 : w*.15,
+                ),
+
                 SizedBox(height: 20),
                 // Welcome text
                 Text(

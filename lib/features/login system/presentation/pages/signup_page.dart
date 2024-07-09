@@ -186,16 +186,17 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                SizedBox(height: h*.03),
                 // Logo
                 Container(
                   height: 100,
-                  // child: Image.asset('assets/logo.png'),
-                  child: const FlutterLogo(size: 100),
+                  child: Image.asset('assets/images/logo.png'),
+                  // child: const FlutterLogo(size: 100),
                 ),
-                SizedBox(height: h*.03),
+                SizedBox(height: h*.01),
                 // Welcome text
                 Text(
-                  'Welcome.',
+                  'Welcome',
                   style: TextTittleStyle,
                 ),
                 SizedBox(height: h*.02),

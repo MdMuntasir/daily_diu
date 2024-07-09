@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 
 class homePage extends StatefulWidget {
@@ -91,7 +92,10 @@ class _homePageState extends State<homePage> {
             children: [
               IconButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> NavBar()));
+                    PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        withNavBar: false,
+                        screen: NavBar());
                   },
                   color: Colors.black87,
                   icon: Icon(FontAwesomeIcons.barsStaggered)),

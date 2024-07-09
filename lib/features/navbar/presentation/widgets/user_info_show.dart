@@ -54,7 +54,7 @@ class UserInfoShow extends StatelessWidget {
         children: [
           Text(
             studentInfo.name!,
-            style: TextStyle(
+            style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
                 fontFamily: "Madimi"
@@ -86,7 +86,7 @@ class UserInfoShow extends StatelessWidget {
           children: [
             Text(
               teacherInfo.name!,
-              style: TextStyle(
+              style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
                   fontFamily: "Madimi"
@@ -127,7 +127,10 @@ class UserInfoShow extends StatelessWidget {
         )]
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: w*.1 ,vertical: h*.04),
+        padding: horizontal?
+        EdgeInsets.symmetric(horizontal: w*.1 ,vertical: h*.04) :
+        EdgeInsets.symmetric(horizontal: h*.1 ,vertical: w*.04),
+        
         child: _information,
       )
     );
