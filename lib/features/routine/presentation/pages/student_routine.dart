@@ -124,7 +124,7 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
     List<SlotModel> slots = [];
     allSlots.forEach((slot){
-      if("${slot.batch}${slot.section}" == batchSection){
+      if("${slot.batch}${slot.section![0]}" == batchSection){
         slots.add(slot);
       }
 
