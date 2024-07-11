@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,8 +43,8 @@ WebViewController controller = WebViewController()
 
 Future<void> _launchPDF(String url) async {
   try {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
@@ -53,12 +54,25 @@ Future<void> _launchPDF(String url) async {
 }
 
 class _noticeBoardPageState extends State<noticeBoardPage> {
+  bool pageLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 3), (_)async{
+      await _connection();
+    });
+  }
+
 
   Future<void> _connection() async {
     final _checkConnection = await Connectivity().checkConnectivity();
     Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+
     setState(() {
+      if(!pageLoaded) controller.reload();
     });
+    pageLoaded = Online;
   }
 
 

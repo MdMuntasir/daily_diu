@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
@@ -56,12 +57,24 @@ Future<void> _launchPDF(String url) async {
 
 
 class _blcPageState extends State<blcPage> {
+  bool pageLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 3), (_)async{
+      await _connection();
+    });
+  }
 
   Future<void> _connection() async {
     final _checkConnection = await Connectivity().checkConnectivity();
     Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+
     setState(() {
+      if(!pageLoaded) controller.reload();
     });
+    pageLoaded = Online;
   }
 
   @override
