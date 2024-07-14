@@ -39,4 +39,5 @@ Future<void> getRoutineLocally(dept,batchSec, isStudent) async{
   });
   MainRoutine = jsonModel;
 
+
 }

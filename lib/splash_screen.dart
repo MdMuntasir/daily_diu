@@ -18,6 +18,7 @@ import 'core/resources/information_repository.dart';
 import 'features/home/data/data_sources/local/local_routine.dart';
 import 'features/home/data/data_sources/local/local_user_info.dart';
 import 'features/home/data/models/user_info.dart';
+import 'features/home/data/repository/user_info_store.dart';
 import 'firebase_options.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -42,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
     var box = await Hive.openBox("routine_box");
 
 
-    User? user = FirebaseAuth.instance.currentUser;
-    bool hasUser = user != null;
+    User? pre_user = FirebaseAuth.instance.currentUser;
+    bool hasUser = pre_user != null;
 
     final _checkConnection = await Connectivity().checkConnectivity();
     Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
@@ -51,9 +52,13 @@ class _SplashScreenState extends State<SplashScreen> {
     android_info = await DeviceInfoPlugin().androidInfo;
 
     if(hasUser){
-      user.reload();
+      User user = FirebaseAuth.instance.currentUser!;
+      await pre_user.reload().then((_){
+        user = FirebaseAuth.instance.currentUser!;
+      });
 
-      log(user.emailVerified.toString());
+
+      // log(user.emailVerified.toString());
 
       final snapshot1 = await FirebaseFirestore.instance.collection("student").where('email' , isEqualTo: user.email).get();
       final snapshot2 = await FirebaseFirestore.instance.collection("teacher").where('email' , isEqualTo: user.email).get();
@@ -66,7 +71,8 @@ class _SplashScreenState extends State<SplashScreen> {
         if(user.emailVerified && userData.verified == false){
           await FirebaseFirestore.instance.collection("student").doc(userData.docID).update({
             'verified' : true
-          });
+          }).then((_){
+            StoreUserInfo(userData, true);});
         }
 
         else if(!user.emailVerified){
@@ -93,7 +99,8 @@ class _SplashScreenState extends State<SplashScreen> {
         if(user.emailVerified && userData.verified == false){
           await FirebaseFirestore.instance.collection("teacher").doc(userData.docID).update({
             'verified' : true
-          });
+          }).then((_){
+            StoreUserInfo(userData, false);});
         }
 
         if(!user.emailVerified){
