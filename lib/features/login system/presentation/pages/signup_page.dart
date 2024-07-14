@@ -318,6 +318,7 @@ class _SignupPageState extends State<SignupPage> {
           'faculty' : faculty,
           'department' : dept,
           'email': email,
+          'password' : password,
           'verified' : false
         };
         collRef.add(userData).then((doc) async {
@@ -373,6 +374,7 @@ class _SignupPageState extends State<SignupPage> {
           'faculty' : faculty,
           'department' : dept,
           'email': email,
+          'password' : password,
           'verified' : false
         };
         collRef.add(userData).then((doc) async {

@@ -67,7 +67,6 @@ class _StudentRoutineState extends State<StudentRoutine> {
     }
 
 
-
     Future<void> downloadRoutine() async {
       bool RequestAccepted;
       final _checkConnection = await Connectivity().checkConnectivity();
@@ -122,14 +121,15 @@ class _StudentRoutineState extends State<StudentRoutine> {
     }
 
 
+
     List<SlotModel> slots = [];
     allSlots.forEach((slot){
-      if("${slot.batch}${slot.section![0]}" == batchSection){
+      String sec = slot.section != "" ? slot.section![0] : "";
+      if("${slot.batch}${sec}" == batchSection){
         slots.add(slot);
       }
 
     });
-
 
 
 
@@ -178,7 +178,6 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
 
-
     // FutureBuilder _showRoutineRemotely =  FutureBuilder(
     //       future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
     //       builder: (context,Slots){
@@ -198,8 +197,6 @@ class _StudentRoutineState extends State<StudentRoutine> {
     Widget lowerPart = routineShowed ?
     RoutineShower(times: Times, body: slots)
         : SizedBox();
-
-
 
 
 
