@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../core/resources/information_repository.dart';
+import '../../../../core/util/services.dart';
 import '../../data/models/slot.dart';
 import 'package:http/http.dart' as http;
 
@@ -75,7 +77,7 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
 
     Future<void> downloadRoutine() async {
-      teacherInitial = tiController.text.trim();
+      teacherInitial = tiController.text.toUpperCase().trim();
       String dept = deptController.text;
       bool RequestAccepted;
 
@@ -92,28 +94,53 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
       {
         if(isConnected) {
 
-            FileDownloader.downloadFile(
+          setState(() {
+            _progress = 0;
+          });
+
+          await Services().DownloadFile(
               url: !multiDepartment? "$routine_api/$selectedDepartment/teacher-pdf/$teacherInitial" :
-              "$routine_api/$dept/full-teacher-pdf/$teacherInitial",
-              name: teacherInitial + ".pdf",
-              downloadDestination: DownloadDestinations.publicDownloads,
-              onProgress: (fileName, progress) {
-                setState(() {
-                  _progress = progress;
-                });
-              },
-              onDownloadError: (errorMessage) {
-                print(errorMessage);
+                "$routine_api/$dept/full-teacher-pdf/$teacherInitial",
+
+              filename: teacherInitial,
+
+              onDownloadCompleted: (){
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text("Download Failed")));
+                    .showSnackBar(SnackBar(content: Text("Downloaded at /Download/$teacherInitial.pdf")));
               },
-              onDownloadCompleted: (path) {
-                _progress = null;
-                setState(() {});
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Downloaded at $path")));
-              },
-            );
+
+              onDownloadError: (){
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(content: Text("Download failed")));
+              }
+          );
+
+          setState(() {
+            _progress = null;
+          });
+
+            // FileDownloader.downloadFile(
+            //   url: !multiDepartment? "$routine_api/$selectedDepartment/teacher-pdf/$teacherInitial" :
+            //   "$routine_api/$dept/full-teacher-pdf/$teacherInitial",
+            //   name: teacherInitial + ".pdf",
+            //   downloadDestination: DownloadDestinations.publicDownloads,
+            //   onProgress: (fileName, progress) {
+            //     setState(() {
+            //       _progress = progress;
+            //     });
+            //   },
+            //   onDownloadError: (errorMessage) {
+            //     print(errorMessage);
+            //     ScaffoldMessenger.of(context)
+            //         .showSnackBar(const SnackBar(content: Text("Download Failed")));
+            //   },
+            //   onDownloadCompleted: (path) {
+            //     _progress = null;
+            //     setState(() {});
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //         SnackBar(content: Text("Downloaded at $path")));
+            //   },
+            // );
 
         }
 
@@ -185,10 +212,12 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
     if(!multiDepartment)
     {
-      slots.clear();
+      if(slots.isNotEmpty) slots.clear();
+
       allSlots.forEach((slot) {
         if (slot.ti == teacherInitial) {
           slots.add(slot);
+
         }
       });
     }

@@ -1,16 +1,16 @@
 import 'dart:async';
-import 'dart:math';
-
+import 'dart:developer';
+import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
-import 'package:diu_student/features/routine/data/repository/student/slot_repo_implement.dart';
+import 'package:diu_student/core/util/services.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_textfield.dart';
 import 'package:diu_student/features/routine/presentation/widgets/routine_shower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:http/http.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../config/theme/Themes.dart';
 import '../../../../core/resources/information_repository.dart';
@@ -67,7 +67,6 @@ class _StudentRoutineState extends State<StudentRoutine> {
     }
 
 
-
     Future<void> downloadRoutine() async {
       bool RequestAccepted;
       final _checkConnection = await Connectivity().checkConnectivity();
@@ -82,24 +81,50 @@ class _StudentRoutineState extends State<StudentRoutine> {
       if(RequestAccepted)
       {
         if(isConnected) {
-          FileDownloader.downloadFile(
-            url: "$routine_api/$selectedDepartment/routine-pdf/$batchSection",
-            name: batchSection + ".pdf",
-            downloadDestination: DownloadDestinations.publicDownloads,
-            onProgress: (fileName, progress) {
-              setState(() {
-                _progress = progress;
-              });
-            },
-            onDownloadError: (errorMessage) => print(errorMessage),
-            onDownloadCompleted: (path) {
-              _progress = null;
-              print(path);
-              setState(() {});
+
+          setState(() {
+            _progress = 0;
+          });
+
+          await Services().DownloadFile(
+              url: "$routine_api/$selectedDepartment/routine-pdf/$batchSection",
+              filename: batchSection,
+
+            onDownloadCompleted: (){
               ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text("Downloaded at $path")));
+                  .showSnackBar(SnackBar(content: Text("Downloaded at /Download/$batchSection.pdf")));
             },
+
+            onDownloadError: (){
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text("Download failed")));
+            }
           );
+
+          setState(() {
+            _progress = null;
+          });
+
+
+        //   FileDownloader.downloadFile(
+        //     url: "$routine_api/$selectedDepartment/routine-pdf/$batchSection",
+        //     name: batchSection + ".pdf",
+        //     // downloadDestination: DownloadDestinations.publicDownloads,
+        //     onProgress: (fileName, progress) {
+        //       setState(() {
+        //         _progress = progress;
+        //       });
+        //     },
+        //     onDownloadError: (errorMessage) => log(errorMessage.toString()),
+        //     onDownloadCompleted: (path) {
+        //       _progress = null;
+        //       setState(() {});
+        //       ScaffoldMessenger.of(context)
+        //           .showSnackBar(SnackBar(content: Text("Downloaded at $path")));
+        //     },
+        //   );
+
+
         }
 
         else{
@@ -122,14 +147,15 @@ class _StudentRoutineState extends State<StudentRoutine> {
     }
 
 
+
     List<SlotModel> slots = [];
     allSlots.forEach((slot){
-      if("${slot.batch}${slot.section![0]}" == batchSection){
+      String sec = slot.section != "" ? slot.section![0] : "";
+      if("${slot.batch}${sec}" == batchSection){
         slots.add(slot);
       }
 
     });
-
 
 
 
@@ -178,7 +204,6 @@ class _StudentRoutineState extends State<StudentRoutine> {
 
 
 
-
     // FutureBuilder _showRoutineRemotely =  FutureBuilder(
     //       future: getStudentRoutineRemotely(batchSection: batchSection).getRoutine(),
     //       builder: (context,Slots){
@@ -198,8 +223,6 @@ class _StudentRoutineState extends State<StudentRoutine> {
     Widget lowerPart = routineShowed ?
     RoutineShower(times: Times, body: slots)
         : SizedBox();
-
-
 
 
 

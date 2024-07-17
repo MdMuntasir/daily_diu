@@ -81,6 +81,7 @@ class _ManualSlotShowerState extends State<ManualSlotShower> {
     List filteredSlots = [];
 
     Slots.forEach((slot) {
+      String sec = slot.section != "" ? slot.section![0] : "";
       bool matched = true;
       List<Text> texts = [];
       if(widget.Batch != "" && widget.Batch != slot.batch){
@@ -101,9 +102,10 @@ class _ManualSlotShowerState extends State<ManualSlotShower> {
       if(widget.Room != "" && widget.Room != slot.room){
         matched = false;
       }
-      if(widget.Section != "" && widget.Section != slot.section?[0]){
+      if(widget.Section != "" && widget.Section != sec){
         matched = false;
       }
+
       if(matched == true) {
         widget.Day != "" && widget.Day == slot.day ?
           texts.add(boldText("Day : " + widget.Day)) :
@@ -129,7 +131,7 @@ class _ManualSlotShowerState extends State<ManualSlotShower> {
         texts.add(boldText("Batch : " + widget.Batch)) :
         texts.add(normalText("Batch : " + slot.batch!));
 
-        widget.Section != "" && widget.Section == slot.section?[0] ?
+        widget.Section != "" && widget.Section == sec ?
         texts.add(boldText("Section : " + slot.section!)) :
         texts.add(normalText("Section : " + slot.section!));
 
