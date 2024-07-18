@@ -9,10 +9,7 @@ import 'package:diu_student/features/routine/presentation/widgets/custom_textfie
 import 'package:diu_student/features/routine/presentation/widgets/routine_shower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:http/http.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../../../config/theme/Themes.dart';
 import '../../../../core/resources/information_repository.dart';
 import '../../data/models/slot.dart';
 

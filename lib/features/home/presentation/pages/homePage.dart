@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
@@ -12,7 +13,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../../../../core/constants&variables/constants.dart';
+import '../../../../core/util/services.dart';
 
 
 class homePage extends StatefulWidget {
@@ -24,6 +29,8 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage> {
   bool isNow = false;
+  final bool isStudent = studentInfo.user != "";
+  bool isDownloading = false;
 
   Widget _information = SizedBox();
 
@@ -31,6 +38,66 @@ class _homePageState extends State<homePage> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+
+
+
+
+
+    Future<void> _downloadRoutine() async{
+      print(studentInfo);
+      print(teacherInfo);
+      bool RequestAccepted;
+
+      final _checkConnection = await Connectivity().checkConnectivity();
+      bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+
+      if(android_info.version.sdkInt <= 32){
+        RequestAccepted = await Permission.storage.request().isGranted;
+      }
+      else{
+        RequestAccepted = await Permission.photos.request().isGranted;
+      }
+
+
+      String info = isStudent? "${studentInfo.batch!}${studentInfo.section!}" : "${teacherInfo.ti}";
+
+
+      if(RequestAccepted){
+        if(isConnected){
+          setState(() {
+            isDownloading = true;
+          });
+
+          await Services().DownloadFile(
+              url: isStudent? "$routine_api/${studentInfo.department}/routine-pdf/$info" :
+              "$routine_api/${teacherInfo.department}/full-teacher-pdf/$info",
+
+              filename: info,
+
+              onDownloadCompleted: (){
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text("Downloaded routine at /Download/$info.pdf")));
+              },
+
+              onDownloadError: (){
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(content: Text("Download failed")));
+              }
+          );
+
+
+          setState(() {
+            isDownloading = false;
+          });
+        }
+
+        else{
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("No Internet Connection")));
+        }
+      }
+    }
+
 
 
 
@@ -52,8 +119,6 @@ class _homePageState extends State<homePage> {
       splited[0],
       splited[1]));
     }
-
-
 
 
     if(studentInfo.user != null){
@@ -86,10 +151,11 @@ class _homePageState extends State<homePage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        toolbarHeight: h*.05,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                   onPressed: (){
@@ -100,6 +166,14 @@ class _homePageState extends State<homePage> {
                   },
                   color: Colors.black87,
                   icon: Icon(FontAwesomeIcons.barsStaggered)),
+
+              isDownloading?
+                  CircularProgressIndicator()
+              :
+              IconButton(
+                  onPressed: _downloadRoutine,
+                  icon: Icon(FontAwesomeIcons.download, size: 18,)
+              )
             ],
           ),
         ),

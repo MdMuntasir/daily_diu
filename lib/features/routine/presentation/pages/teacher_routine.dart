@@ -9,7 +9,6 @@ import 'package:diu_student/features/routine/presentation/widgets/custom_textfie
 import 'package:diu_student/features/routine/presentation/widgets/routine_shower.dart';
 import 'package:diu_student/features/routine/presentation/widgets/toogleText.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../core/resources/information_repository.dart';
 import '../../../../core/util/services.dart';
