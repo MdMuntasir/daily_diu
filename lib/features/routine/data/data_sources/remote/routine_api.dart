@@ -8,7 +8,7 @@ import '../../models/empty_slot_model.dart';
 part 'routine_api.g.dart';
 
 
-@RestApi(baseUrl : routine_api)
+@RestApi(baseUrl : "Here goes api url")
 abstract class RoutineApi{
   factory RoutineApi(Dio dio) = _RoutineApi;
 
@@ -24,7 +24,7 @@ abstract class RoutineApi{
 
   @GET("/empty-slot")
   Future<HttpResponse<List<EmptySlotModel>>> getEmptySlots();
-  
+
   @GET("/times")
   Future<HttpResponse<List<TimeModel>>> getTimes();
 }

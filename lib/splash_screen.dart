@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
+import 'core/MainKamla/get_main_kamla_info.dart';
 import 'core/resources/information_repository.dart';
 import 'features/home/data/data_sources/local/local_routine.dart';
 import 'features/home/data/data_sources/local/local_user_info.dart';
@@ -164,7 +165,11 @@ class _SplashScreenState extends State<SplashScreen> {
     if(hasUser){
       Box _box = Hive.box("routine_box");
       Map _info = _box.get("UserInfo");
-      await getUserInfo();
+
+      await getApiLink(); // Updates API link from backend
+      await getUserInfo(); // Gets User information
+
+      // Gets routine according user information
       if(_info["user"] == "Student"){
         await getRoutineLocally(_info["department"] , "${_info["batch"]}${_info["section"]}", true);
       }

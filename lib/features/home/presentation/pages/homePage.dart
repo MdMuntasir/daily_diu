@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:diu_student/core/MainKamla/get_main_kamla_info.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
