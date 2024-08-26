@@ -89,7 +89,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
       Batch: batchController.text.toUpperCase(),
       CourseCode: courseController.text.toUpperCase(),
       Day: dayController.text,
-      Room: roomController.text.toUpperCase(),
+      Room: roomController.text,
       Section: sectionController.text.toUpperCase(),
       TeacherInitial: teacherController.text.toUpperCase(),
       Time: timeController.text,

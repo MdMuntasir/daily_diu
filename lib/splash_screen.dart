@@ -33,6 +33,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    Timer.periodic(Duration(seconds: 1), (_) async {
+      final _checkConnection = await Connectivity().checkConnectivity();
+      Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+    });
     _initializeApp();
   }
 
@@ -46,82 +50,114 @@ class _SplashScreenState extends State<SplashScreen> {
     User? pre_user = FirebaseAuth.instance.currentUser;
     bool hasUser = pre_user != null;
 
-    final _checkConnection = await Connectivity().checkConnectivity();
-    Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
-
     android_info = await DeviceInfoPlugin().androidInfo;
 
     if(hasUser){
       User user = FirebaseAuth.instance.currentUser!;
-      await pre_user.reload().then((_){
-        user = FirebaseAuth.instance.currentUser!;
-      });
+      var _userInfo = Hive.box("routine_box").get("UserInfo");
+      var snap = await FirebaseFirestore.instance.collection('teacher').where('email', isEqualTo: user.email).get();
+      // print(snap.docs.map((e)=> TeacherInfoModel.fromSnapshot(e)).single);
 
+      // if(_userInfo != null && _userInfo["verified"]==false ) {
+      //
+      //   if (Online) {
+      //     //Deletes unverified account
+      //
+      //     await pre_user.reload().then((_) {
+      //       user = FirebaseAuth.instance.currentUser!;
+      //     });
+      //
+      //     final snapshot1 = await FirebaseFirestore.instance
+      //         .collection("student")
+      //         .where('email', isEqualTo: user.email)
+      //         .get();
+      //     final snapshot2 = await FirebaseFirestore.instance
+      //         .collection("teacher")
+      //         .where('email', isEqualTo: user.email)
+      //         .get();
+      //
+      //     if (snapshot1.docs.isNotEmpty) {
+      //       StudentInfoModel userData = snapshot1.docs
+      //           .map((e) => StudentInfoModel.fromSnapshot(e))
+      //           .single;
+      //
+     
+      //
+      //       if (user.emailVerified && userData.verified == false) {
+      //         await FirebaseFirestore.instance
+      //             .collection("student")
+      //             .doc(userData.docID)
+      //             .update({'verified': true}).then((_) {
+      //           StoreUserInfo(userData, true);
+      //         });
+      //       } else if (!user.emailVerified) {
+      //         hasUser = false;
+      //
+      //         await user
+      //             .reauthenticateWithCredential(EmailAuthProvider.credential(
+      //                 email: user.email!, password: userData.password!))
+      //             .then(
+      //           (value) async {
+      //             await user.delete().then(
+      //               (value) async {
+      //                 await FirebaseFirestore.instance
+      //                     .collection("student")
+      //                     .doc(userData.docID)
+      //                     .delete();
+      //               },
+      //             );
+      //           },
+      //         );
+      //       }
+      //     } else if (snapshot2.docs.isNotEmpty) {
+      //       TeacherInfoModel userData = snapshot2.docs
+      //           .map((e) => TeacherInfoModel.fromSnapshot(e))
+      //           .single;
+      //
+      //       if (user.emailVerified && userData.verified == false) {
+      //         await FirebaseFirestore.instance
+      //             .collection("teacher")
+      //             .doc(userData.docID)
+      //             .update({'verified': true}).then((_) {
+      //           StoreUserInfo(userData, false);
+      //         });
+      //       }
+      //
+      //       if (!user.emailVerified) {
+      //         hasUser = false;
+      //         await user
+      //             .reauthenticateWithCredential(EmailAuthProvider.credential(
+      //                 email: user.email!, password: userData.password!))
+      //             .then(
+      //           (value) async {
+      //             await user.delete().then(
+      //               (value) async {
+      //                 await FirebaseFirestore.instance
+      //                     .collection("teacher")
+      //                     .doc(userData.docID)
+      //                     .delete();
+      //               },
+      //             );
+      //           },
+      //         );
+      //       }
+      //     } else {
+      //       hasUser = false;
+      //       await user.delete();
+      //     }
+      //   }
+      //
+      //   else{
+      //     hasUser = false;
+      //     ScaffoldMessenger.of(context)
+      //         .showSnackBar(const SnackBar(content: Text("Please connect to internet for the first time")));
+      //   }
+      // }
 
-      // log(user.emailVerified.toString());
-
-      final snapshot1 = await FirebaseFirestore.instance.collection("student").where('email' , isEqualTo: user.email).get();
-      final snapshot2 = await FirebaseFirestore.instance.collection("teacher").where('email' , isEqualTo: user.email).get();
-
-      if(snapshot1.docs.isNotEmpty){
-        StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
-
-        print(userData);
-
-        if(user.emailVerified && userData.verified == false){
-          await FirebaseFirestore.instance.collection("student").doc(userData.docID).update({
-            'verified' : true
-          }).then((_){
-            StoreUserInfo(userData, true);});
-        }
-
-        else if(!user.emailVerified){
-          hasUser = false;
-
-
-          await user.reauthenticateWithCredential(
-              EmailAuthProvider.credential(
-                  email: user.email!,
-                  password: userData.password!)
-          ).then((value) async {
-            await user.delete().then((value) async {
-              await FirebaseFirestore.instance.collection("student").doc(userData.docID).delete();
-            },);
-          },);
-
-
-        }
-      }
-
-      else if(snapshot2.docs.isNotEmpty){
-        TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
-
-        if(user.emailVerified && userData.verified == false){
-          await FirebaseFirestore.instance.collection("teacher").doc(userData.docID).update({
-            'verified' : true
-          }).then((_){
-            StoreUserInfo(userData, false);});
-        }
-
-        if(!user.emailVerified){
-          hasUser = false;
-          await user.reauthenticateWithCredential(
-              EmailAuthProvider.credential(
-                  email: user.email!,
-                  password: userData.password!)
-          ).then((value) async {
-            await user.delete().then((value) async {
-              await FirebaseFirestore.instance.collection("teacher").doc(userData.docID).delete();
-            },);
-          },);
-
-        }
-      }
-
-      else{
+      if(_userInfo==null || _userInfo["verified"]==false ){
         hasUser = false;
-        await user.delete();
       }
+
     }
 
 

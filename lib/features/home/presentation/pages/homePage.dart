@@ -44,8 +44,7 @@ class _homePageState extends State<homePage> {
 
 
     Future<void> _downloadRoutine() async{
-      print(studentInfo);
-      print(teacherInfo);
+
       bool RequestAccepted;
 
       final _checkConnection = await Connectivity().checkConnectivity();
@@ -69,14 +68,15 @@ class _homePageState extends State<homePage> {
           });
 
           await Services().DownloadFile(
+
               url: isStudent? "$routine_api/${studentInfo.department}/routine-pdf/$info" :
               "$routine_api/${teacherInfo.department}/full-teacher-pdf/$info",
 
               filename: info,
 
-              onDownloadCompleted: (){
+              (path) {
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text("Downloaded routine at /Download/$info.pdf")));
+                    .showSnackBar(SnackBar(content: Text(path)));
               },
 
               onDownloadError: (){

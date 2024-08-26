@@ -9,11 +9,15 @@ import 'package:diu_student/features/routine/presentation/widgets/custom_textfie
 import 'package:diu_student/features/routine/presentation/widgets/routine_shower.dart';
 import 'package:diu_student/features/routine/presentation/widgets/toogleText.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../core/resources/information_repository.dart';
 import '../../../../core/util/services.dart';
 import '../../data/models/slot.dart';
 import 'package:http/http.dart' as http;
+
+import '../widgets/manual_slots_shower.dart';
+import '../widgets/toggleIcon.dart';
 
 class TeacherRoutine extends StatefulWidget {
   const TeacherRoutine({super.key});
@@ -31,6 +35,8 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
   double space = 0;
   bool routineShowed = false;
   bool multiDepartment = false;
+  bool listView = false;
+  double position = 0, changePose = 0;
 
   Duration duration = Duration(milliseconds: 300);
 
@@ -49,6 +55,8 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    changePose = listView ? w : 0;
+
     // print(slots);
     if(!routineShowed) {
       if(h>w) {
@@ -71,6 +79,13 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
     if(Departments.isEmpty){
       Information.departments.forEach((key,val){
         Departments[key] = val[0];
+      });
+    }
+
+
+    void changeView(){
+      setState(() {
+        listView = !listView;
       });
     }
 
@@ -103,9 +118,10 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
               filename: teacherInitial,
 
-              onDownloadCompleted: (){
+              //Executes when download completes
+              (path){
                 ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text("Downloaded at /Download/$teacherInitial.pdf")));
+                    .showSnackBar(SnackBar(content: Text(path)));
               },
 
               onDownloadError: (){
@@ -166,11 +182,14 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
          final _checkConnection = await Connectivity().checkConnectivity();
          bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
 
+
          if(isConnected){
+
            try{
              final uri = Uri.parse(routine_api+"/${dept}/full-teacher-routine?teacherInitial=${ti}");
              var response = await http.get(uri);
 
+             print(response.statusCode);
              if(response.statusCode == 200){
                List<dynamic> json = jsonDecode(response.body);
                slots.clear();
@@ -180,6 +199,7 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
 
              }
            }
+
 
            on Exception catch(e){
              ScaffoldMessenger.of(context)
@@ -194,7 +214,8 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
        }
 
        else{
-         ShowAlertMessage(text: "Select Department");
+         showDialog(context: context, builder: (context)=>ShowAlertMessage(text: "Select Department"));
+
        }
       }
 
@@ -261,6 +282,23 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
     //     });
 
 
+
+    Widget middlePart = Container(
+      width: width1,
+      height: h*.1,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ToggleIcon(func: changeView, toggled: listView,),
+          _progress == null?
+          IconButton(onPressed: downloadRoutine, icon: Icon(FontAwesomeIcons.download, size: 18,))
+              : CircularProgressIndicator()
+        ],
+      ),
+    );
+
+
+
     Widget lowerPart = routineShowed ?
     RoutineShower(times: Times, body: slots)
         : SizedBox();
@@ -321,7 +359,14 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
                 child: upperPart,
               ),
 
-              SizedBox(height: h*.03,width: w,),
+              // SizedBox(height: h*.03,width: w,),
+
+
+
+              routineShowed?
+              middlePart : SizedBox(),
+
+
 
 
               AnimatedContainer(
@@ -334,21 +379,56 @@ class _TeacherRoutineState extends State<TeacherRoutine> {
                     boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: ShadowColor)]
                 ):
                 BoxDecoration(color: Colors.transparent),
-                child: lowerPart,
+                child: routineShowed? Stack(
+                  children: [
+
+                    AnimatedPositioned(
+                      bottom: -.05,
+                      left: w*position -changePose,
+                      duration: duration,
+                      child: Container(
+                          height: height2 ,
+                          width: width2,
+                          decoration: BoxDecoration(
+                              color: BodyColor,
+                              borderRadius: BorderRadius.all(Radius.circular(height2*.1)),
+                              boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: ShadowColor)]
+                          ),
+                          child: RoutineShower(times: Times, body: slots)
+                      ),
+                    ),
+
+
+
+                    AnimatedPositioned(
+                      left: -changePose + w*position + w,
+                      duration: duration,
+                      child: Container(
+                        height: height2 ,
+                        width: width2,
+                        child: ManualSlotShower(
+                          Slots: multiDepartment? slots : allSlots,
+                          TeacherInitial: tiController.text.toUpperCase(),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+                    : SizedBox(),
               ),
 
               SizedBox(height: h*.03,width: w,),
 
-              routineShowed ?
-              _progress == null ? ElevatedButton(
-                onPressed: downloadRoutine,
-                child: Text("Download Routine", style: TextStyle(fontWeight: FontWeight.bold),),
-              ) : CircularProgressIndicator()
-                  : SizedBox(),
-
-
-
-              SizedBox(height: h*.05,width: w,),
+              // routineShowed ?
+              // _progress == null ? ElevatedButton(
+              //   onPressed: downloadRoutine,
+              //   child: Text("Download Routine", style: TextStyle(fontWeight: FontWeight.bold),),
+              // ) : CircularProgressIndicator()
+              //     : SizedBox(),
+              //
+              //
+              //
+              // SizedBox(height: h*.05,width: w,),
             ],
           ),
         ),

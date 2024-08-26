@@ -2,19 +2,31 @@ import 'package:diu_student/core/controller/boolean_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Toogler extends StatefulWidget {
+class ToggleIcon extends StatefulWidget {
   final VoidCallback func;
   final bool toggled;
   final double height;
   final double width;
-  const Toogler({super.key, required this.func, required this.toggled, this.height = .05, this.width = .6});
+  final IconData icon1;
+  final IconData icon2;
+  const ToggleIcon({
+    super.key,
+    required this.func,
+    required this.toggled,
+    this.height = .04,
+    this.width = .2,
+    this.icon1 = FontAwesomeIcons.tableCells,
+    this.icon2 = FontAwesomeIcons.bars,
+  });
 
   @override
-  State<Toogler> createState() => _TooglerState();
+  State<ToggleIcon> createState() => _ToggleIconState();
 }
 
-class _TooglerState extends State<Toogler> {
+class _ToggleIconState extends State<ToggleIcon> {
 
 
   Duration _duration = Duration(milliseconds: 200);
@@ -42,14 +54,14 @@ class _TooglerState extends State<Toogler> {
         width: mainWidth,
         height: mainHeight,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: Colors.white,
-          boxShadow: [BoxShadow(
-            blurRadius: 20,
-            spreadRadius: -15,
-            color: Colors.black87,
-            offset: Offset(1,4)
-          )]
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Colors.white,
+            boxShadow: [BoxShadow(
+                blurRadius: 20,
+                spreadRadius: -15,
+                color: Colors.black87,
+                offset: Offset(1,4)
+            )]
         ),
         child: Stack(
           children: [
@@ -67,8 +79,8 @@ class _TooglerState extends State<Toogler> {
             ),
             Row(
               children: [
-                _text("Student", mainWidth*.5, mainHeight, !isToggled),
-                _text("Teacher", mainWidth*.5, mainHeight, isToggled)
+                _icon(widget.icon1, mainWidth*.5, mainHeight, !isToggled),
+                _icon(widget.icon2, mainWidth*.5, mainHeight, isToggled)
               ]
               ,
             ),
@@ -81,21 +93,18 @@ class _TooglerState extends State<Toogler> {
 
 
 
-  AnimatedContainer _text(text, width, height, val){
+  AnimatedContainer _icon(icon, width, height, val){
+
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       height: height,
       width: width,
       child: Center(
-        child: AnimatedDefaultTextStyle(
-            duration: _duration,
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: val? Colors.white : Colors.blue
-            ),
-
-            child: Text(text))
+          child: Icon(
+            icon,
+            size: 16,
+            color: val ? Colors.white : Colors.blue
+          )
       ),
     );
   }

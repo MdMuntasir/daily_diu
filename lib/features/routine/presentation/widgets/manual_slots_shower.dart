@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../data/models/slot.dart';
 
 class ManualSlotShower extends StatefulWidget {
+  final List<SlotModel> Slots;
   final String Day;
   final String Time;
   final String Room;
@@ -13,6 +14,7 @@ class ManualSlotShower extends StatefulWidget {
   final String Section;
   final String CourseCode;
   const ManualSlotShower({super.key,
+    this.Slots = const [],
     this.Day = "",
     this.Time = "",
     this.Room = "",
@@ -30,13 +32,14 @@ class _ManualSlotShowerState extends State<ManualSlotShower> {
   Color normalColor = Colors.teal.shade900;
 
 
-  List<SlotModel> Slots = allSlots;
+  List<SlotModel> Slots = [];
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
+    Slots = widget.Slots.isEmpty ? allSlots : widget.Slots;
 
 
     Text boldText(text){

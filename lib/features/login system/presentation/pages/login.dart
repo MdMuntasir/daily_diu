@@ -15,6 +15,7 @@ import 'package:hive/hive.dart';
 
 import '../../../home/data/data_sources/local/local_routine.dart';
 import '../widgets/textStyle.dart';
+import 'email_varification_page.dart';
 
 
 class loginScreen extends StatefulWidget {
@@ -202,32 +203,74 @@ class _loginScreenState extends State<loginScreen> {
               final snapshot1 = await _db.collection("student").where("email", isEqualTo: email).get();
               final snapshot2 = await _db.collection("teacher").where("email", isEqualTo: email).get();
 
+              //Executes if the user is student
               if(snapshot1.docs.isNotEmpty){
                 StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
 
-                await getRoutineLocally(userData.department,"${userData.batch}${userData.section}", true);
-                StoreUserInfo(userData, true);
-                await getUserInfo();
+                //Checks if the user verified
+                if(userData.verified!) {
+                    await getRoutineLocally(userData.department,
+                        "${userData.batch}${userData.section}", true);
+                    StoreUserInfo(userData, true);
+                    await getUserInfo();
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
-                );
-              }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MyHomePage()),
+                    );
+                }
+
+                //Redirect to verification page
+                else {
+                    await FirebaseAuth.instance.currentUser
+                        ?.sendEmailVerification()
+                        .then(
+                      (value) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EmailVerifyScreen(
+                                      isStudent: true,
+                                      docId: userData.docID!,
+                                    )));
+                      },
+                    );
+            }
+          }
 
 
-
+              //Executes if the user is teacher
               else{
                 TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
 
-                await getRoutineLocally(userData.department,userData.ti, false);
-                StoreUserInfo(userData, false);
-                await getUserInfo();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyHomePage()),
-                );
-              }
+                //Checks if the user verified
+                if(userData.verified!) {
+                  await getRoutineLocally(userData.department, userData.ti, false);
+                  StoreUserInfo(userData, false);
+                  await getUserInfo();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyHomePage()),
+                  );
+                }
+
+                //Redirect to verification page
+                else{
+                  await FirebaseAuth.instance.currentUser
+                      ?.sendEmailVerification()
+                      .then(
+                        (value) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EmailVerifyScreen(
+                                isStudent: true,
+                                docId: userData.docID!,
+                              )));
+                    },
+                  );
+                }
+          }
 
 
               return null;
@@ -240,6 +283,8 @@ class _loginScreenState extends State<loginScreen> {
           }
 
         }
+
+      //Executes if any information has not been entered
       else
         {
           showDialog(context: context, builder: (context) => const ShowAlertMessage(
