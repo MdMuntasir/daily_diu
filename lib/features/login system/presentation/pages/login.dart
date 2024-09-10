@@ -203,12 +203,19 @@ class _loginScreenState extends State<loginScreen> {
               final snapshot1 = await _db.collection("student").where("email", isEqualTo: email).get();
               final snapshot2 = await _db.collection("teacher").where("email", isEqualTo: email).get();
 
+              bool verified = FirebaseAuth.instance.currentUser!.emailVerified;
+
               //Executes if the user is student
               if(snapshot1.docs.isNotEmpty){
                 StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
 
                 //Checks if the user verified
-                if(userData.verified!) {
+                if(verified) {
+                  if(!userData.verified!){
+                    await FirebaseFirestore.instance.collection("student").doc(userData.docID).update({
+                      'verified' : true
+                    });
+                  }
                     await getRoutineLocally(userData.department,
                         "${userData.batch}${userData.section}", true);
                     StoreUserInfo(userData, true);
@@ -244,7 +251,12 @@ class _loginScreenState extends State<loginScreen> {
                 TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
 
                 //Checks if the user verified
-                if(userData.verified!) {
+                if(verified) {
+                  if(!userData.verified!){
+                    await FirebaseFirestore.instance.collection("teacher").doc(userData.docID).update({
+                      'verified' : true
+                    });
+                  }
                   await getRoutineLocally(userData.department, userData.ti, false);
                   StoreUserInfo(userData, false);
                   await getUserInfo();
