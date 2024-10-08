@@ -30,6 +30,7 @@ class EmailVerifyScreen extends StatefulWidget {
 class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool Initialized = false;
+  bool verified = false;
 
 
   @override
@@ -49,6 +50,10 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
       _auth.currentUser?.reload();
       if(_auth.currentUser!.emailVerified){
         timer.cancel();
+
+        setState(() {
+          verified = true;
+        });
 
         FirebaseFirestore _db = FirebaseFirestore.instance;
         User _user = _auth.currentUser!;
@@ -174,17 +179,6 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
             ),
             SizedBox( height: h*.02,),
             TextButton(
-                onPressed: _resendMail,
-                child: SizedBox(
-                  width: w*.5,
-                  height: h*.04,
-                  child: const ListTile(
-                    leading: Icon(Icons.refresh,color: Colors.green,),
-                    title: Text("Resend mail",style: TextStyle(color: Colors.green),),
-                  ),
-                )
-            ),
-            TextButton(
                 onPressed: _goBack,
                 child: SizedBox(
                   width: w*.5,
@@ -197,6 +191,20 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
                   ),
                 )
             ),
+            verified?
+                CupertinoActivityIndicator():
+            TextButton(
+                onPressed: _resendMail,
+                child: SizedBox(
+                  width: w*.5,
+                  height: h*.04,
+                  child: const ListTile(
+                    leading: Icon(Icons.refresh,color: Colors.green,),
+                    title: Text("Resend mail",style: TextStyle(color: Colors.green),),
+                  ),
+                )
+            ),
+
           ],
         ),
       ),
