@@ -7,15 +7,18 @@ import 'package:diu_student/features/routine/presentation/pages/routine_main.dar
 import 'package:diu_student/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
   ]).then((_){
+
     runApp(MyApp());
   });
 

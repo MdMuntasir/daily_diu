@@ -37,7 +37,8 @@ class _HeroButtonState extends State<HeroButton> {
         color: Colors.transparent,
         child: InkWell(
           onTap: enabled ? widget.function : (){},
-          child: Container(
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
             height: h*.08,
             width: w*.7,
             decoration: BoxDecoration(

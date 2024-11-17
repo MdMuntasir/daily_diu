@@ -18,8 +18,6 @@ class Services{
   }
   ) async{
 
-
-
     path = "/storage/emulated/0/Download/$filename.pdf";
     File file = File(path);
     int counter = 1;

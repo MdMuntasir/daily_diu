@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,20 +50,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: secrets.FBAPIKEY,
-    appId: '1:387627694395:android:a8e0a8b8005b934045df1e',
-    messagingSenderId: '387627694395',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY']!,
+    appId: dotenv.env['FIREBASE_ANDROID_APP_ID']!,
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGE_SENDER_ID']!,
     projectId: 'diu-student-softengen',
     storageBucket: 'diu-student-softengen.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCT-wnqcCZMkYTitxOtlhnpG3mJjTM1wP8',
-    appId: '1:387627694395:ios:9f652619c60c195f45df1e',
-    messagingSenderId: '387627694395',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_IOS_API_KEY']!,
+    appId: dotenv.env['FIREBASE_IOS_APP_ID']!,
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGE_SENDER_ID']!,
     projectId: 'diu-student-softengen',
     storageBucket: 'diu-student-softengen.appspot.com',
     iosBundleId: 'com.example.diuStudent',
   );
 }
+
