@@ -43,7 +43,7 @@ class _RoutinePageState extends State<RoutinePage> {
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
                   onPressed: (){
@@ -59,9 +59,15 @@ class _RoutinePageState extends State<RoutinePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-              "Search Routine",
-            style: Theme.of(context).textTheme.displayLarge
+          Hero(
+            tag: "Routine",
+            child: Material(
+              color: Colors.transparent,
+              child: Text(
+                  "Search Routine",
+                style: Theme.of(context).textTheme.displayLarge
+              ),
+            ),
           ),
 
           SizedBox(height: h*.04, width: w,),
@@ -76,50 +82,6 @@ class _RoutinePageState extends State<RoutinePage> {
 
           SizedBox(height: h*.05, width: w,),
 
-          // Container(
-          //   child: Wrap(
-          //     spacing: w*.07,
-          //     runSpacing: w*.07,
-          //     children: [
-          //     HeroCard(function: (){
-          //       Navigator.push(context, MaterialPageRoute(builder: (context)=> StudentRoutine()));
-          //     },
-          //       tag: "Student",
-          //       text: "Student",
-          //       icon: FontAwesomeIcons.user,
-          //       controller: studentController,),
-          //
-          //     // SizedBox(height: h*.05, width: w,),
-          //
-          //     HeroCard(function: (){
-          //       Navigator.push(context, MaterialPageRoute(builder: (context)=> TeacherRoutine()));
-          //     },
-          //       tag: "Teacher",
-          //       text: "Teacher",
-          //       icon: FontAwesomeIcons.userTie,
-          //       controller: teacherController,),
-          //
-          //     // SizedBox(height: h*.05, width: w,),
-          //
-          //     HeroCard(function: (){
-          //       Navigator.push(context, MaterialPageRoute(builder: (context)=> EmptySlots()));
-          //     },
-          //       tag: "Empty Slots",
-          //       text: "Empty Slots",
-          //       icon: FontAwesomeIcons.file,
-          //       controller: emptyController,),
-          //
-          //     // SizedBox(height: h*.05, width: w,),
-          //
-          //     HeroCard(function: (){
-          //       Navigator.push(context, MaterialPageRoute(builder: (context)=> ManualRoutine()));
-          //     },
-          //       tag: "Manual",
-          //       text: "Manual",
-          //       icon: FontAwesomeIcons.sliders,
-          //       controller: manualController,),
-          //   ],),
-          // ),
 
 
           HeroButton(function: (){

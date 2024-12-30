@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:diu_student/features/web%20services/widgets/offline_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../core/resources/information_repository.dart';
+import '../../../core/resources/information_repository.dart';
+
 
 class noticeBoardPage extends StatefulWidget {
   const noticeBoardPage({Key? key}) : super(key: key);
@@ -55,11 +57,12 @@ Future<void> _launchPDF(String url) async {
 
 class _noticeBoardPageState extends State<noticeBoardPage> {
   bool pageLoaded = false;
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 3), (_)async{
+    timer = Timer.periodic(Duration(seconds: 3), (_)async{
       await _connection();
     });
   }
@@ -75,62 +78,22 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
     pageLoaded = Online;
   }
 
+  @override
+  void dispose() {
+    timer?.cancel();
+    controller.clearCache();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
 
     return Scaffold(
 
       body: Online?
       WebViewWidget(controller: controller)
           :
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.wifi_off, size: 120, color: Colors.red.shade300,),
-
-
-          SizedBox(height: h*.02,),
-
-          Text(
-            "No Internet Connection!",
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Madimi",
-                color: Colors.red.shade300
-            ),
-          ),
-
-          SizedBox(height: h*.05,width: w,),
-
-
-          TextButton(
-            onPressed: _connection,
-            child: SizedBox(
-              width: w*.5,
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(FontAwesomeIcons.arrowsRotate,size: 15,),
-                  SizedBox(width: 8,),
-                  Text(
-                    "Refresh",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Madimi"
-                    ),
-                  ),
-                ],
-
-              ),
-            ),
-          ),
-        ],
-      )
+      OfflineScreen(function: _connection)
     );
   }
 }

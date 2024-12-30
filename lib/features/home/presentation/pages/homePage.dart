@@ -35,6 +35,7 @@ class _homePageState extends State<homePage> {
 
   Gradient lightGrad1 = LinearGradient(colors: [Color(0xFF74ebd5), Color(0xFFACB6E5),]);
   Color bottomColor = Color(0xFFB6EADA);
+  // Color bottomColor = Colors.teal.shade700;
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +44,13 @@ class _homePageState extends State<homePage> {
 
 
     if(!showOptions){
+      bottomColor = Colors.teal.shade400;
       pos = -h*.585;
       left = Radius.elliptical(w, h*.2);
       right = Radius.elliptical(w, h*.2);
     }
     else{
+      bottomColor = Color(0xFFB6EADA);
       pos = 0;
       left = Radius.circular(w*.2);
       right = Radius.circular(w*.2);
@@ -236,6 +239,7 @@ class _homePageState extends State<homePage> {
                   controller: !showOptions,
                   left: left,
                   right: right,
+                  IconfgColor: bottomColor,
                   function: barFunc),
             )
           ],
