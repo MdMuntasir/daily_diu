@@ -10,7 +10,8 @@ class StudentInfoShow extends StatelessWidget {
   final String Department;
   final String Batch;
   final String Section;
-  const StudentInfoShow({super.key, required this.Name, required this.ID, required this.Department, required this.Batch, required this.Section});
+  final Gradient grad;
+  const StudentInfoShow({super.key, required this.Name, required this.ID, required this.Department, required this.Batch, required this.Section, required this.grad});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +25,7 @@ class StudentInfoShow extends StatelessWidget {
       height: horizontal? h*.38 : h*.6,
       decoration: BoxDecoration(
         color: Colors.white,
-        gradient: const LinearGradient(
-            colors: [
-              Color(0xFF74ebd5),
-              Color(0xFFACB6E5),
-            ],
-        ),
+        gradient: grad,
         boxShadow: [BoxShadow(spreadRadius: -10,blurRadius: 20,color: Colors.blue)],
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(round),bottomRight: Radius.circular(round)),
       ),
@@ -83,7 +79,8 @@ class TeacherInfoShow extends StatelessWidget {
   final String Faculty;
   final String Department;
   final String TeacherInitial;
-  const TeacherInfoShow({super.key, required this.Name, required this.Department, required this.Faculty, required this.TeacherInitial, });
+  final Gradient grad;
+  const TeacherInfoShow({super.key, required this.Name, required this.Department, required this.Faculty, required this.TeacherInitial, required this.grad, });
 
   @override
   Widget build(BuildContext context) {
@@ -97,12 +94,7 @@ class TeacherInfoShow extends StatelessWidget {
       height: horizontal? h*.4 : h*.6,
       decoration: BoxDecoration(
         color: Colors.white,
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF74ebd5),
-            Color(0xFFACB6E5),
-          ],
-        ),
+        gradient: grad,
         boxShadow: [BoxShadow(spreadRadius: -10,blurRadius: 20,color: Colors.blue)],
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(round),bottomRight: Radius.circular(round)),
       ),
