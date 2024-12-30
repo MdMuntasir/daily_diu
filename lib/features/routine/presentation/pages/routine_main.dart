@@ -10,7 +10,7 @@ import 'package:diu_student/features/routine/presentation/widgets/department_cho
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
 
 import '../../../navbar/presentation/pages/NavBar.dart';
 import '../widgets/card_button.dart';
@@ -47,10 +47,7 @@ class _RoutinePageState extends State<RoutinePage> {
             children: [
               IconButton(
                   onPressed: (){
-                    PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        withNavBar: false,
-                        screen: NavBar());
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
                   },
                   color: Colors.black87,
                   icon: Icon(FontAwesomeIcons.barsStaggered)),

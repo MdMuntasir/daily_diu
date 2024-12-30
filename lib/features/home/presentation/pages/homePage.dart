@@ -1,21 +1,16 @@
+import 'dart:ui';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:diu_student/core/MainKamla/get_main_kamla_info.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/features/home/presentation/widgets/bottomBar.dart';
 import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
-import 'package:diu_student/features/home/data/models/slot.dart';
-import 'package:diu_student/features/home/data/repository/routine_repo_implement.dart';
-import 'package:diu_student/features/home/presentation/widgets/customText.dart';
 import 'package:diu_student/features/home/presentation/widgets/informationShower.dart';
 import 'package:diu_student/features/home/presentation/widgets/showRoutine.dart';
-import 'package:diu_student/features/home/presentation/widgets/slotShower.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../../core/constants&variables/constants.dart';
 import '../../../../core/util/services.dart';
@@ -29,17 +24,41 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
-  bool isNow = false;
+  bool isNow = false, showOptions = false;
   final bool isStudent = studentInfo.user != "";
   bool isDownloading = false;
 
+  double pos = 0, prog = 0;
+
+  Radius left = Radius.zero,right = Radius.zero;
   Widget _information = SizedBox();
+
+  Gradient lightGrad1 = LinearGradient(colors: [Color(0xFF74ebd5), Color(0xFFACB6E5),]);
+  Color bottomColor = Color(0xFFB6EADA);
 
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
+
+    if(!showOptions){
+      pos = -h*.585;
+      left = Radius.elliptical(w, h*.2);
+      right = Radius.elliptical(w, h*.2);
+    }
+    else{
+      pos = 0;
+      left = Radius.circular(w*.2);
+      right = Radius.circular(w*.2);
+    }
+
+
+    void barFunc(){
+      showOptions = !showOptions;
+      setState(() {
+      });
+    }
 
 
 
@@ -129,7 +148,9 @@ class _homePageState extends State<homePage> {
           ID: studentInfo.id!,
           Department: studentInfo.department!,
           Batch: studentInfo.batch!,
-          Section: studentInfo.section!);
+          Section: studentInfo.section!,
+          grad: lightGrad1,
+      );
     }
 
 
@@ -142,57 +163,82 @@ class _homePageState extends State<homePage> {
         Department: dept,
         Faculty: teacherInfo.faculty!,
         TeacherInitial: teacherInfo.ti!,
+        grad: lightGrad1,
       );
     }
 
     // print(MainRoutine);
 
-    return Scaffold(
+    return GestureDetector(
+      onVerticalDragDown: (details){
+        if(details.globalPosition.dy <= h*.42)
+          showOptions = false;
+        else if(details.globalPosition.dy >= h*.934 && details.globalPosition.dy <= h)
+          showOptions = true;
+        setState(() {
+        });
+      },
 
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        toolbarHeight: h*.05,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                  onPressed: (){
-                    PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        withNavBar: false,
-                        screen: NavBar());
-                  },
-                  color: Colors.black87,
-                  icon: Icon(FontAwesomeIcons.barsStaggered)),
 
-              isDownloading?
-                  CircularProgressIndicator()
-              :
-              IconButton(
-                  onPressed: _downloadRoutine,
-                  icon: Icon(FontAwesomeIcons.download, size: 18,)
-              )
-            ],
+
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          toolbarHeight: h*.05,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
+                    },
+                    color: Colors.black87,
+                    icon: Icon(FontAwesomeIcons.barsStaggered)),
+
+                isDownloading?
+                    CircularProgressIndicator()
+                :
+                IconButton(
+                    onPressed: _downloadRoutine,
+                    icon: Icon(FontAwesomeIcons.download, size: 18,)
+                )
+              ],
+            ),
           ),
         ),
-      ),
-      backgroundColor: Colors.teal.shade100,
-      body: SizedBox(
-        width: w,
-        height: h,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _information,
+        backgroundColor: Colors.teal.shade100,
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            SizedBox(
+              width: w,
+              height: h,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _information,
 
-              ShowRoutine(slots: MainRoutine,)
-            ],
-          ),
+                    ShowRoutine(slots: MainRoutine,)
+                  ],
+                ),
+              ),
+            ),
+            AnimatedPositioned(
+              bottom: pos,
+              duration: Duration(milliseconds: 500),
+              child: BottomPanel(
+                  color: bottomColor,
+                  controller: !showOptions,
+                  left: left,
+                  right: right,
+                  function: barFunc),
+            )
+          ],
         ),
       ),
     );
