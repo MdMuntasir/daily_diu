@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/web%20services/widgets/offline_screen.dart';
+import 'package:diu_student/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,6 +16,10 @@ class blcPage extends StatefulWidget {
   @override
   State<blcPage> createState() => _blcPageState();
 }
+
+
+const String mainUrl = 'https://elearn.daffodilvarsity.edu.bd/';
+
 
 WebViewController controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -27,9 +33,7 @@ WebViewController controller = WebViewController()
       onPageFinished: (String url) {},
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
-        if (request.url.startsWith('https://softengen.com/')) {
-          return NavigationDecision.prevent;
-        } else if (request.url.toLowerCase().endsWith('.pdf')) {
+        if (request.url.toLowerCase().endsWith('.pdf')) {
           log('PDF link encountered: ${request.url}');
           _launchPDF(request.url);
           return NavigationDecision.prevent;
@@ -38,14 +42,18 @@ WebViewController controller = WebViewController()
       },
     ),
   )
-  ..loadRequest(Uri.parse('https://elearn.daffodilvarsity.edu.bd/'));
+  ..loadRequest(Uri.parse(mainUrl));
 
 Future<void> _launchPDF(String url) async {
+  final Uri uri = Uri.parse(url);
   try {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+    if (await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      log('Launched URL: $url');
     } else {
-      throw 'Could not launch $url';
+      log('Could not launch URL: $url');
     }
   } catch (e) {
     log('Error launching PDF: $e');
@@ -87,11 +95,22 @@ class _blcPageState extends State<blcPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: Online ?
-      WebViewWidget(controller: controller)
-          :
-      OfflineScreen(function: _connection)
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async{
+        if(await controller.canGoBack()){
+          controller.goBack();
+        } else{
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>homePage()));
+        }
+      },
+
+      child: Scaffold(
+        body: Online ?
+        WebViewWidget(controller: controller)
+            :
+        OfflineScreen(function: _connection)
+      ),
     );
   }
 }

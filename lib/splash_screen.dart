@@ -82,6 +82,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
 
+      //sets user
+      UserRole = _info["user"];
+
       // Gets routine according user information
       if(_info["user"] == "Student"){
         await getRoutineLocally(_info["department"] , "${_info["batch"]}${_info["section"]}", true);

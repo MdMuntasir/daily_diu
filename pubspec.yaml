@@ -54,6 +54,7 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_dotenv: ^5.2.1
   lottie: ^3.3.0
+  fl_chart: ^0.70.0
 
 
 dev_dependencies:

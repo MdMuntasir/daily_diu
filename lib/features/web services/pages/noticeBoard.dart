@@ -4,11 +4,13 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/features/web%20services/widgets/offline_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/resources/information_repository.dart';
+import '../../home/presentation/pages/homePage.dart';
 
 
 class noticeBoardPage extends StatefulWidget {
@@ -17,6 +19,11 @@ class noticeBoardPage extends StatefulWidget {
   @override
   State<noticeBoardPage> createState() => _noticeBoardPageState();
 }
+
+
+const String mainUrl = 'https://daffodilvarsity.edu.bd/public/noticeboard';
+
+
 
 WebViewController controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -30,9 +37,10 @@ WebViewController controller = WebViewController()
       onPageFinished: (String url) {},
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
-        if (request.url.startsWith('https://softengen.com/')) {
+        if(request.url == "https://daffodilvarsity.edu.bd/public/"){
           return NavigationDecision.prevent;
-        } else if (request.url.toLowerCase().endsWith('.pdf')) {
+        }
+        else if (request.url.toLowerCase().endsWith('.pdf')) {
           log('PDF link encountered: ${request.url}');
           _launchPDF(request.url);
           return NavigationDecision.prevent;
@@ -41,19 +49,25 @@ WebViewController controller = WebViewController()
       },
     ),
   )
-  ..loadRequest(Uri.parse('https://daffodilvarsity.edu.bd/noticeboard/'));
+  ..loadRequest(Uri.parse(mainUrl));
 
 Future<void> _launchPDF(String url) async {
+  final Uri uri = Uri.parse(url);
   try {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+    if (await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      log('Launched URL: $url');
     } else {
-      throw 'Could not launch $url';
+      log('Could not launch URL: $url');
     }
   } catch (e) {
     log('Error launching PDF: $e');
   }
 }
+
+
 
 class _noticeBoardPageState extends State<noticeBoardPage> {
   bool pageLoaded = false;
@@ -78,6 +92,7 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
     pageLoaded = Online;
   }
 
+
   @override
   void dispose() {
     timer?.cancel();
@@ -88,12 +103,22 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async{
+        if(await controller.canGoBack()){
+          controller.goBack();
+        } else{
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>homePage()));
+        }
+      },
 
-      body: Online?
-      WebViewWidget(controller: controller)
-          :
-      OfflineScreen(function: _connection)
+      child: Scaffold(
+          body: Online ?
+          WebViewWidget(controller: controller)
+              :
+          OfflineScreen(function: _connection)
+      ),
     );
   }
 }

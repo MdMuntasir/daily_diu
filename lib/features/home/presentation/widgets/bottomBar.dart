@@ -2,6 +2,7 @@ import 'package:diu_student/features/home/presentation/widgets/customButton.dart
 import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
 import 'package:diu_student/features/web%20services/pages/blc_main.dart';
 import 'package:diu_student/features/web%20services/pages/noticeBoard.dart';
+import 'package:diu_student/features/web%20services/pages/portal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,6 +53,9 @@ class _BottomPanelState extends State<BottomPanel> {
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.graduationCap,
+      function: (){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PortalPage()));
+      },
       label: "Portal",
     );
     CustomButton btn3 = CustomButton(
@@ -59,7 +63,7 @@ class _BottomPanelState extends State<BottomPanel> {
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.chalkboardUser,
       function: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>blcPage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>blcPage()));
       },
       label: "BLC",
     );
@@ -68,7 +72,7 @@ class _BottomPanelState extends State<BottomPanel> {
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.bell,
       function: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>noticeBoardPage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>noticeBoardPage()));
       },
       label: "Notice",
     );

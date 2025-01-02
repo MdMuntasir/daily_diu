@@ -85,7 +85,7 @@ Map Faculty_Info = {
 
 StudentInfoModel studentInfo = StudentInfoModel();
 TeacherInfoModel teacherInfo = TeacherInfoModel();
-
+String? UserRole;
 
 List Times = [];
 
