@@ -1,19 +1,15 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/core/util/widgets/show_message.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_user_info.dart';
 import 'package:diu_student/features/home/data/models/user_info.dart';
 import 'package:diu_student/features/home/data/repository/user_info_store.dart';
-import 'package:diu_student/features/login%20system/firebase_auth/firebase_auth_services.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
-import 'package:diu_student/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-
 import '../../../home/data/data_sources/local/local_routine.dart';
+import '../../../home/presentation/pages/homePage.dart';
 import '../widgets/textStyle.dart';
 import 'email_varification_page.dart';
 
@@ -43,9 +39,6 @@ class _loginScreenState extends State<loginScreen> {
 
   @override
   void dispose() {
-    // Disposing the FocusNode instance
-    // emailController.dispose();
-    // passwordController.dispose();
     emailController.dispose();
     passwordController.dispose();
     _focusNode.dispose();
@@ -86,13 +79,7 @@ class _loginScreenState extends State<loginScreen> {
                   style: TextTittleStyle,
                 ),
                 SizedBox(height: 20),
-                // Email field
-                // TextField(
-                //   decoration: InputDecoration(
-                //     labelText: 'E.g: softenge@diu.edu.bd',
-                //     border: OutlineInputBorder(),
-                //   ),
-                // ),
+
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
@@ -221,9 +208,11 @@ class _loginScreenState extends State<loginScreen> {
                     StoreUserInfo(userData, true);
                     await getUserInfo();
 
+                    UserRole = "Student";
+
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MyHomePage()),
+                      MaterialPageRoute(builder: (context) => const homePage()),
                     );
                 }
 
@@ -260,9 +249,12 @@ class _loginScreenState extends State<loginScreen> {
                   await getRoutineLocally(userData.department, userData.ti, false);
                   StoreUserInfo(userData, false);
                   await getUserInfo();
+
+                  UserRole = "Teacher";
+
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyHomePage()),
+                    MaterialPageRoute(builder: (context) => const homePage()),
                   );
                 }
 

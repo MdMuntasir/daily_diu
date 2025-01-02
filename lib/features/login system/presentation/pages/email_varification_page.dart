@@ -1,19 +1,17 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/util/widgets/show_message.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
-import 'package:diu_student/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import '../../../../core/resources/information_repository.dart';
 import '../../../home/data/data_sources/local/local_routine.dart';
 import '../../../home/data/data_sources/local/local_user_info.dart';
 import '../../../home/data/models/user_info.dart';
 import '../../../home/data/repository/user_info_store.dart';
+import '../../../home/presentation/pages/homePage.dart';
 
 class EmailVerifyScreen extends StatefulWidget {
   final bool isStudent;
@@ -75,8 +73,8 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
                 snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
                 SnackBar(content: Text("Successfully Signed Up")));
 
-
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
+            UserRole = "Student";
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> homePage()));
           }
           );
 
@@ -100,8 +98,9 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
                 SnackBar(content: Text("Successfully Signed Up")));
 
 
+            UserRole = "Teacher";
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => MyHomePage()));
+                context, MaterialPageRoute(builder: (context) => homePage()));
           });
         });
 
