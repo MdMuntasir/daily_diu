@@ -11,6 +11,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/resources/information_repository.dart';
 import '../../home/presentation/pages/homePage.dart';
+import '../widgets/cross_button.dart';
 
 
 class noticeBoardPage extends StatefulWidget {
@@ -37,7 +38,8 @@ WebViewController controller = WebViewController()
       onPageFinished: (String url) {},
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
-        if(request.url == "https://daffodilvarsity.edu.bd/public/"){
+        if(request.url == "https://daffodilvarsity.edu.bd/public/" ||
+            request.url == "http://admission.daffodilvarsity.edu.bd/"){
           return NavigationDecision.prevent;
         }
         else if (request.url.toLowerCase().endsWith('.pdf')) {
@@ -97,11 +99,16 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
   void dispose() {
     timer?.cancel();
     controller.clearCache();
+    controller.clearLocalStorage();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+    double crossButtonSize = h*.04;
+    Color barColor = Color(0xFF5F683A);
 
     return PopScope(
       canPop: false,
@@ -114,6 +121,16 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
       },
 
       child: Scaffold(
+        // extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: barColor,
+            toolbarHeight: h*.05,
+            actions: [Padding(
+              padding: EdgeInsets.only(right: w*.07),
+              child: CrossButton(crossButtonSize: crossButtonSize, color: barColor,),
+            )],
+
+          ),
           body: Online ?
           WebViewWidget(controller: controller)
               :

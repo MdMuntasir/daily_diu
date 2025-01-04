@@ -119,7 +119,7 @@ class UserInfoShow extends StatelessWidget {
       height: horizontal? isStudent ? h*.38 : h*.33 : w*.38,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(round)),
-        color: Colors.blue.shade50,
+        color: Colors.teal.shade50,
         boxShadow: [BoxShadow(
           blurRadius: 20,
           spreadRadius: -10,

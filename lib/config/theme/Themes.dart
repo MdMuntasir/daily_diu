@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-  scaffoldBackgroundColor: Colors.blue.shade50,
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+  scaffoldBackgroundColor: Colors.teal.shade50,
   appBarTheme: AppBarTheme(color: Colors.transparent),
   useMaterial3: true,
-  primaryColor: Colors.blue,
+  primaryColor: Colors.teal,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+        backgroundColor: WidgetStatePropertyAll(Colors.teal.shade900),
         foregroundColor: const WidgetStatePropertyAll(Colors.white),
       shape: const WidgetStatePropertyAll(RoundedRectangleBorder
         (borderRadius: BorderRadius.all(Radius.circular(10))
@@ -19,7 +19,7 @@ ThemeData lightTheme = ThemeData(
   textTheme: TextTheme(
     displayLarge: TextStyle(
         fontSize: 45,
-        color: Colors.blue.shade900,
+        color: Colors.teal.shade900,
         fontWeight: FontWeight.bold,
       fontFamily: "Welcome_Magic",
       shadows: [Shadow(

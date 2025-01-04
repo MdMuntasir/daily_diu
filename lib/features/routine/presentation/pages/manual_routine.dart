@@ -18,7 +18,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
   double height2 = 0, width2 = 0;
   double space = 0;
   bool routineShowed = false;
-  Color ShadowColor = Colors.lightBlueAccent, BodyColor = Colors.lightBlue.shade50;
+
   TextEditingController dayController = TextEditingController();
   TextEditingController roomController = TextEditingController();
   TextEditingController courseController = TextEditingController();
@@ -33,7 +33,9 @@ class _ManualRoutineState extends State<ManualRoutine> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    double width1 = w * .9, height1 = h * .5;
+    Color ShadowColor = Colors.teal, BodyColor = Colors.teal.shade50;
+
+    double width1 = w * .9, height1 = h * .45;
 
     if(h<w){
       height1 = w * .5;
@@ -50,7 +52,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
 
     void ShowSlots(){
       routineShowed = true;
-      height2 = h*.5;
+      height2 = h*.4;
       setState(() {
       });
     }
@@ -106,22 +108,12 @@ class _ManualRoutineState extends State<ManualRoutine> {
 
 
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: SingleChildScrollView(
+    return SizedBox(
+      height: h*.75,
+      child: SingleChildScrollView(
           child: Column(
 
             children: [
-              SizedBox(height: h*.03,width: w,),
-              Hero(
-                  tag: "Manual", child: Text(
-                "Manual Search",
-                style: Theme.of(context).textTheme.displayLarge,
-              )),
-              SizedBox(height: h*.03,width: w,),
-
               Container(
                 height: height1,
                 width: width1,
@@ -149,7 +141,6 @@ class _ManualRoutineState extends State<ManualRoutine> {
               ),
             ],
           ),
-        ),
       ),
     );
   }

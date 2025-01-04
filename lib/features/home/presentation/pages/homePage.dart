@@ -6,7 +6,7 @@ import 'package:diu_student/features/home/presentation/widgets/bottomBar.dart';
 import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_routine.dart';
 import 'package:diu_student/features/home/presentation/widgets/informationShower.dart';
-import 'package:diu_student/features/home/presentation/widgets/showRoutine.dart';
+import 'package:diu_student/core/util/widgets/showRoutine.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../widgets/cross_button.dart';
+
 class blcPage extends StatefulWidget {
   const blcPage({Key? key}) : super(key: key);
 
@@ -94,6 +96,10 @@ class _blcPageState extends State<blcPage> {
 
   @override
   Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+    double crossButtonSize = h*.04;
+    Color barColor = Color(0xFF62A8EA);
 
     return PopScope(
       canPop: false,
@@ -106,6 +112,15 @@ class _blcPageState extends State<blcPage> {
       },
 
       child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: barColor,
+            toolbarHeight: h*.05,
+            actions: [Padding(
+              padding: EdgeInsets.only(right: w*.07),
+              child: CrossButton(crossButtonSize: crossButtonSize, color: barColor,),
+            )],
+
+          ),
         body: Online ?
         WebViewWidget(controller: controller)
             :

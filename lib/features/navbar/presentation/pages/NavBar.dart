@@ -87,7 +87,7 @@ class _NavBarState extends State<NavBar> {
                   },
                   style: ButtonStyle(
                     elevation: const WidgetStatePropertyAll(8),
-                      backgroundColor: WidgetStatePropertyAll(Colors.blue.shade50)),
+                      backgroundColor: WidgetStatePropertyAll(Colors.teal.shade50)),
                   child: const Text(
                       "Edit Profile",
                     style: TextStyle(
@@ -113,7 +113,7 @@ class _NavBarState extends State<NavBar> {
                 height: h*.65,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.blue.shade50,
+                    color: Colors.teal.shade50,
                     boxShadow: const [BoxShadow(
                         blurRadius: 20,
                         spreadRadius: -10,
@@ -220,7 +220,7 @@ class _NavBarState extends State<NavBar> {
               //   height: h*.2,
               //   decoration: BoxDecoration(
               //       borderRadius: BorderRadius.all(Radius.circular(20)),
-              //       color: Colors.blue.shade50,
+              //       color: Colors.teal.shade50,
               //       boxShadow: const [BoxShadow(
               //           blurRadius: 20,
               //           spreadRadius: -10,
@@ -285,7 +285,7 @@ class _NavBarState extends State<NavBar> {
                   onPressed: signOut,
                   style: ButtonStyle(
                       elevation: const WidgetStatePropertyAll(8),
-                      backgroundColor: WidgetStatePropertyAll(Colors.blue.shade50)),
+                      backgroundColor: WidgetStatePropertyAll(Colors.teal.shade50)),
                   child: const Text(
                     "Logout",
                     style: TextStyle(
