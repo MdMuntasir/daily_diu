@@ -1,15 +1,14 @@
-import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/home/presentation/widgets/customText.dart';
-// import 'package:diu_student/features/home/data/models/slot.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/models/slot.dart';
+import '../../../../core/util/model/slot.dart';
+
 
 
 
 
 class SlotShower extends StatefulWidget {
-  final HomeSlotModel slots; // change path later
+  final SlotModel slots; // change path later
   final bool isActive;
   const SlotShower({required this.slots, this.isActive = false});
   @override
@@ -29,7 +28,7 @@ class _SlotShowerState extends State<SlotShower> {
     double mainWidth = horizontal ? w*.7 : h*.7;
     double round = 20;
 
-    HomeSlotModel slots = widget.slots;
+    SlotModel slots = widget.slots;
     bool now = widget.isActive;
 
     return Container(
