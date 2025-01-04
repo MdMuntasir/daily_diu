@@ -2,7 +2,8 @@ import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/models/slot.dart';
+import '../../../../core/util/model/slot.dart';
+
 
 class ManualSlotShower extends StatefulWidget {
   final List<SlotModel> Slots;
@@ -68,9 +69,9 @@ class _ManualSlotShowerState extends State<ManualSlotShower> {
         margin: EdgeInsets.symmetric(horizontal: w*.1, vertical: h*.02),
         padding: EdgeInsets.symmetric(horizontal: w*.15, vertical: h*.01),
         decoration: BoxDecoration(
-          color: Colors.blue.shade50,
+          color: Colors.teal.shade50,
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: [BoxShadow(blurRadius: 25, spreadRadius: -10, color: Colors.blue)]
+          boxShadow: [BoxShadow(blurRadius: 25, spreadRadius: -10, color: Colors.teal)]
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

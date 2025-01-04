@@ -1,8 +1,8 @@
-import 'package:diu_student/features/routine/data/models/slot.dart';
-import 'package:diu_student/features/routine/data/repository/time_repository_implement.dart';
-import 'package:diu_student/features/routine/domain/entities/slot.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/util/model/slot.dart';
 
 class RoutineShower extends StatelessWidget {
   final List times;
