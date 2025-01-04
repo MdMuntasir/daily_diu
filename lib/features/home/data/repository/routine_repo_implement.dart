@@ -1,14 +1,6 @@
-
-import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:diu_student/core/constants&variables/variables.dart';
-import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/home/data/data_sources/remote/call_routine_api.dart';
-import 'package:diu_student/features/routine/data/data_sources/remote/routine_api.dart';
-import 'package:diu_student/features/routine/domain/repository/slot_repository.dart';
 import 'package:hive/hive.dart';
 
-import '../models/slot.dart';
 
 
 // class RoutineRepoImpl implements SlotRepository{

@@ -76,7 +76,7 @@ class _EmptySlotShowState extends State<EmptySlotShow> {
         height: cellHeight,
         width: cellWidth,
         decoration: BoxDecoration(
-            color: Colors.blue.shade100,
+            color: Colors.teal.shade100,
           border: Border.all(color: Colors.white)
         ),
 
@@ -92,7 +92,7 @@ class _EmptySlotShowState extends State<EmptySlotShow> {
         height: cellHeight,
         width: headingWidth,
         decoration: BoxDecoration(
-          color: Colors.blue.shade600,
+          color: Colors.teal.shade600,
           borderRadius: BorderRadius.only(topRight : Radius.circular(5), bottomRight : Radius.circular(15)),
           border: Border.symmetric(vertical: BorderSide(color: Colors.white))
         ),
@@ -143,8 +143,8 @@ class _EmptySlotShowState extends State<EmptySlotShow> {
             height: button_height,
             duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
-              color: current? Colors.lightBlueAccent.shade700
-                  : Colors.blue.shade900,
+              color: current? Colors.teal.shade400
+                  : Colors.teal.shade900,
               borderRadius: BorderRadius.all(Radius.circular(h>w? w*.05 : h*.05))
             ),
             child: Center(

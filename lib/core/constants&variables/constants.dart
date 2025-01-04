@@ -1,4 +1,6 @@
-String link1 = "diu-routine-api.onrender.com";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+String link1 = dotenv.env["Routine_Scrapper_API"]!;
 const link2 = "";
 
 String routine_api = "https://" + link1;

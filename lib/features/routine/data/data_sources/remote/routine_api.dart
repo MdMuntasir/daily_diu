@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:diu_student/features/routine/data/models/slot.dart';
 import 'package:diu_student/features/routine/data/models/time.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../../../core/constants&variables/constants.dart';
+import '../../../../../core/util/model/slot.dart';
 import '../../models/empty_slot_model.dart';
 part 'routine_api.g.dart';
 

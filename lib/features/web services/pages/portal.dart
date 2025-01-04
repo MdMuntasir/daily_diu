@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:diu_student/features/web%20services/widgets/cross_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -77,6 +78,7 @@ class _PortalPageState extends State<PortalPage> {
   bool pageLoaded = false;
   Timer? timer;
 
+
   @override
   void initState() {
     super.initState();
@@ -94,6 +96,7 @@ class _PortalPageState extends State<PortalPage> {
     });
     pageLoaded = Online;
   }
+  
 
   @override
   void dispose() {
@@ -103,7 +106,11 @@ class _PortalPageState extends State<PortalPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+    double crossButtonSize = h*.04;
+    Color barColor = Color(0xFF00868D); 
+    
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async{
@@ -116,8 +123,12 @@ class _PortalPageState extends State<PortalPage> {
 
       child: Scaffold(
         appBar: AppBar(
-
-          title: Center(child: Text("Portal",style: Theme.of(context).textTheme.displayMedium)),
+          backgroundColor: barColor,
+          toolbarHeight: h*.05,
+          actions: [Padding(
+            padding: EdgeInsets.only(right: w*.07),
+            child: CrossButton(crossButtonSize: crossButtonSize, color: barColor,),
+          )],
 
         ),
           body: Online ?

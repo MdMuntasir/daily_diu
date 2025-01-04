@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import '../../../../../core/constants&variables/constants.dart';
-import '../../models/slot.dart';
 import 'package:http/http.dart' as http;
 
 

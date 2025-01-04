@@ -1,5 +1,5 @@
 import 'package:diu_student/features/home/presentation/widgets/customButton.dart';
-import 'package:diu_student/features/routine/presentation/pages/routine_main.dart';
+import 'package:diu_student/features/routine/presentation/pages/routine_page.dart';
 import 'package:diu_student/features/web%20services/pages/blc_main.dart';
 import 'package:diu_student/features/web%20services/pages/noticeBoard.dart';
 import 'package:diu_student/features/web%20services/pages/portal.dart';
@@ -45,7 +45,7 @@ class _BottomPanelState extends State<BottomPanel> {
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.calendarDays,
       function: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>RoutinePage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>MainRoutinePage()));
       },
       label: "Routine",
     );
@@ -79,14 +79,14 @@ class _BottomPanelState extends State<BottomPanel> {
     CustomButton btn5 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
-      icon: FontAwesomeIcons.info,
-      label: "Info",
+      icon: FontAwesomeIcons.chartLine,
+      label: "Result",
     );
     CustomButton btn6 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
-      icon: FontAwesomeIcons.chartLine,
-      label: "Result",
+      icon: FontAwesomeIcons.info,
+      label: "Info",
     );
     CustomButton btn7 = CustomButton(
       bgColor: widget.IconbgColor,

@@ -1,23 +1,17 @@
 import 'dart:async';
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:diu_student/core/constants&variables/constants.dart';
-import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/features/login%20system/presentation/widgets/textStyle.dart';
-import 'package:diu_student/main.dart';
+import 'package:diu_student/features/routine/presentation/pages/routine_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:http/http.dart';
 import 'package:lottie/lottie.dart';
-import 'core/MainKamla/get_main_kamla_info.dart';
+import 'core/remote info/get_main_kamla_info.dart';
 import 'core/resources/information_repository.dart';
 import 'features/home/data/data_sources/local/local_routine.dart';
 import 'features/home/data/data_sources/local/local_user_info.dart';
@@ -56,13 +50,6 @@ class _SplashScreenState extends State<SplashScreen> {
     android_info = await DeviceInfoPlugin().androidInfo;
 
 
-
-    if(Online && !hasUser){
-       get(Uri.parse(routine_api));
-    }
-
-
-
     if(hasUser){
       User user = FirebaseAuth.instance.currentUser!;
       var _userInfo = Hive.box("routine_box").get("UserInfo");
@@ -96,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     hasUser ?
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context)=> homePage()))
+            MaterialPageRoute(builder: (context)=> MainRoutinePage()))
         :
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context)=> loginScreen()));
@@ -115,14 +102,6 @@ class _SplashScreenState extends State<SplashScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: h*.02,
         children: [
-          // Padding(
-          //   padding: EdgeInsets.only(left: w*.1),
-          //   child: Container(
-          //     height: h>w? h*.3 : w*.3,
-          //     child: Image.asset("assets/images/logo.png"),
-          //   ),
-          // ),
-
 
           Lottie.asset("assets/lottie/Loading1.json",height: h*.3),
 

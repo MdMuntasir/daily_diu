@@ -5,9 +5,10 @@ import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/routine/data/data_sources/remote/routine_api.dart';
-import 'package:diu_student/features/routine/data/models/slot.dart';
 import 'package:diu_student/features/routine/domain/repository/slot_repository.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../../../core/util/model/slot.dart';
 
 class StudentRoutineImpl implements SlotRepository{
   final RoutineApi _routineApi;
