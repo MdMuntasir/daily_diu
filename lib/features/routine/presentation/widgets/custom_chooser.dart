@@ -44,7 +44,7 @@ class _CustomChooserState extends State<CustomChooser> {
             child: Center(
               child: Text(
                 "None",
-                style: TextStyle(color: Colors.blue.shade500, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.teal.shade500, fontWeight: FontWeight.bold),
               ),
             ))
     ));
@@ -63,7 +63,7 @@ class _CustomChooserState extends State<CustomChooser> {
               child: Center(
                 child: Text(
                     time,
-                  style: TextStyle(color: Colors.blue.shade500, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.teal.shade500, fontWeight: FontWeight.bold),
                 ),
               ))
           ));
@@ -75,7 +75,8 @@ class _CustomChooserState extends State<CustomChooser> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children:
+        [
           Text(
               widget.label + " : ",
             style: TextStyle(
@@ -94,12 +95,12 @@ class _CustomChooserState extends State<CustomChooser> {
                       context: context,
                       bodyBuilder: (BuildContext context) => SingleChildScrollView(child: Column(children: options,)),
                       direction: PopoverDirection.top,
-                    backgroundColor: Colors.blue.shade50
+                    backgroundColor: Colors.teal.shade50
                   );
                 },
                 style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.white),
-                    foregroundColor: WidgetStatePropertyAll(Colors.blue.shade500),
+                    foregroundColor: WidgetStatePropertyAll(Colors.teal.shade500),
                     shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))))
                 ),
                 child: Text(selected, style: TextStyle(fontSize: 18),)

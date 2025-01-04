@@ -6,6 +6,7 @@ import '../../../../core/resources/information_repository.dart';
 
 class ChooseDepartment extends StatefulWidget {
   final VoidCallback func;
+
   const ChooseDepartment({super.key, required this.func});
 
   @override
@@ -13,7 +14,7 @@ class ChooseDepartment extends StatefulWidget {
 }
 
 class _ChooseDepartmentState extends State<ChooseDepartment> {
-  String selected = "Select Department";
+  String selected = "Department";
   Map departments = Information.departments;
   bool _isLoading = false;
 
@@ -41,11 +42,11 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
           child: Container(
             margin: EdgeInsets.symmetric(vertical: h*.001),
             padding: EdgeInsets.symmetric(vertical: h*.005),
-              color: Colors.blue.shade50,
+              color: Colors.teal.shade50,
               child: Center(
                 child: Text(
                   value[0],
-                  style: TextStyle(color: Colors.blue.shade500, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.teal.shade500, fontWeight: FontWeight.bold),
                 ),
               ))
       ));
@@ -54,21 +55,24 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
     return _isLoading ?
         Center(child: CircularProgressIndicator(),)
-    : ElevatedButton(
-        onPressed: (){
-      showPopover(
-        width: w*.9,
-          context: context,
-          bodyBuilder: (context) => SingleChildScrollView(child: Center(child: Column(children: options,))),
-        direction: PopoverDirection.bottom
-      );
-    },
-        style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(Colors.blueAccent.shade700),
-          foregroundColor: WidgetStatePropertyAll(Colors.white),
-          shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(11))))
-        ),
-        child: Text(selected, style: TextStyle(fontSize: 18),)
+    : SizedBox(
+      width: w*.45,
+      child: ElevatedButton(
+          onPressed: (){
+        showPopover(
+          width: w*.9,
+            context: context,
+            bodyBuilder: (context) => SingleChildScrollView(child: Center(child: Column(children: options,))),
+          direction: PopoverDirection.bottom
+        );
+      },
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.tealAccent.shade700),
+            foregroundColor: WidgetStatePropertyAll(Colors.white),
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(11)))),
+          ),
+          child: Text(selected, style: TextStyle(fontSize: w*.04),)
+      ),
     );
   }
 }

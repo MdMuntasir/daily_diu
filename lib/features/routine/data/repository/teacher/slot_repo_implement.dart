@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:diu_student/core/constants&variables/constants.dart';
-import 'package:diu_student/features/routine/data/models/slot.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../../../core/util/model/slot.dart';
 
 class getTeacherRoutineRemotely{
   String ti,dept;

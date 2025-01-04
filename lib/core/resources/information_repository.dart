@@ -3,14 +3,13 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/routine/data/data_sources/local/local_slots.dart';
-import 'package:diu_student/features/routine/data/models/slot.dart';
 import '../../features/home/data/models/user_info.dart';
 import '../../features/routine/data/models/empty_slot_model.dart';
-
 import '../../features/routine/data/repository/empty slots/empty_slot_repo_impl.dart';
 import '../../features/routine/data/repository/manual/manual.dart';
 import '../../features/routine/data/repository/time_repository_implement.dart';
 import '../../features/routine/domain/entities/empty_slot.dart';
+import '../util/model/slot.dart';
 
 
 

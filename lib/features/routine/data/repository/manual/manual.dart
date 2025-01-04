@@ -3,11 +3,11 @@ import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/constants&variables/constants.dart';
-import 'package:diu_student/features/routine/data/models/slot.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../../core/util/model/slot.dart';
 import '../empty slots/empty_slot_repo_impl.dart';
 import '../time_repository_implement.dart';
 
