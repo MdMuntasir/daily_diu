@@ -1,17 +1,15 @@
 import 'dart:async';
-import 'dart:math';
-
-
-import 'package:diu_student/features/home/presentation/widgets/dayButton.dart';
-import 'package:diu_student/features/home/presentation/widgets/slotShower.dart';
+import 'package:diu_student/core/util/widgets/dayButton.dart';
+import 'package:diu_student/core/util/widgets/slotShower.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/resources/information_repository.dart';
-import '../../data/models/slot.dart';
+import '../../resources/information_repository.dart';
+import '../model/slot.dart';
+
 
 
 class ShowRoutine extends StatefulWidget {
-  final List<HomeSlotModel> slots;// change model later
+  final List<SlotModel> slots;// change model later
   const ShowRoutine({super.key, required this.slots});
 
   @override
@@ -95,7 +93,7 @@ class _ShowRoutineState extends State<ShowRoutine> {
       start = false;
     }
 
-    List<HomeSlotModel> TodaySlots = [];
+    List<SlotModel> TodaySlots = [];
 
     widget.slots.forEach((slot){
       if(slot.day == choosed_day){
