@@ -9,8 +9,9 @@ import '../model/slot.dart';
 
 
 class ShowRoutine extends StatefulWidget {
-  final List<SlotModel> slots;// change model later
-  const ShowRoutine({super.key, required this.slots});
+  final double height;
+  final List<SlotModel> slots;
+  const ShowRoutine({super.key, required this.slots, this.height=0});
 
   @override
   State<ShowRoutine> createState() => _ShowRoutineState();
@@ -83,6 +84,8 @@ class _ShowRoutineState extends State<ShowRoutine> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+
+    double height = widget.height == 0 ? 45 : widget.height;
 
     bool horizontal = h>w;
 
@@ -170,7 +173,7 @@ class _ShowRoutineState extends State<ShowRoutine> {
 
           SlotCards.isEmpty ?
               SizedBox(
-                height: h*.45,
+                height: h*.01*height,
                 child: Center(child: Text(
                   days[_toDay] == choosed_day?
                   "No class today\nEnjoy your day" :
@@ -189,7 +192,7 @@ class _ShowRoutineState extends State<ShowRoutine> {
               )
               :
           SizedBox(
-            height: h*.45,
+            height: h*.01*height,
             child: SingleChildScrollView(
               child: Column(
                 children: SlotCards,
