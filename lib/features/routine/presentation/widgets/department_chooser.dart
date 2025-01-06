@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:popover/popover.dart';
 
 import '../../../../core/resources/information_repository.dart';
@@ -54,7 +55,14 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
 
     return _isLoading ?
-        Center(child: CircularProgressIndicator(),)
+        Container(
+          width: w*.45,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(11)),
+            color: Colors.teal.shade700
+          ),
+          child: Lottie.asset("assets/lottie/Loading2.json",height: w*.1,width: w*.1),
+        )
     : SizedBox(
       width: w*.45,
       child: ElevatedButton(

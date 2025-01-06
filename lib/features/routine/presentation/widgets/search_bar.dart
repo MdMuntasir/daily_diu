@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final bool enable;
@@ -40,8 +41,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               enabled: widget.enable,
               controller: widget.controller,
               showCursor: true,
+              maxLength: 5,
+              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\-]')),],
               style: TextStyle(color: Colors.teal.shade900),
               decoration: InputDecoration(
+                counterText: "",
                 hintText: widget.hint,
                 hintStyle: TextStyle(color: Colors.grey),
                 border: InputBorder.none,
