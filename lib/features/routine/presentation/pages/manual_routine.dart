@@ -5,7 +5,6 @@ import 'package:diu_student/features/routine/presentation/widgets/manual_text_fi
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/custom_textfield.dart';
 
 class ManualRoutine extends StatefulWidget {
   const ManualRoutine({super.key});
@@ -26,6 +25,22 @@ class _ManualRoutineState extends State<ManualRoutine> {
   TextEditingController batchController = TextEditingController();
   TextEditingController sectionController = TextEditingController();
   TextEditingController timeController = TextEditingController();
+
+
+
+
+  @override
+  void dispose() {
+    dayController.dispose();
+    roomController.dispose();
+    courseController.dispose();
+    teacherController.dispose();
+    batchController.dispose();
+    sectionController.dispose();
+    timeController.dispose();
+    super.dispose();
+  }
+
 
 
   @override

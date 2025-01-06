@@ -10,6 +10,7 @@ import 'package:diu_student/core/util/widgets/showRoutine.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/constants&variables/constants.dart';
@@ -202,11 +203,14 @@ class _homePageState extends State<homePage> {
                     icon: Icon(FontAwesomeIcons.barsStaggered)),
 
                 isDownloading?
-                    CircularProgressIndicator()
+                Padding(
+                  padding: EdgeInsets.only(right: w*.03),
+                  child: Lottie.asset("assets/lottie/Download.json",height: w*.053,width: w*.055),
+                )
                 :
                 IconButton(
                     onPressed: _downloadRoutine,
-                    icon: Icon(FontAwesomeIcons.download, size: 18,)
+                    icon: Icon(Icons.file_download_outlined, size: w*.07,)
                 )
               ],
             ),
