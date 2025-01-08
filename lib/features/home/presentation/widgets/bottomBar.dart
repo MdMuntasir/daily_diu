@@ -1,4 +1,5 @@
 import 'package:diu_student/features/home/presentation/widgets/customButton.dart';
+import 'package:diu_student/features/result%20analysis/presentation/pages/result_page.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_page.dart';
 import 'package:diu_student/features/web%20services/pages/blc_main.dart';
 import 'package:diu_student/features/web%20services/pages/noticeBoard.dart';
@@ -80,6 +81,9 @@ class _BottomPanelState extends State<BottomPanel> {
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.chartLine,
+      function: (){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ResultPage()));
+      },
       label: "Result",
     );
     CustomButton btn6 = CustomButton(

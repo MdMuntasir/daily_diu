@@ -58,7 +58,12 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          title: Text("Routine", style: Theme.of(context).textTheme.displayMedium,),
+          title: Hero(
+            tag: "Routine",
+            child: Flexible(
+              fit: FlexFit.loose,
+                child: Text("Routine", style: Theme.of(context).textTheme.displayMedium,)),
+          ),
           actions: [Padding(
             padding: EdgeInsets.symmetric(horizontal: w*.05),
             child: Row(

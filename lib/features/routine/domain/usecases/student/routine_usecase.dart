@@ -5,7 +5,7 @@ import 'package:diu_student/features/routine/domain/repository/slot_repository.d
 
 import '../../../../../core/util/model/slot.dart';
 
-class GetStudentRoutineUseCase implements UseCase<DataState<List<SlotModel>>,void>{
+class GetStudentRoutineUseCase implements UseCase<List<SlotModel>, void> {
   final SlotRepository _slotRepository;
 
   GetStudentRoutineUseCase(this._slotRepository);

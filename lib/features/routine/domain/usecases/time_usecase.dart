@@ -5,13 +5,13 @@ import 'package:diu_student/features/routine/domain/repository/time_repository.d
 
 import '../../../../core/resources/data_state.dart';
 
-class GetTimeUseCase implements UseCase<DataState<List<TimeEntity>>,void>{
+class GetTimeUseCase implements UseCase<List<TimeEntity>, void> {
   final TimeRepository _timeRepository;
-   GetTimeUseCase(this._timeRepository);
+
+  GetTimeUseCase(this._timeRepository);
 
   @override
   Future<DataState<List<TimeEntity>>> call({void para}) {
     return _timeRepository.getTimes();
   }
-
 }
