@@ -205,7 +205,7 @@ class _homePageState extends State<homePage> {
                 isDownloading?
                 Padding(
                   padding: EdgeInsets.only(right: w*.03),
-                  child: Lottie.asset("assets/lottie/Download.json",height: w*.053,width: w*.055),
+                  child: Lottie.asset("assets/lottie/Download.json",height: w*.052,width: w*.055),
                 )
                 :
                 IconButton(

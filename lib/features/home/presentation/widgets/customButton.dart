@@ -21,28 +21,31 @@ class CustomButton extends StatelessWidget {
         tag: label,
         child: Material(
           color: Colors.transparent,
-          child: Container(
-            height: w*.25,
-            width: w*.25,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(w*.05)),
-                color: bgColor,
-                boxShadow: [BoxShadow(spreadRadius: -3,blurRadius: 5,)]
-              ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: w*.02),
-              child: Column(
-                spacing: h*.015,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(icon, color: fgColor,size: w*.07,),
-                  Text(label,
-                    style: TextStyle(
-                        color: fgColor,
-                        fontSize: w*.043,
-                        fontWeight: FontWeight.bold
-                    ),)
-                ],
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Container(
+              height: w*.25,
+              width: w*.25,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(w*.05)),
+                  color: bgColor,
+                  boxShadow: [BoxShadow(spreadRadius: -3,blurRadius: 5,)]
+                ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: w*.02),
+                child: Column(
+                  spacing: h*.015,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, color: fgColor,size: w*.07,),
+                    Text(label,
+                      style: TextStyle(
+                          color: fgColor,
+                          fontSize: w*.043,
+                          fontWeight: FontWeight.bold
+                      ),)
+                  ],
+                ),
               ),
             ),
           ),

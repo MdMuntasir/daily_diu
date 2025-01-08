@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/features/login%20system/presentation/widgets/textStyle.dart';
+import 'package:diu_student/features/result%20analysis/presentation/pages/result_page.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -83,10 +85,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
     hasUser ?
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context)=> MainRoutinePage()))
+            MaterialPageRoute(builder: (context)=> const ResultPage()))
         :
     Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context)=> loginScreen()));
+        MaterialPageRoute(builder: (context)=> const loginScreen()));
   }
 
 
