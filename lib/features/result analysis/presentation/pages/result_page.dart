@@ -2,7 +2,6 @@ import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/result%20analysis/presentation/widgets/all_semester_result.dart';
 import 'package:diu_student/features/result%20analysis/presentation/widgets/cgpa_bar.dart';
 import 'package:diu_student/features/result%20analysis/presentation/widgets/display_cgpa.dart';
-import 'package:diu_student/features/result%20analysis/presentation/widgets/semster_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -76,6 +75,7 @@ class _ResultPageState extends State<ResultPage> {
             height: h * .35,
             width: w,
             results: results,
+            mainContext: context,
           )
         ],
       ),
