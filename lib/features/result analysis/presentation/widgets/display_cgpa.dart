@@ -118,7 +118,7 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
       borderData: FlBorderData(show: false),
       gridData: FlGridData(
         show: true,
-        drawVerticalLine: false,
+        drawVerticalLine: true,
         drawHorizontalLine: true,
         horizontalInterval: 1,
         verticalInterval: 1,
@@ -126,6 +126,12 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
           return const FlLine(
             color: Colors.white,
             strokeWidth: 2,
+          );
+        },
+        getDrawingVerticalLine: (value) {
+          return const FlLine(
+            color: Colors.white,
+            strokeWidth: 1,
           );
         },
       ),
@@ -187,7 +193,7 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
       // backgroundColor: Colors.black87.withValues(alpha: 0.8),
       gridData: FlGridData(
         show: true,
-        drawVerticalLine: false,
+        drawVerticalLine: true,
         drawHorizontalLine: true,
         verticalInterval: 1,
         horizontalInterval: 1,
@@ -199,8 +205,8 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
         },
         getDrawingHorizontalLine: (value) {
           return const FlLine(
-            color: Colors.white70,
-            strokeWidth: 1,
+            color: Colors.white,
+            strokeWidth: 2,
           );
         },
       ),
