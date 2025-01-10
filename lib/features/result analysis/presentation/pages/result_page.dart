@@ -1,6 +1,8 @@
-import 'package:diu_student/features/result%20analysis/data/data%20sources/remote/api_data_source.dart';
-import 'package:diu_student/features/result%20analysis/data/repository/resultRepositoryImp.dart';
-import 'package:diu_student/features/result%20analysis/domain/usecase/result_usecase.dart';
+import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/features/result%20analysis/presentation/widgets/all_semester_result.dart';
+import 'package:diu_student/features/result%20analysis/presentation/widgets/cgpa_bar.dart';
+import 'package:diu_student/features/result%20analysis/presentation/widgets/display_cgpa.dart';
+import 'package:diu_student/features/result%20analysis/presentation/widgets/semster_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +17,9 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  bool cgpaShow = false;
+  final results = resultTest;
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -49,7 +54,31 @@ class _ResultPageState extends State<ResultPage> {
           )
         ],
       ),
-      body: Column(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: h * .03,
+        children: [
+          DisplayCgpa(
+            showAvg: cgpaShow,
+            results: results,
+            cgpa: 3.9,
+          ),
+          CgpaBar(
+            cgpa: 3.9,
+            avgShow: cgpaShow,
+            func: () {
+              setState(() {
+                cgpaShow = !cgpaShow;
+              });
+            },
+          ),
+          AllSemesterResult(
+            height: h * .35,
+            width: w,
+            results: results,
+          )
+        ],
+      ),
     );
   }
 }
