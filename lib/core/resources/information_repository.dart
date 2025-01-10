@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/constants&variables/variables.dart';
+import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
 import 'package:diu_student/features/routine/data/data_sources/local/local_slots.dart';
 import '../../features/home/data/models/user_info.dart';
 import '../../features/routine/data/models/empty_slot_model.dart';
@@ -11,37 +12,36 @@ import '../../features/routine/data/repository/time_repository_implement.dart';
 import '../../features/routine/domain/entities/empty_slot.dart';
 import '../util/model/slot.dart';
 
-
-
 late var android_info;
 
 String selectedDepartment = "";
 
 bool Online = false;
 
-
-
 class Information {
-  static Map departments
-  = {
-  'SWE': ['Software Engineering', ()async{
-    await getRoutine("SWE");
-    if(allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
-      hasFunction = true;
-      selectedDepartment = "SWE";
-    }
-      }],
-  'CSE': ['Computer Science & Engineering', () async {
-    await getRoutine("CSE");
-    if(allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
-      hasFunction = true;
-      selectedDepartment = "CSE";
-    }
-  }],
+  static Map departments = {
+    'SWE': [
+      'Software Engineering',
+      () async {
+        await getRoutine("SWE");
+        if (allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
+          hasFunction = true;
+          selectedDepartment = "SWE";
+        }
+      }
+    ],
+    'CSE': [
+      'Computer Science & Engineering',
+      () async {
+        await getRoutine("CSE");
+        if (allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
+          hasFunction = true;
+          selectedDepartment = "CSE";
+        }
+      }
+    ],
   };
 }
-
-
 
 Map Faculty_Info = {
   "FSIT": {
@@ -50,21 +50,21 @@ Map Faculty_Info = {
     'ITM': 'Information Technology & Management',
     'CIS': 'Computing and Information System',
   },
-  "FBE" : {
-    "DBA" : "Business Administration",
-    "BS" : "Business Studies",
+  "FBE": {
+    "DBA": "Business Administration",
+    "BS": "Business Studies",
     'THM': 'Tourism & Hospitality Management',
     'ACC': 'Accounting',
     'RE': 'Real Estate',
     'DE': 'Innovation & Entrepreneurship',
   },
-  "FHSS" : {
+  "FHSS": {
     'ENG': 'English',
     'LAW': 'Law',
-    'JMC' : "Journalism, Media and Communication",
-    'DS' : "Development Studies",
+    'JMC': "Journalism, Media and Communication",
+    'DS': "Development Studies",
   },
-  "FHLS" : {
+  "FHLS": {
     'AGRI': 'Agricultural Science',
     'PHARM': 'Pharmacy',
     'NFE': 'Nutrition and Food Engineering',
@@ -72,7 +72,7 @@ Map Faculty_Info = {
     'ESDM': 'Environmental Science and Disaster Management',
     'PESS': 'Physical Education & Sports Science',
   },
-  "Engineering" : {
+  "Engineering": {
     'ARCH': 'Architecture',
     'EEE': 'Electrical and Electronic Engineering',
     'CE': 'Civil Engineering',
@@ -81,7 +81,6 @@ Map Faculty_Info = {
   },
 };
 
-
 StudentInfoModel studentInfo = StudentInfoModel();
 TeacherInfoModel teacherInfo = TeacherInfoModel();
 String? UserRole;
@@ -89,7 +88,6 @@ String? UserRole;
 List Times = [];
 
 List<EmptySlotModel> emptySlots = [];
-
 
 List Days = [
   "Saturday",
@@ -161,7 +159,7 @@ List<SlotModel> test_body = [
     "course": "SE212",
     "ti": "FRR"
   }),
-SlotModel.fromJson(const {
+  SlotModel.fromJson(const {
     "id": "7",
     "day": "Sunday",
     "room": "701A",
@@ -171,7 +169,7 @@ SlotModel.fromJson(const {
     "course": "SE123",
     "ti": "RHH"
   }),
-SlotModel.fromJson(const {
+  SlotModel.fromJson(const {
     "id": "8",
     "day": "Monday",
     "room": "710",
@@ -181,7 +179,7 @@ SlotModel.fromJson(const {
     "course": "SE123",
     "ti": "RHH"
   }),
-SlotModel.fromJson(const {
+  SlotModel.fromJson(const {
     "id": "9",
     "day": "Monday",
     "room": "914",
@@ -191,7 +189,7 @@ SlotModel.fromJson(const {
     "course": "SE121",
     "ti": "SUP"
   }),
-SlotModel.fromJson(const {
+  SlotModel.fromJson(const {
     "id": "10",
     "day": "Tuesday",
     "room": "913",
@@ -201,7 +199,7 @@ SlotModel.fromJson(const {
     "course": "MAT102",
     "ti": "MSH"
   }),
-SlotModel.fromJson(const {
+  SlotModel.fromJson(const {
     "id": "11",
     "day": "Tuesday",
     "room": "812",
@@ -211,7 +209,7 @@ SlotModel.fromJson(const {
     "course": "SE213",
     "ti": "MT"
   }),
-SlotModel.fromJson(const {
+  SlotModel.fromJson(const {
     "id": "12",
     "day": "Wednesday",
     "room": "616",
@@ -231,7 +229,7 @@ SlotModel.fromJson(const {
     "course": "SE122",
     "ti": "SUP"
   }),
-SlotModel.fromJson(const {
+  SlotModel.fromJson(const {
     "id": "14",
     "day": "Wednesday",
     "room": "814B",
@@ -243,7 +241,7 @@ SlotModel.fromJson(const {
   })
 ];
 
-Map<String, dynamic> test =   {
+Map<String, dynamic> test = {
   "id": "1",
   "day": "Saturday",
   "room": "704",
@@ -266,6 +264,281 @@ List test_time = [
       "04:00-05:15"
     ]
   }
+];
+
+List<List<SemesterResultModel>> resultTest = [
+  [
+    SemesterResultModel(
+      semesterId: 233,
+      semesterName: "Fall",
+      semesterYear: 2023,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 3.75,
+      gradeLetter: "A",
+      cgpa: 3.95,
+    ),
+    SemesterResultModel(
+      semesterId: 233,
+      semesterName: "Fall",
+      semesterYear: 2023,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.95,
+    ),
+    SemesterResultModel(
+      semesterId: 233,
+      semesterName: "Fall",
+      semesterYear: 2023,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.95,
+    ),
+    SemesterResultModel(
+      semesterId: 233,
+      semesterName: "Fall",
+      semesterYear: 2023,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.95,
+    ),
+    SemesterResultModel(
+      semesterId: 233,
+      semesterName: "Fall",
+      semesterYear: 2023,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.95,
+    ),
+    SemesterResultModel(
+      semesterId: 233,
+      semesterName: "Fall",
+      semesterYear: 2023,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.95,
+    ),
+  ],
+  [
+    SemesterResultModel(
+      semesterId: 241,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 3.75,
+      gradeLetter: "A",
+      cgpa: 3.92,
+    ),
+    SemesterResultModel(
+      semesterId: 241,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 3.75,
+      gradeLetter: "A",
+      cgpa: 3.92,
+    ),
+    SemesterResultModel(
+      semesterId: 241,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.92,
+    ),
+    SemesterResultModel(
+      semesterId: 241,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.92,
+    ),
+    SemesterResultModel(
+      semesterId: 241,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.92,
+    ),
+    SemesterResultModel(
+      semesterId: 241,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.92,
+    ),
+  ],
+  [
+    SemesterResultModel(
+      semesterId: 243,
+      semesterName: "Fall",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 3.75,
+      gradeLetter: "A",
+      cgpa: 3.96,
+    ),
+    SemesterResultModel(
+      semesterId: 243,
+      semesterName: "Fall",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.96,
+    ),
+    SemesterResultModel(
+      semesterId: 243,
+      semesterName: "Fall",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.96,
+    ),
+    SemesterResultModel(
+      semesterId: 243,
+      semesterName: "Fall",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.96,
+    ),
+    SemesterResultModel(
+      semesterId: 243,
+      semesterName: "Fall",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.96,
+    ),
+    SemesterResultModel(
+      semesterId: 243,
+      semesterName: "Fall",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 3.96,
+    ),
+  ],
+  [
+    SemesterResultModel(
+      semesterId: 251,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 3.75,
+      gradeLetter: "A",
+      cgpa: 4,
+    ),
+    SemesterResultModel(
+      semesterId: 251,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 3.75,
+      gradeLetter: "A",
+      cgpa: 4,
+    ),
+    SemesterResultModel(
+      semesterId: 251,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 4,
+    ),
+    SemesterResultModel(
+      semesterId: 251,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 4,
+    ),
+    SemesterResultModel(
+      semesterId: 251,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 4,
+    ),
+    SemesterResultModel(
+      semesterId: 251,
+      semesterName: "Spring",
+      semesterYear: 2024,
+      customCourseId: "SE 113",
+      courseTitle: "Introduction to Software Engineering",
+      totalCredit: 3,
+      pointEquivalent: 4,
+      gradeLetter: "A+",
+      cgpa: 4,
+    ),
+  ],
 ];
 
 List<SlotModel> allSlots = [];
