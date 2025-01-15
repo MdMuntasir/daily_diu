@@ -6,41 +6,38 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(color: Colors.transparent),
   useMaterial3: true,
   primaryColor: Colors.teal,
-  elevatedButtonTheme: ElevatedButtonThemeData(
+  elevatedButtonTheme: const ElevatedButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.teal),
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)))))),
+  outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(Colors.teal),
-        foregroundColor: const WidgetStatePropertyAll(Colors.white),
-      shape: const WidgetStatePropertyAll(RoundedRectangleBorder
-        (borderRadius: BorderRadius.all(Radius.circular(10))
-      )
-      )
-    )
+        foregroundColor: const WidgetStatePropertyAll(Colors.teal),
+        textStyle: WidgetStatePropertyAll(TextStyle(
+          color: Colors.teal.shade800,
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+        ))),
   ),
   textTheme: TextTheme(
-    displayLarge: TextStyle(
+      displayLarge: TextStyle(
         fontSize: 45,
         color: Colors.teal.shade900,
         fontWeight: FontWeight.bold,
-      fontFamily: "Welcome_Magic",
-      shadows: [Shadow(
-        color: Colors.black87,
-        offset: Offset(.5, 1.5),
-        blurRadius: 5
-      )],
-
-    ),
-    displayMedium: TextStyle(
-      fontSize: 35,
-      color: Colors.green.shade900,
-      fontWeight: FontWeight.bold,
-      fontFamily: "Welcome_Magic",
-      shadows: [Shadow(
-          color: Colors.black87,
-          offset: Offset(.5, 1.5),
-          blurRadius: 5
-      )],
-    )
-
-  ),
-  
+        fontFamily: "Welcome_Magic",
+        shadows: const [
+          Shadow(color: Colors.black87, offset: Offset(.5, 1.5), blurRadius: 5)
+        ],
+      ),
+      displayMedium: TextStyle(
+        fontSize: 35,
+        color: Colors.green.shade900,
+        fontWeight: FontWeight.bold,
+        fontFamily: "Welcome_Magic",
+        shadows: const [
+          Shadow(color: Colors.black87, offset: Offset(.5, 1.5), blurRadius: 5)
+        ],
+      )),
 );
