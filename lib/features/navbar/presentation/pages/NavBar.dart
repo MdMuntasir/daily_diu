@@ -23,41 +23,36 @@ class _NavBarState extends State<NavBar> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-    bool horizontal =  h>w;
+    bool horizontal = h > w;
 
-    void signOut(){
+    void signOut() {
       showDialog(
           context: context,
           builder: (context) => CustomAlertBox(
               text: "Want to log out?",
-              function: (){
-                Box _box = Hive.box("routine_box");
+              function: () {
+                Box _box = Hive.box(name: "routine_box");
                 _box.clear();
                 FirebaseAuth.instance.signOut();
 
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Logged Out'),
+                ));
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Logged Out'),)
-                );
-
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => loginScreen()));
-              }
-          ));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => loginScreen()));
+              }));
     }
 
-
-
     return Scaffold(
-
       body: Container(
-        decoration: BoxDecoration(
-
-        ),
+        decoration: BoxDecoration(),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: h*.05,),
+              SizedBox(
+                height: h * .05,
+              ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -65,7 +60,7 @@ class _NavBarState extends State<NavBar> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.of(context).pop();
                         },
                         icon: Icon(FontAwesomeIcons.xmark))
@@ -73,23 +68,29 @@ class _NavBarState extends State<NavBar> {
                 ),
               ),
 
-              SizedBox(height: h*.02,),
+              SizedBox(
+                height: h * .02,
+              ),
 
               const UserInfoShow(),
 
-              SizedBox(height: h*.008,),
+              SizedBox(
+                height: h * .008,
+              ),
 
               SizedBox(
-                width: horizontal ? w*.9: h*.9,
+                width: horizontal ? w * .9 : h * .9,
                 child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfile()));
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EditProfile()));
                   },
                   style: ButtonStyle(
-                    elevation: const WidgetStatePropertyAll(8),
-                      backgroundColor: WidgetStatePropertyAll(Colors.teal.shade50)),
+                      elevation: const WidgetStatePropertyAll(8),
+                      backgroundColor:
+                          WidgetStatePropertyAll(Colors.teal.shade50)),
                   child: const Text(
-                      "Edit Profile",
+                    "Edit Profile",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -100,120 +101,136 @@ class _NavBarState extends State<NavBar> {
                 ),
               ),
 
+              SizedBox(
+                height: h * .02,
+              ),
 
-              SizedBox(height: h*.02,),
+              Divider(
+                thickness: 2,
+              ),
 
-              Divider(thickness: 2,),
-
-              SizedBox(height: h*.02,),
-
+              SizedBox(
+                height: h * .02,
+              ),
 
               Container(
-                width: w*.9,
-                height: h*.65,
+                width: w * .9,
+                height: h * .65,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     color: Colors.teal.shade50,
-                    boxShadow: const [BoxShadow(
-                        blurRadius: 20,
-                        spreadRadius: -10,
-                        offset: Offset(2,5)
-                    )]
-                ),
+                    boxShadow: const [
+                      BoxShadow(
+                          blurRadius: 20,
+                          spreadRadius: -10,
+                          offset: Offset(2, 5))
+                    ]),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: SingleChildScrollView(
-                    child: horizontal?
-                    Column(
-                      children: [
-
-                        const Text(
-                          "Developers",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Madimi",
+                    child: horizontal
+                        ? Column(
+                            children: [
+                              const Text(
+                                "Developers",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Madimi",
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(
+                                height: h * .02,
+                              ),
+                              const DeveloperInfo(
+                                  name: "Md. Muntasir Hossain",
+                                  linkedinURL:
+                                      "https://www.linkedin.com/in/muntasir27/",
+                                  githubURL: "https://github.com/MdMuntasir",
+                                  portfolioURL:
+                                      "https://muntasir.infinityfreeapp.com/",
+                                  telegramURL: "https://t.me/muntasir27",
+                                  imagePath: "assets/images/Muntasir1.jpg"),
+                              SizedBox(
+                                height: h * .02,
+                              ),
+                              const DeveloperInfo(
+                                  name: "Imranul Islam Shihab",
+                                  linkedinURL:
+                                      "https://www.linkedin.com/in/imransihab0/",
+                                  githubURL: "https://github.com/imransihab0",
+                                  portfolioURL:
+                                      "https://imransihab.wordpress.com",
+                                  telegramURL: "https://t.me/imransihab0",
+                                  imagePath: "assets/images/Shihab.jpeg"),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              const Text(
+                                "Developers",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Madimi",
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(
+                                height: h * .02,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const DeveloperInfo(
+                                      name: "Md. Muntasir Hossain",
+                                      linkedinURL:
+                                          "https://www.linkedin.com/in/muntasir27/",
+                                      githubURL:
+                                          "https://github.com/MdMuntasir",
+                                      portfolioURL:
+                                          "https://live-mdmuntasir.pantheonsite.io",
+                                      telegramURL: "https://t.me/muntasir27",
+                                      imagePath: "assets/images/muntasir.jpg"),
+                                  SizedBox(
+                                    width: w * .08,
+                                  ),
+                                  const DeveloperInfo(
+                                      name: "Imranul Islam Shihab",
+                                      linkedinURL:
+                                          "https://www.linkedin.com/in/imransihab0/",
+                                      githubURL:
+                                          "https://github.com/imransihab0",
+                                      portfolioURL:
+                                          "https://imransihab.wordpress.com",
+                                      telegramURL: "https://t.me/imransihab0",
+                                      imagePath: "assets/images/Shihab.jpeg"),
+                                ],
+                              ),
+                              SizedBox(
+                                height: h * .02,
+                              ),
+                            ],
                           ),
-                          textAlign: TextAlign.start,
-                        ),
-
-                        SizedBox(height: h*.02,),
-
-                        const DeveloperInfo(
-                            name: "Md. Muntasir Hossain",
-                            linkedinURL: "https://www.linkedin.com/in/muntasir27/",
-                            githubURL: "https://github.com/MdMuntasir",
-                            portfolioURL: "https://muntasir.infinityfreeapp.com/",
-                            telegramURL: "https://t.me/muntasir27",
-                            imagePath: "assets/images/Muntasir1.jpg"),
-
-                        SizedBox(height: h*.02,),
-
-                        const DeveloperInfo(
-                            name: "Imranul Islam Shihab",
-                            linkedinURL: "https://www.linkedin.com/in/imransihab0/",
-                            githubURL: "https://github.com/imransihab0",
-                            portfolioURL: "https://imransihab.wordpress.com",
-                            telegramURL: "https://t.me/imransihab0",
-                            imagePath: "assets/images/Shihab.jpeg"),
-                      ],
-                    )
-                    :
-                    Column(
-                      children: [
-
-                        const Text(
-                          "Developers",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Madimi",
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-
-                        SizedBox(height: h*.02,),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const DeveloperInfo(
-                                name: "Md. Muntasir Hossain",
-                                linkedinURL: "https://www.linkedin.com/in/muntasir27/",
-                                githubURL: "https://github.com/MdMuntasir",
-                                portfolioURL: "https://live-mdmuntasir.pantheonsite.io",
-                                telegramURL: "https://t.me/muntasir27",
-                                imagePath: "assets/images/muntasir.jpg"),
-
-                            SizedBox(width: w*.08,),
-
-                            const DeveloperInfo(
-                                name: "Imranul Islam Shihab",
-                                linkedinURL: "https://www.linkedin.com/in/imransihab0/",
-                                githubURL: "https://github.com/imransihab0",
-                                portfolioURL: "https://imransihab.wordpress.com",
-                                telegramURL: "https://t.me/imransihab0",
-                                imagePath: "assets/images/Shihab.jpeg"),
-                          ],
-                        ),
-                        SizedBox(height: h*.02,),
-
-                      ],
-                    )
-                    ,
                   ),
                 ),
               ),
 
+              SizedBox(
+                height: h * .02,
+              ),
 
-              SizedBox(height: h*.02,),
+              Divider(
+                thickness: 2,
+              ),
 
-              Divider(thickness: 2,),
-
-              SizedBox(height: h*.02,),
-
+              SizedBox(
+                height: h * .02,
+              ),
 
               // Container(
               //   width: w*.9,
@@ -278,14 +295,14 @@ class _NavBarState extends State<NavBar> {
               //
               // SizedBox(height: h*.02,),
 
-
               SizedBox(
-                width: horizontal ? w*.9: h*.9,
+                width: horizontal ? w * .9 : h * .9,
                 child: ElevatedButton(
                   onPressed: signOut,
                   style: ButtonStyle(
                       elevation: const WidgetStatePropertyAll(8),
-                      backgroundColor: WidgetStatePropertyAll(Colors.teal.shade50)),
+                      backgroundColor:
+                          WidgetStatePropertyAll(Colors.teal.shade50)),
                   child: const Text(
                     "Logout",
                     style: TextStyle(
@@ -298,8 +315,9 @@ class _NavBarState extends State<NavBar> {
                 ),
               ),
 
-
-              SizedBox(height: h*.05,),
+              SizedBox(
+                height: h * .05,
+              ),
             ],
           ),
         ),

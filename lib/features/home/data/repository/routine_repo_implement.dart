@@ -1,8 +1,6 @@
 import 'package:diu_student/features/home/data/data_sources/remote/call_routine_api.dart';
 import 'package:hive/hive.dart';
 
-
-
 // class RoutineRepoImpl implements SlotRepository{
 //   final RoutineApi _routineApi;
 //   RoutineRepoImpl(this._routineApi);
@@ -30,17 +28,15 @@ import 'package:hive/hive.dart';
 //   }
 // }
 
+Future<void> StoreRoutine(dept, info, isStudent) async {
+  final _routineBox = Hive.box(name: "routine_box");
 
-Future<void> StoreRoutine(dept,info, isStudent) async{
-  final _routineBox = Hive.box("routine_box");
-
-  if(isStudent) {
-    List _routine = await StudentRoutineAPI(batchSection: info, dept: dept).getRoutine();
+  if (isStudent) {
+    List _routine =
+        await StudentRoutineAPI(batchSection: info, dept: dept).getRoutine();
     _routineBox.put("Routine", _routine);
-  }
-  else{
-    List _routine = await TeacherRoutineAPI(ti: info,dept: dept).getRoutine();
+  } else {
+    List _routine = await TeacherRoutineAPI(ti: info, dept: dept).getRoutine();
     _routineBox.put("Routine", _routine);
   }
 }
-

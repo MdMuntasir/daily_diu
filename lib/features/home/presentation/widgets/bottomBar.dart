@@ -18,73 +18,76 @@ class BottomPanel extends StatefulWidget {
   final bool controller;
   final Radius left;
   final Radius right;
-  const BottomPanel({
-    super.key,
-    required this.controller,
-    required this.left,
-    required this.right,
-    required this.function,
-    this.color = const Color(0xFFB6EADA),
-    this.IconbgColor = const Color(0xFF58BCAD),
-    this.IconfgColor = const Color(0xFFB6EADA)});
+
+  const BottomPanel(
+      {super.key,
+      required this.controller,
+      required this.left,
+      required this.right,
+      required this.function,
+      this.color = const Color(0xFFB6EADA),
+      this.IconbgColor = const Color(0xFF58BCAD),
+      this.IconfgColor = const Color(0xFFB6EADA)});
 
   @override
   State<BottomPanel> createState() => _BottomPanelState();
 }
 
 class _BottomPanelState extends State<BottomPanel> {
-
-
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-
     CustomButton btn1 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.calendarDays,
-      function: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>MainRoutinePage()));
+      function: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => MainRoutinePage()));
       },
       label: "Routine",
     );
     CustomButton btn2 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
-      icon: FontAwesomeIcons.graduationCap,
-      function: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>PortalPage()));
+      icon: FontAwesomeIcons.chartLine,
+      function: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ResultPage()));
       },
-      label: "Portal",
+      label: "Result",
     );
     CustomButton btn3 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
-      icon: FontAwesomeIcons.chalkboardUser,
-      function: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>blcPage()));
+      icon: FontAwesomeIcons.graduationCap,
+      function: () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => PortalPage()));
       },
-      label: "BLC",
+      label: "Portal",
     );
     CustomButton btn4 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
-      icon: FontAwesomeIcons.bell,
-      function: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>noticeBoardPage()));
+      icon: FontAwesomeIcons.chalkboardUser,
+      function: () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => blcPage()));
       },
-      label: "Notice",
+      label: "BLC",
     );
     CustomButton btn5 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
-      icon: FontAwesomeIcons.chartLine,
-      function: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ResultPage()));
+      icon: FontAwesomeIcons.bell,
+      function: () {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => noticeBoardPage()));
       },
-      label: "Result",
+      label: "Notice",
     );
     CustomButton btn6 = CustomButton(
       bgColor: widget.IconbgColor,
@@ -105,50 +108,48 @@ class _BottomPanelState extends State<BottomPanel> {
       label: "Events",
     );
 
-    void _func(){
+    void _func() {
       widget.function();
-      setState(() {
-      });
+      setState(() {});
     }
-
 
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
-      height: h*.65,
+      height: h * .65,
       width: w,
       decoration: BoxDecoration(
-        boxShadow: [BoxShadow(blurRadius: 50,spreadRadius: -48)],
+        boxShadow: [BoxShadow(blurRadius: 50, spreadRadius: -48)],
         color: widget.color,
         borderRadius: BorderRadius.only(
           topLeft: widget.left,
           topRight: widget.right,
         ),
       ),
-
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: h*.03,),
-
+          SizedBox(
+            height: h * .03,
+          ),
           AnimatedBar(
               duration: Duration(milliseconds: 300),
               controller: widget.controller,
               color: Colors.white,
               func: _func),
-
-          SizedBox(height: h*.05,),
-          
           SizedBox(
-            height: h*.52,
+            height: h * .05,
+          ),
+          SizedBox(
+            height: h * .52,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: w*.1),
+              padding: EdgeInsets.symmetric(horizontal: w * .1),
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Wrap(
-                  spacing: w*.2,
-                  runSpacing: w*.15,
-                  children: [btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8],
+                  spacing: w * .2,
+                  runSpacing: w * .15,
+                  children: [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8],
                 ),
               ),
             ),

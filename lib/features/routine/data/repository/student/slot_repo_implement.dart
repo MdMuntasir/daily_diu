@@ -10,53 +10,46 @@ import 'package:http/http.dart' as http;
 
 import '../../../../../core/util/model/slot.dart';
 
-class StudentRoutineImpl implements SlotRepository{
+class StudentRoutineImpl implements SlotRepository {
   final RoutineApi _routineApi;
+
   StudentRoutineImpl(this._routineApi);
 
   @override
-  Future<DataState<List<SlotModel>>> getRoutine() async{
-    try{
-      final httpResponse = await _routineApi.getStudentRoutineJson(BatchSection);
+  Future<DataState<List<SlotModel>>> getRoutine() async {
+    try {
+      final httpResponse =
+          await _routineApi.getStudentRoutineJson(BatchSection);
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
+      } else {
+        return DataFailed("Something Went Wrong");
       }
-
-      else {
-        return DataFailed(DioException(
-            error: httpResponse.response.statusMessage,
-            response: httpResponse.response,
-            type: DioExceptionType.badResponse,
-            requestOptions: httpResponse.response.requestOptions));
-      }
-    }
-    on DioException catch(e){
-      return DataFailed(e);
+    } on DioException catch (e) {
+      return DataFailed(e.message.toString());
     }
   }
 }
 
+class getStudentRoutineRemotely {
+  String batchSection, dept;
 
-
-
-class getStudentRoutineRemotely{
-  String batchSection,dept;
   getStudentRoutineRemotely({required this.batchSection, required this.dept});
 
-  Future<List<SlotModel>> getRoutine() async{
-    final uri = Uri.parse(routine_api+"/$dept/student-routine?batchSection=$batchSection");
+  Future<List<SlotModel>> getRoutine() async {
+    final uri = Uri.parse(
+        routine_api + "/$dept/student-routine?batchSection=$batchSection");
     var response = await http.get(uri);
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       List<SlotModel> map = [];
       List<dynamic> json = jsonDecode(response.body);
       json.forEach((element) {
         map.add(SlotModel.fromJson(element));
       });
       return map;
-    }
-    else{
+    } else {
       return [];
     }
   }

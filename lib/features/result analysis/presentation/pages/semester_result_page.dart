@@ -1,10 +1,11 @@
-import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
 import 'package:diu_student/features/result%20analysis/presentation/widgets/single_course_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/entities/semesterResultEntity.dart';
+
 class SemesterResultPage extends StatefulWidget {
-  final List<SemesterResultModel> result;
+  final List<SemesterResultEntity> result;
 
   const SemesterResultPage({
     super.key,

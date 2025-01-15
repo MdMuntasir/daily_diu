@@ -11,46 +11,29 @@ import 'package:http/http.dart' as http;
 
 import '../../../../../core/resources/information_repository.dart';
 
-class EmptySlotRepoImpl extends EmptySlotRepository{
-
+class EmptySlotRepoImpl extends EmptySlotRepository {
   final RoutineApi _routineApi;
+
   EmptySlotRepoImpl(this._routineApi);
 
   @override
-  Future<DataState<List<EmptySlotModel>>> getEmptySlots() async{
-
+  Future<DataState<List<EmptySlotModel>>> getEmptySlots() async {
     try {
       final httpResponse = await _routineApi.getEmptySlots();
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
+      } else {
+        return DataFailed("Something Went Wrong");
       }
-
-      else {
-        return DataFailed(DioException(
-            error: httpResponse.response.statusMessage,
-            response: httpResponse.response,
-            type: DioExceptionType.badResponse,
-            requestOptions: httpResponse.response.requestOptions));
-      }
+    } on DioException catch (e) {
+      return DataFailed(e.message.toString());
     }
-
-    on DioException catch(e){
-      return DataFailed(e);
-    }
-
   }
-
 }
 
-
-
-
-
-
-
-class getEmptySlots{
-  final Box _box = Hive.box("routine_box");
+class getEmptySlots {
+  final Box _box = Hive.box(name: "routine_box");
 
   Future getEmptySlotsRemotely(String department) async {
     Uri uri = Uri.parse(routine_api + "/$department/empty-slot");
@@ -58,7 +41,7 @@ class getEmptySlots{
 
     List maps = [];
     List<EmptySlotModel> models = [];
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       List<dynamic> json = jsonDecode(response.body);
       json.forEach((element) {
         models.add(EmptySlotModel.fromJson(element));
@@ -70,18 +53,16 @@ class getEmptySlots{
     return models;
   }
 
-
-  getEmptySlotsLocally(String department){
+  getEmptySlotsLocally(String department) {
     List maps = _box.get("${department}EmptySlot");
     List<EmptySlotModel> jsonModel = [];
-    maps.forEach((slot){
+    maps.forEach((slot) {
       Map<String, dynamic> map = {};
-      slot.forEach((key, value){
+      slot.forEach((key, value) {
         map[key.toString()] = value;
       });
       jsonModel.add(EmptySlotModel.fromJson(map));
     });
     return jsonModel;
   }
-
 }
