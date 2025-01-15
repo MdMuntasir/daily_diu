@@ -8,37 +8,33 @@ import '../../../../../core/util/model/slot.dart';
 
 List<SlotModel> MainRoutine = [];
 
-
-Future<void> getRoutineLocally(dept,batchSec, isStudent) async{
-  Box _data = Hive.box("routine_box");
+Future<void> getRoutineLocally(dept, batchSec, isStudent) async {
+  Box _data = Hive.box(name: "routine_box");
   final _checkConnection = await Connectivity().checkConnectivity();
 
-  bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
-  if(isConnected) {
+  bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) ||
+      _checkConnection.contains(ConnectivityResult.wifi);
+  if (isConnected) {
     try {
       await StoreRoutine(dept, batchSec, isStudent);
-    }
-    on Exception{
+    } on Exception {
       log("Couldn't fetch routine");
     }
   }
   List _routine = _data.get("Routine");
   List<SlotModel> jsonModel = [];
 
-  _routine.forEach((slot){
+  _routine.forEach((slot) {
     Map<String, dynamic> map = {};
-    if(isConnected) {
+    if (isConnected) {
       map = slot;
       jsonModel.add(SlotModel.fromJson(slot));
-    }
-    else{
-      slot.forEach((key, value){
+    } else {
+      slot.forEach((key, value) {
         map[key.toString()] = value;
       });
       jsonModel.add(SlotModel.fromJson(map));
     }
   });
   MainRoutine = jsonModel;
-
-
 }

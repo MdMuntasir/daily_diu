@@ -1,13 +1,12 @@
+import 'package:diu_student/features/result%20analysis/domain/entities/semesterResultEntity.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/model/semesterResultModel.dart';
-
 class DisplayCgpa extends StatefulWidget {
   final bool showAvg;
   final double cgpa;
-  final List<List<SemesterResultModel>> results;
+  final List<List<SemesterResultEntity>> results;
 
   const DisplayCgpa(
       {super.key,

@@ -20,37 +20,36 @@ class MainRoutinePage extends StatefulWidget {
 class _MainRoutinePageState extends State<MainRoutinePage> {
   BooleanController studentController = BooleanController();
   BooleanController teacherController = BooleanController();
-  BooleanController emptyController   = BooleanController();
-  BooleanController manualController  = BooleanController();
+  BooleanController emptyController = BooleanController();
+  BooleanController manualController = BooleanController();
 
   TextEditingController optionController = TextEditingController();
   TextEditingController searchController = TextEditingController();
 
+  @override
+  void dispose() {
+    optionController.dispose();
+    searchController.dispose();
+
+    super.dispose();
+  }
+
   bool deptSelected = false;
 
-
-  List options = ["Student","Teacher","Empty Slot","Manual Search"];
-
-
-
-
-
-
+  List options = ["Student", "Teacher", "Empty Slot", "Manual Search"];
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-
-    Map<String,Widget> widgets = {
-      "Student" : RoutineSearchScreen(student: true, deptSelected: deptSelected),
-      "Teacher" : RoutineSearchScreen(student: false, deptSelected: deptSelected),
-      "Empty Slot" : EmptySlots(),
-      "Manual Search" : ManualRoutine()
+    Map<String, Widget> widgets = {
+      "Student": RoutineSearchScreen(student: true, deptSelected: deptSelected),
+      "Teacher":
+          RoutineSearchScreen(student: false, deptSelected: deptSelected),
+      "Empty Slot": EmptySlots(),
+      "Manual Search": ManualRoutine()
     };
-
-
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -60,59 +59,62 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
           centerTitle: true,
           title: Hero(
             tag: "Routine",
-            child: Flexible(
-              fit: FlexFit.loose,
-                child: Text("Routine", style: Theme.of(context).textTheme.displayMedium,)),
-          ),
-          actions: [Padding(
-            padding: EdgeInsets.symmetric(horizontal: w*.05),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
-                    },
-                    color: Colors.teal.shade900,
-                    icon: Icon(FontAwesomeIcons.barsStaggered)),
-              ],
+            child: Text(
+              "Routine",
+              style: Theme.of(context).textTheme.displayMedium,
             ),
-          )],
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: w * .05),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => NavBar()));
+                      },
+                      color: Colors.teal.shade900,
+                      icon: Icon(FontAwesomeIcons.barsStaggered)),
+                ],
+              ),
+            )
+          ],
         ),
-
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: h*.02,
+          spacing: h * .02,
           children: [
-            SizedBox(width: w,),
+            SizedBox(
+              width: w,
+            ),
 
             //Buttons on the upper section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ChooseDepartment(func: (){
-                  studentController.setValue(hasFunction);
-                  teacherController.setValue(hasFunction);
-                  emptyController.setValue(hasFunction);
-                  manualController.setValue(hasFunction);
-                  setState(() {
-                    deptSelected = true;
-                  });
-                },
+                ChooseDepartment(
+                  func: () {
+                    studentController.setValue(hasFunction);
+                    teacherController.setValue(hasFunction);
+                    emptyController.setValue(hasFunction);
+                    manualController.setValue(hasFunction);
+                    setState(() {
+                      deptSelected = true;
+                    });
+                  },
                 ),
-
-
                 OptionChooser(
-                  enable : deptSelected,
+                  enable: deptSelected,
                   list: options,
                   controller: optionController,
-                  onChoose: (){
-                    setState(() {
-                    });
-                  },)
+                  onChoose: () {
+                    setState(() {});
+                  },
+                )
               ],
             ),
-
 
             widgets[optionController.text] ?? widgets["Student"]!
           ],
