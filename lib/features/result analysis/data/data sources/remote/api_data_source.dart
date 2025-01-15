@@ -32,14 +32,10 @@ class RemoteSemestersImpl implements RemoteSemesters {
         }
         return DataSuccess(semesterModels);
       } else {
-        return DataFailed(DioException(
-            error: response.statusMessage,
-            requestOptions: response.requestOptions,
-            response: response,
-            type: DioExceptionType.badResponse));
+        return DataFailed(response.statusMessage.toString());
       }
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(e.message.toString());
     }
   }
 }
@@ -59,7 +55,6 @@ class RemoteResultImpl implements RemoteResult {
       final response = await dio.get(
           "$result_api?grecaptcha=&semesterId=$semesterId&studentId=$studentId");
 
-      print(response.data);
       if (response.statusCode == 200) {
         List<SemesterResultModel> semesterResult = [];
 
@@ -70,14 +65,10 @@ class RemoteResultImpl implements RemoteResult {
         }
         return DataSuccess(semesterResult);
       } else {
-        return DataFailed(DioException(
-            error: response.statusMessage,
-            requestOptions: response.requestOptions,
-            response: response,
-            type: DioExceptionType.badResponse));
+        return DataFailed(response.statusMessage.toString());
       }
     } on DioException catch (e) {
-      return DataFailed(e);
+      return DataFailed(e.message.toString());
     }
   }
 }

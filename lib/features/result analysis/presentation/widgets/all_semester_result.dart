@@ -3,13 +3,13 @@ import 'package:diu_student/features/result%20analysis/presentation/widgets/sems
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/model/semesterResultModel.dart';
+import '../../domain/entities/semesterResultEntity.dart';
 
 class AllSemesterResult extends StatelessWidget {
   final double height;
   final double width;
   final BuildContext mainContext;
-  final List<List<SemesterResultModel>> results;
+  final List<List<SemesterResultEntity>> results;
 
   const AllSemesterResult(
       {super.key,
@@ -22,7 +22,7 @@ class AllSemesterResult extends StatelessWidget {
   Widget build(BuildContext context) {
     List<SemesterResult> semesterResults() {
       List<SemesterResult> temp = [];
-      for (List<SemesterResultModel> semester in results) {
+      for (List<SemesterResultEntity> semester in results) {
         temp.add(SemesterResult(
           gpa: semester[0].cgpa.toDouble(),
           semester:

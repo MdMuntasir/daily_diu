@@ -1,9 +1,9 @@
-import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
+import 'package:diu_student/features/result%20analysis/domain/entities/semesterResultEntity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SingleCourseResult extends StatelessWidget {
-  final SemesterResultModel result;
+  final SemesterResultEntity result;
 
   const SingleCourseResult({super.key, required this.result});
 
