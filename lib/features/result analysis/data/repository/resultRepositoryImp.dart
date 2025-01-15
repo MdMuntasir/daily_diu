@@ -59,7 +59,6 @@ class ResultRepositoryImpl implements ResultRepo {
       resultLocalDataSource.uploadData(results: results);
 
       return DataSuccess(results);
-      // return DataFailed("Testing Failure Handle");
     } on DioException catch (e) {
       return DataFailed(e.message.toString());
     }
