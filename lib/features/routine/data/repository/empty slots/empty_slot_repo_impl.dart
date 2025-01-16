@@ -33,7 +33,7 @@ class EmptySlotRepoImpl extends EmptySlotRepository {
 }
 
 class getEmptySlots {
-  final Box _box = Hive.box(name: "routine_box");
+  final Box _box = Hive.box("routine_box");
 
   Future getEmptySlotsRemotely(String department) async {
     Uri uri = Uri.parse(routine_api + "/$department/empty-slot");

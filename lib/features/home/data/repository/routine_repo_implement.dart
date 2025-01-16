@@ -29,7 +29,7 @@ import 'package:hive/hive.dart';
 // }
 
 Future<void> StoreRoutine(dept, info, isStudent) async {
-  final _routineBox = Hive.box(name: "routine_box");
+  final _routineBox = Hive.box("routine_box");
 
   if (isStudent) {
     List _routine =

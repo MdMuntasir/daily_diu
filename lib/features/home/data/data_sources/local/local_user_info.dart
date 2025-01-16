@@ -9,7 +9,7 @@ import '../../../../../core/resources/information_repository.dart';
 
 Future<void> getUserInfo() async {
   Map<String, dynamic> _map = {};
-  Box _data = Hive.box(name: "routine_box");
+  Box _data = Hive.box("routine_box");
 
   final _checkConnection = await Connectivity().checkConnectivity();
   bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) ||

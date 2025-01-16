@@ -33,7 +33,7 @@ class TimeRepoImpl extends TimeRepository {
 }
 
 class getTimes {
-  final Box _box = Hive.box(name: "routine_box");
+  final Box _box = Hive.box("routine_box");
 
   Future getTimesRemotely(String department) async {
     Uri uri = Uri.parse(routine_api + "/$department/times");

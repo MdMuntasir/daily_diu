@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'core/remote info/get_main_kamla_info.dart';
@@ -40,7 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _initializeApp() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+    await Hive.initFlutter;
+    Box routineBox = await Hive.openBox("routine_box");
+    Box resultBox = await Hive.openBox("Result");
 
     User? pre_user = FirebaseAuth.instance.currentUser;
     bool hasUser = pre_user != null;
@@ -49,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (hasUser) {
       User user = FirebaseAuth.instance.currentUser!;
-      var _userInfo = Hive.box(name: "routine_box").get("UserInfo");
+      var _userInfo = Hive.box("routine_box").get("UserInfo");
 
       if (_userInfo == null || _userInfo["verified"] == false) {
         hasUser = false;
@@ -57,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     if (hasUser) {
-      Box _box = Hive.box(name: "routine_box");
+      Box _box = Hive.box("routine_box");
       Map _info = _box.get("UserInfo");
 
       await getApiLink(); // Updates API link from backend

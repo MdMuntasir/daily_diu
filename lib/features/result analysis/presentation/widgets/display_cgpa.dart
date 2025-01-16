@@ -103,7 +103,7 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
     );
 
     return SideTitleWidget(
-      axisSide: AxisSide.bottom,
+      meta: meta,
       child: Text(
         widget.results[value.toInt()][0].semesterId.toString(),
         style: style,

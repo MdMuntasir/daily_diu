@@ -31,7 +31,7 @@ class _NavBarState extends State<NavBar> {
           builder: (context) => CustomAlertBox(
               text: "Want to log out?",
               function: () {
-                Box _box = Hive.box(name: "routine_box");
+                Box _box = Hive.box("routine_box");
                 _box.clear();
                 FirebaseAuth.instance.signOut();
 
