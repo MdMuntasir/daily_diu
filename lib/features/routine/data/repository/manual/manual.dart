@@ -12,7 +12,7 @@ import '../empty slots/empty_slot_repo_impl.dart';
 import '../time_repository_implement.dart';
 
 class getAllSlots {
-  final Box _box = Hive.box(name: "routine_box");
+  final Box _box = Hive.box("routine_box");
 
   Future getAllSlotsRemotely(String department) async {
     Uri uri = Uri.parse(routine_api + "/${department.toLowerCase()}-routine");

@@ -9,7 +9,7 @@ import '../../../../../core/util/model/slot.dart';
 List<SlotModel> MainRoutine = [];
 
 Future<void> getRoutineLocally(dept, batchSec, isStudent) async {
-  Box _data = Hive.box(name: "routine_box");
+  Box _data = Hive.box("routine_box");
   final _checkConnection = await Connectivity().checkConnectivity();
 
   bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) ||

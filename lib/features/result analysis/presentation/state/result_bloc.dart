@@ -4,7 +4,6 @@ import 'package:diu_student/core/Network/connection_checker.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/result%20analysis/data/data%20sources/local/result_local_data_source.dart';
 import 'package:diu_student/features/result%20analysis/data/data%20sources/remote/api_data_source.dart';
-import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
 import 'package:diu_student/features/result%20analysis/data/repository/resultRepositoryImp.dart';
 import 'package:diu_student/features/result%20analysis/domain/usecase/result_usecase.dart';
 import 'package:diu_student/features/result%20analysis/presentation/state/result_event.dart';
@@ -34,7 +33,7 @@ class ResultBloc extends Bloc<ResultEvent, ResultState> {
             ConnectionCheckerImpl(
               InternetConnection(),
             ),
-            ResultLocalDataSourceImpl(Hive.box(name: "Results"))))
+            ResultLocalDataSourceImpl(Hive.box("Results"))))
         .call();
     if (dataState is DataSuccess) {
       if (dataState.data!.isNotEmpty) {
