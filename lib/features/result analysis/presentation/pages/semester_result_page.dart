@@ -19,11 +19,13 @@ class SemesterResultPage extends StatefulWidget {
 class _SemesterResultPageState extends State<SemesterResultPage> {
   @override
   Widget build(BuildContext context) {
+    final semester =
+        "${widget.result[0].semesterName} ${widget.result[0].semesterYear.toString()}";
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "${widget.result[0].semesterName} ${widget.result[0].semesterYear.toString()}",
+          semester,
           style: Theme.of(context).textTheme.displayMedium,
         ),
       ),

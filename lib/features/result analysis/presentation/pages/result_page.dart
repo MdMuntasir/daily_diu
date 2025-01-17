@@ -88,31 +88,33 @@ class _ResultPageState extends State<ResultPage> {
               final successState = state as ResultSuccessState;
               final results = successState.results.reversed.toList();
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: h * .03,
-                children: [
-                  DisplayCgpa(
-                    showAvg: cgpaShow,
-                    results: results,
-                    cgpa: successState.cgpa,
-                  ),
-                  CgpaBar(
-                    cgpa: successState.cgpa,
-                    avgShow: cgpaShow,
-                    func: () {
-                      setState(() {
-                        cgpaShow = !cgpaShow;
-                      });
-                    },
-                  ),
-                  AllSemesterResult(
-                    height: h * .35,
-                    width: w,
-                    results: successState.results,
-                    mainContext: context,
-                  )
-                ],
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: h * .03,
+                  children: [
+                    DisplayCgpa(
+                      showAvg: cgpaShow,
+                      results: results,
+                      cgpa: successState.cgpa,
+                    ),
+                    CgpaBar(
+                      cgpa: successState.cgpa,
+                      avgShow: cgpaShow,
+                      func: () {
+                        setState(() {
+                          cgpaShow = !cgpaShow;
+                        });
+                      },
+                    ),
+                    AllSemesterResult(
+                      height: h * .35,
+                      width: w,
+                      results: successState.results,
+                      mainContext: context,
+                    )
+                  ],
+                ),
               );
 
             case ResultFailureState:
@@ -128,6 +130,7 @@ class _ResultPageState extends State<ResultPage> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: h * .02,
                 children: [
                   Lottie.asset(
                     "assets/lottie/DataError.json",

@@ -19,12 +19,9 @@ class PortalPage extends StatefulWidget {
   State<PortalPage> createState() => _PortalPageState();
 }
 
-
-
-
-
-final String mainUrl = UserRole == "Teacher" ? "https://teacherportal.diu.edu.bd/": "http://studentportal.diu.edu.bd";
-
+final String mainUrl = UserRole == "Teacher"
+    ? "https://teacherportal.diu.edu.bd/"
+    : "http://studentportal.diu.edu.bd";
 
 WebViewController controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -69,34 +66,28 @@ Future<void> _launchPDF(String url) async {
   }
 }
 
-
-
-
-
-
 class _PortalPageState extends State<PortalPage> {
   bool pageLoaded = false;
   Timer? timer;
 
-
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 3), (_)async{
+    timer = Timer.periodic(Duration(seconds: 3), (_) async {
       await _connection();
     });
   }
 
   Future<void> _connection() async {
     final _checkConnection = await Connectivity().checkConnectivity();
-    Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+    Online = _checkConnection.contains(ConnectivityResult.mobile) ||
+        _checkConnection.contains(ConnectivityResult.wifi);
 
     setState(() {
-      if(!pageLoaded) controller.reload();
+      if (!pageLoaded) controller.reload();
     });
     pageLoaded = Online;
   }
-  
 
   @override
   void dispose() {
@@ -108,34 +99,33 @@ class _PortalPageState extends State<PortalPage> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    double crossButtonSize = h*.04;
-    Color barColor = Color(0xFF00868D); 
-    
+    Color barColor = Color(0xFF00868D);
+
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) async{
-        if(await controller.canGoBack()){
+      onPopInvokedWithResult: (didPop, result) async {
+        if (await controller.canGoBack()) {
           controller.goBack();
-        } else{
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>homePage()));
+        } else {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => homePage()));
         }
       },
-
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: barColor,
-          toolbarHeight: h*.05,
-          actions: [Padding(
-            padding: EdgeInsets.only(right: w*.07),
-            child: CrossButton(crossButtonSize: crossButtonSize, color: barColor,),
-          )],
-
-        ),
-          body: Online ?
-          WebViewWidget(controller: controller)
-              :
-          OfflineScreen(function: _connection)
-      ),
+          appBar: AppBar(
+            backgroundColor: barColor,
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: w * .07),
+                child: CrossButton(
+                  color: barColor,
+                ),
+              )
+            ],
+          ),
+          body: Online
+              ? WebViewWidget(controller: controller)
+              : OfflineScreen(function: _connection)),
     );
   }
 }

@@ -93,18 +93,39 @@ class _BottomPanelState extends State<BottomPanel> {
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.info,
+      function: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("This feature will be available soon ing sha Allah"),
+          ),
+        );
+      },
       label: "Info",
     );
     CustomButton btn7 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.leanpub,
+      function: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("This feature will be available soon ing sha Allah"),
+          ),
+        );
+      },
       label: "Notes",
     );
     CustomButton btn8 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.calendarCheck,
+      function: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("This feature will be available soon ing sha Allah"),
+          ),
+        );
+      },
       label: "Events",
     );
 

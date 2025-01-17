@@ -36,13 +36,16 @@ class AllSemesterResult extends StatelessWidget {
       return temp;
     }
 
-    return SizedBox(
-      height: height,
-      child: SingleChildScrollView(
-        child: Wrap(
-          spacing: width * .08,
-          runSpacing: width * .08,
-          children: semesterResults(),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: SizedBox(
+        height: height,
+        child: SingleChildScrollView(
+          child: Wrap(
+            spacing: width * .08,
+            runSpacing: width * .08,
+            children: semesterResults(),
+          ),
         ),
       ),
     );

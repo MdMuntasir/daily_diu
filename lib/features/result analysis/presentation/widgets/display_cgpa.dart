@@ -26,13 +26,12 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: w * .02),
       child: AspectRatio(
-        aspectRatio: 1.10,
+        aspectRatio: 1.2,
         child: Padding(
           padding: const EdgeInsets.only(
             right: 18,

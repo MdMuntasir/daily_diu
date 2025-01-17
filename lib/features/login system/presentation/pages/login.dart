@@ -13,7 +13,6 @@ import '../../../home/presentation/pages/homePage.dart';
 import '../widgets/textStyle.dart';
 import 'email_varification_page.dart';
 
-
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
 
@@ -65,11 +64,10 @@ class _loginScreenState extends State<loginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo here
-                
 
                 Image.asset(
-                    "assets/images/logo.png",
-                  height: h>w ? h*.15 : w*.15,
+                  "assets/images/logo.png",
+                  height: h > w ? h * .15 : w * .15,
                 ),
 
                 SizedBox(height: 20),
@@ -84,22 +82,22 @@ class _loginScreenState extends State<loginScreen> {
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(27, 95, 225, 0.3),
-                          blurRadius: 20,
-                          offset: Offset(0, 10),
-                        )
-                      ]
-                    ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(27, 95, 225, 0.3),
+                            blurRadius: 20,
+                            offset: Offset(0, 10),
+                          )
+                        ]),
                     child: Column(
                       children: [
                         Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            border: Border(bottom: BorderSide(color: Color(0xffeeeeee))),
+                            border: Border(
+                                bottom: BorderSide(color: Color(0xffeeeeee))),
                           ),
                           child: TextField(
                             controller: emailController,
@@ -113,7 +111,8 @@ class _loginScreenState extends State<loginScreen> {
                         Container(
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            border: Border(bottom: BorderSide(color: Color(0xffeeeeee))),
+                            border: Border(
+                                bottom: BorderSide(color: Color(0xffeeeeee))),
                           ),
                           child: TextField(
                             controller: passwordController,
@@ -143,12 +142,12 @@ class _loginScreenState extends State<loginScreen> {
                   ),
                 ),
                 // Login button
-                isLoading ?
-                    const CupertinoActivityIndicator()
+                isLoading
+                    ? const CupertinoActivityIndicator()
                     : ElevatedButton(
-                  onPressed: _login,
-                  child: Text('Login'),
-                ),
+                        onPressed: _login,
+                        child: Text('Login'),
+                      ),
                 SizedBox(height: 10),
 
                 // Create account button
@@ -169,175 +168,182 @@ class _loginScreenState extends State<loginScreen> {
     );
   }
 
-  Future<void> _login()
-    async {
-      String email = emailController.text.trim();
-      String pass = passwordController.text;
+  Future<void> _login() async {
+    String email = emailController.text.trim();
+    String pass = passwordController.text;
 
+    setState(() {
+      isLoading = true;
+    });
 
-      setState(() {
-        isLoading = true;
-      });
+    if (email.isNotEmpty && pass.isNotEmpty) {
+      UserCredential? user;
+      try {
+        user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: pass)
+            .then((val) async {
+          FirebaseFirestore _db = FirebaseFirestore.instance;
 
-      if(email.isNotEmpty && pass.isNotEmpty)
-        {
-          UserCredential? user;
-          try {
-            user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: pass).then((val) async {
+          final snapshot1 = await _db
+              .collection("student")
+              .where("email", isEqualTo: email)
+              .get();
+          final snapshot2 = await _db
+              .collection("teacher")
+              .where("email", isEqualTo: email)
+              .get();
 
-              FirebaseFirestore _db = FirebaseFirestore.instance;
+          bool verified = FirebaseAuth.instance.currentUser!.emailVerified;
 
-              final snapshot1 = await _db.collection("student").where("email", isEqualTo: email).get();
-              final snapshot2 = await _db.collection("teacher").where("email", isEqualTo: email).get();
+          //Executes if the user is student
+          if (snapshot1.docs.isNotEmpty) {
+            StudentInfoModel userData = snapshot1.docs
+                .map((e) => StudentInfoModel.fromSnapshot(e))
+                .single;
 
-              bool verified = FirebaseAuth.instance.currentUser!.emailVerified;
+            //Checks if the user verified
+            if (verified) {
+              if (!userData.verified!) {
+                await FirebaseFirestore.instance
+                    .collection("student")
+                    .doc(userData.docID)
+                    .update({'verified': true});
+              }
+              await getRoutineLocally(userData.department,
+                  "${userData.batch}${userData.section}", true);
+              StoreUserInfo(userData, true);
+              await getUserInfo();
 
-              //Executes if the user is student
-              if(snapshot1.docs.isNotEmpty){
-                StudentInfoModel userData = snapshot1.docs.map((e) => StudentInfoModel.fromSnapshot(e)).single;
+              UserRole = "Student";
 
-                //Checks if the user verified
-                if(verified) {
-                  if(!userData.verified!){
-                    await FirebaseFirestore.instance.collection("student").doc(userData.docID).update({
-                      'verified' : true
-                    });
-                  }
-                    await getRoutineLocally(userData.department,
-                        "${userData.batch}${userData.section}", true);
-                    StoreUserInfo(userData, true);
-                    await getUserInfo();
-
-                    UserRole = "Student";
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const homePage()),
-                    );
-                }
-
-                //Redirect to verification page
-                else {
-                    await FirebaseAuth.instance.currentUser
-                        ?.sendEmailVerification()
-                        .then(
-                      (value) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EmailVerifyScreen(
-                                      isStudent: true,
-                                      docId: userData.docID!,
-                                    )));
-                      },
-                    );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const homePage()),
+              );
             }
-          }
 
-
-              //Executes if the user is teacher
-              else{
-                TeacherInfoModel userData = snapshot2.docs.map((e) => TeacherInfoModel.fromSnapshot(e)).single;
-
-                //Checks if the user verified
-                if(verified) {
-                  if(!userData.verified!){
-                    await FirebaseFirestore.instance.collection("teacher").doc(userData.docID).update({
-                      'verified' : true
-                    });
-                  }
-                  await getRoutineLocally(userData.department, userData.ti, false);
-                  StoreUserInfo(userData, false);
-                  await getUserInfo();
-
-                  UserRole = "Teacher";
-
+            //Redirect to verification page
+            else {
+              await FirebaseAuth.instance.currentUser
+                  ?.sendEmailVerification()
+                  .then(
+                (value) {
                   Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const homePage()),
-                  );
-                }
-
-                //Redirect to verification page
-                else{
-                  await FirebaseAuth.instance.currentUser
-                      ?.sendEmailVerification()
-                      .then(
-                        (value) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EmailVerifyScreen(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmailVerifyScreen(
                                 isStudent: true,
                                 docId: userData.docID!,
                               )));
-                    },
-                  );
-                }
+                },
+              );
+            }
           }
 
+          //Executes if the user is teacher
+          else {
+            TeacherInfoModel userData = snapshot2.docs
+                .map((e) => TeacherInfoModel.fromSnapshot(e))
+                .single;
 
-              return null;
-            });
+            //Checks if the user verified
+            if (verified) {
+              if (!userData.verified!) {
+                await FirebaseFirestore.instance
+                    .collection("teacher")
+                    .doc(userData.docID)
+                    .update({'verified': true});
+              }
+              await getRoutineLocally(userData.department, userData.ti, false);
+              StoreUserInfo(userData, false);
+              await getUserInfo();
+
+              UserRole = "Teacher";
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const homePage()),
+              );
+            }
+
+            //Redirect to verification page
+            else {
+              await FirebaseAuth.instance.currentUser
+                  ?.sendEmailVerification()
+                  .then(
+                (value) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmailVerifyScreen(
+                                isStudent: true,
+                                docId: userData.docID!,
+                              )));
+                },
+              );
+            }
           }
 
-          on FirebaseAuthException catch(e){
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(e.code.toString())));
-          }
-
-        }
-
-      //Executes if any information has not been entered
-      else
-        {
-          showDialog(context: context, builder: (context) => const ShowAlertMessage(
-            hasSucceed: false,
-            text: "Fill all the information to continue",
-          ),);
-        }
-      setState(() {
-        isLoading = false;
-      });
+          return null;
+        });
+      } on FirebaseAuthException catch (e) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.code.toString())));
+      }
     }
 
-  void _CreateAccount() {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignupPage()),
+    //Executes if any information has not been entered
+    else {
+      showDialog(
+        context: context,
+        builder: (context) => const ShowAlertMessage(
+          hasSucceed: false,
+          text: "Fill all the information to continue",
+        ),
       );
     }
-
-
-  void _forgotPass(){
-    String email = emailController.text.trim();
-
-    if(email != "" && email.endsWith("@diu.edu.bd")){
-      try {
-
-        FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value) {
-
-              showDialog(context: context, builder: (context) => const ShowAlertMessage(
-                hasSucceed: true,
-                text: "Password reset email has been sent to your mail address",
-              ),);
-            },
-        );
-
-
-      }
-      on FirebaseException catch(e){
-        showDialog(context: context, builder: (context) => ShowAlertMessage(
-          text: e.code.toString(),
-        ));
-      }
-    }
-    else{
-      showDialog(context: context, builder: (context) => const ShowAlertMessage(
-        text: "Enter a valid email address",
-      ),);
-    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
+  void _CreateAccount() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => SignupPage()),
+    );
+  }
 
+  void _forgotPass() {
+    String email = emailController.text.trim();
+
+    if (email != "" && email.endsWith("@diu.edu.bd")) {
+      try {
+        FirebaseAuth.instance.sendPasswordResetEmail(email: email).then(
+          (value) {
+            showDialog(
+              context: context,
+              builder: (context) => const ShowAlertMessage(
+                hasSucceed: true,
+                text: "Password reset email has been sent to your mail address",
+              ),
+            );
+          },
+        );
+      } on FirebaseException catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) => ShowAlertMessage(
+                  text: e.code.toString(),
+                ));
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => const ShowAlertMessage(
+          text: "Enter a valid email address",
+        ),
+      );
+    }
+  }
 } // end line
