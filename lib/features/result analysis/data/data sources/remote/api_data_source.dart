@@ -59,9 +59,10 @@ class RemoteResultImpl implements RemoteResult {
         List<SemesterResultModel> semesterResult = [];
 
         final result = response.data;
-
-        for (Map<String, dynamic> courseResult in result) {
-          semesterResult.add(SemesterResultModel.fromJson(courseResult));
+        if (result.runtimeType == List<dynamic>) {
+          for (Map<String, dynamic> courseResult in result) {
+            semesterResult.add(SemesterResultModel.fromJson(courseResult));
+          }
         }
         return DataSuccess(semesterResult);
       } else {

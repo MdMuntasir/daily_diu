@@ -19,9 +19,7 @@ class blcPage extends StatefulWidget {
   State<blcPage> createState() => _blcPageState();
 }
 
-
 const String mainUrl = 'https://elearn.daffodilvarsity.edu.bd/';
-
 
 WebViewController controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -62,10 +60,6 @@ Future<void> _launchPDF(String url) async {
   }
 }
 
-
-
-
-
 class _blcPageState extends State<blcPage> {
   bool pageLoaded = false;
   Timer? timer;
@@ -73,17 +67,18 @@ class _blcPageState extends State<blcPage> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 3), (_)async{
+    timer = Timer.periodic(Duration(seconds: 3), (_) async {
       await _connection();
     });
   }
 
   Future<void> _connection() async {
     final _checkConnection = await Connectivity().checkConnectivity();
-    Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+    Online = _checkConnection.contains(ConnectivityResult.mobile) ||
+        _checkConnection.contains(ConnectivityResult.wifi);
 
     setState(() {
-      if(!pageLoaded) controller.reload();
+      if (!pageLoaded) controller.reload();
     });
     pageLoaded = Online;
   }
@@ -98,34 +93,33 @@ class _blcPageState extends State<blcPage> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    double crossButtonSize = h*.04;
     Color barColor = Color(0xFF62A8EA);
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) async{
-        if(await controller.canGoBack()){
+      onPopInvokedWithResult: (didPop, result) async {
+        if (await controller.canGoBack()) {
           controller.goBack();
-        } else{
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>homePage()));
+        } else {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => homePage()));
         }
       },
-
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: barColor,
-            toolbarHeight: h*.05,
-            actions: [Padding(
-              padding: EdgeInsets.only(right: w*.07),
-              child: CrossButton(crossButtonSize: crossButtonSize, color: barColor,),
-            )],
-
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: w * .07),
+                child: CrossButton(
+                  color: barColor,
+                ),
+              )
+            ],
           ),
-        body: Online ?
-        WebViewWidget(controller: controller)
-            :
-        OfflineScreen(function: _connection)
-      ),
+          body: Online
+              ? WebViewWidget(controller: controller)
+              : OfflineScreen(function: _connection)),
     );
   }
 }

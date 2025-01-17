@@ -5,14 +5,12 @@ import 'package:diu_student/features/web%20services/widgets/offline_screen.dart'
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/resources/information_repository.dart';
 import '../../home/presentation/pages/homePage.dart';
 import '../widgets/cross_button.dart';
-
 
 class noticeBoardPage extends StatefulWidget {
   const noticeBoardPage({Key? key}) : super(key: key);
@@ -21,10 +19,7 @@ class noticeBoardPage extends StatefulWidget {
   State<noticeBoardPage> createState() => _noticeBoardPageState();
 }
 
-
 const String mainUrl = 'https://daffodilvarsity.edu.bd/public/noticeboard';
-
-
 
 WebViewController controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -38,11 +33,10 @@ WebViewController controller = WebViewController()
       onPageFinished: (String url) {},
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
-        if(request.url == "https://daffodilvarsity.edu.bd/public/" ||
-            request.url == "http://admission.daffodilvarsity.edu.bd/"){
+        if (request.url == "https://daffodilvarsity.edu.bd/public/" ||
+            request.url == "http://admission.daffodilvarsity.edu.bd/") {
           return NavigationDecision.prevent;
-        }
-        else if (request.url.toLowerCase().endsWith('.pdf')) {
+        } else if (request.url.toLowerCase().endsWith('.pdf')) {
           log('PDF link encountered: ${request.url}');
           _launchPDF(request.url);
           return NavigationDecision.prevent;
@@ -69,8 +63,6 @@ Future<void> _launchPDF(String url) async {
   }
 }
 
-
-
 class _noticeBoardPageState extends State<noticeBoardPage> {
   bool pageLoaded = false;
   Timer? timer;
@@ -78,22 +70,21 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 3), (_)async{
+    timer = Timer.periodic(Duration(seconds: 3), (_) async {
       await _connection();
     });
   }
 
-
   Future<void> _connection() async {
     final _checkConnection = await Connectivity().checkConnectivity();
-    Online = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+    Online = _checkConnection.contains(ConnectivityResult.mobile) ||
+        _checkConnection.contains(ConnectivityResult.wifi);
 
     setState(() {
-      if(!pageLoaded) controller.reload();
+      if (!pageLoaded) controller.reload();
     });
     pageLoaded = Online;
   }
-
 
   @override
   void dispose() {
@@ -107,35 +98,34 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    double crossButtonSize = h*.04;
     Color barColor = Color(0xFF5F683A);
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) async{
-        if(await controller.canGoBack()){
+      onPopInvokedWithResult: (didPop, result) async {
+        if (await controller.canGoBack()) {
           controller.goBack();
-        } else{
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>homePage()));
+        } else {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => homePage()));
         }
       },
-
       child: Scaffold(
-        // extendBodyBehindAppBar: true,
+          // extendBodyBehindAppBar: true,
           appBar: AppBar(
             backgroundColor: barColor,
-            toolbarHeight: h*.05,
-            actions: [Padding(
-              padding: EdgeInsets.only(right: w*.07),
-              child: CrossButton(crossButtonSize: crossButtonSize, color: barColor,),
-            )],
-
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: w * .07),
+                child: CrossButton(
+                  color: barColor,
+                ),
+              )
+            ],
           ),
-          body: Online ?
-          WebViewWidget(controller: controller)
-              :
-          OfflineScreen(function: _connection)
-      ),
+          body: Online
+              ? WebViewWidget(controller: controller)
+              : OfflineScreen(function: _connection)),
     );
   }
 }

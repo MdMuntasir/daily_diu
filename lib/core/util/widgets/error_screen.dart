@@ -28,8 +28,8 @@ class ErrorScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: h * .02,
       children: [
-        Lottie.asset(
-          "assets/lottie/Error.json",
+        Image.asset(
+          "assets/images/Error.png",
           width: w * .7,
           height: w * .7,
           fit: BoxFit.contain,
@@ -54,6 +54,17 @@ class ErrorScreen extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+class TestPage extends StatelessWidget {
+  const TestPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ErrorScreen(onPressed: () {}),
     );
   }
 }

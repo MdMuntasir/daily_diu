@@ -42,40 +42,41 @@ class _CgpaBarState extends State<CgpaBar> {
 
   Widget bar(double w, double h) {
     return Stack(
+      alignment: Alignment.center,
       children: [
-        Container(
-          height: h,
-          width: w,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(w * .5),
-            color: Colors.grey.shade400,
-            boxShadow: const [
-              BoxShadow(
-                blurRadius: 20,
-                spreadRadius: -15,
-                color: Colors.teal,
-              )
-            ],
-          ),
-        ),
-        Container(
-          height: h,
-          width: w * (widget.cgpa / 4),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(w * .5),
-            color: Colors.cyan,
-          ),
-        ),
-        Positioned(
-          left: w * .34,
-          top: h * .2,
-          child: Text(
-            "CGPA:  ${widget.cgpa}",
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
+        Stack(
+          children: [
+            Container(
+              height: h,
+              width: w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(w * .5),
+                color: Colors.grey.shade400,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 20,
+                    spreadRadius: -15,
+                    color: Colors.teal,
+                  )
+                ],
+              ),
             ),
+            Container(
+              height: h,
+              width: w * (widget.cgpa / 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(w * .5),
+                color: Colors.cyan,
+              ),
+            ),
+          ],
+        ),
+        Text(
+          "CGPA:  ${widget.cgpa}",
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
           ),
         )
       ],

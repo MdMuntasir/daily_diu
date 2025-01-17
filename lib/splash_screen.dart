@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:diu_student/core/util/widgets/error_screen.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/features/login%20system/presentation/widgets/textStyle.dart';
+import 'package:diu_student/features/result%20analysis/presentation/pages/result_page.dart';
+import 'package:diu_student/features/web%20services/pages/noticeBoard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:path_provider/path_provider.dart';
 import 'core/remote info/get_main_kamla_info.dart';
 import 'core/resources/information_repository.dart';
 import 'features/home/data/data_sources/local/local_routine.dart';
@@ -41,9 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _initializeApp() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    await Hive.initFlutter;
+    await Hive.initFlutter();
     Box routineBox = await Hive.openBox("routine_box");
-    Box resultBox = await Hive.openBox("Result");
+    Box resultBox = await Hive.openBox("Results");
 
     User? pre_user = FirebaseAuth.instance.currentUser;
     bool hasUser = pre_user != null;

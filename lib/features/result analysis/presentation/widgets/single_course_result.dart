@@ -12,7 +12,7 @@ class SingleCourseResult extends StatelessWidget {
     double h = MediaQuery.sizeOf(context).height;
     double w = MediaQuery.sizeOf(context).width;
 
-    double maxHeight = h * .16, barWidth = w * .05;
+    double maxHeight = 155, barWidth = w * .05;
 
     final double fillHeight =
         maxHeight * (0.15 + .7 * ((result.pointEquivalent - 2) / 2));
@@ -31,13 +31,13 @@ class SingleCourseResult extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: w * .07),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: w * .05, vertical: h * .01),
-        height: h * .15,
+        margin: EdgeInsets.symmetric(horizontal: w * .05, vertical: 9),
+        height: 150,
         decoration: BoxDecoration(
             color: Colors.teal.shade600,
             borderRadius: BorderRadius.circular(15)),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: w * .05, vertical: h * .01),
+          padding: EdgeInsets.symmetric(horizontal: w * .05, vertical: 9),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

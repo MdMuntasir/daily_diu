@@ -1,27 +1,16 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
-import 'package:diu_student/features/home/data/models/user_info.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/email_varification_page.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
-import 'package:diu_student/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../../home/data/data_sources/local/local_routine.dart';
-import '../../../home/data/data_sources/local/local_user_info.dart';
-import '../../../home/data/repository/user_info_store.dart';
-import '../../../home/presentation/pages/homePage.dart';
-import '../../firebase_auth/firebase_auth_services.dart';
 import '../widgets/multi_chooser.dart';
 import '../widgets/signup_student.dart';
 import '../widgets/signup_teacher.dart';
 import '../widgets/single_chooser.dart';
 import '../widgets/textStyle.dart';
 import '../widgets/toogler.dart';
-
 
 class SignupPage extends StatefulWidget {
   @override
@@ -44,13 +33,13 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController batchController = TextEditingController();
   final TextEditingController sectionController = TextEditingController();
   final TextEditingController studentIdController = TextEditingController();
-  final TextEditingController teacherInitialController = TextEditingController();
+  final TextEditingController teacherInitialController =
+      TextEditingController();
   final TextEditingController departmentController = TextEditingController();
   final TextEditingController facultyController = TextEditingController();
 
   @override
-  void dispose()
-  {
+  void dispose() {
     emailController.dispose();
     passwordController.dispose();
     nameController.dispose();
@@ -64,27 +53,21 @@ class _SignupPageState extends State<SignupPage> {
     super.dispose();
   }
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-    formHeight = isToggled ?  h* .08 * 5.5 : h* .08 * 7.5;
+    formHeight = isToggled ? h * .08 * 5.5 : h * .08 * 7.5;
     changePose = isToggled ? w : 0;
 
-    void _toogle(){
+    void _toogle() {
       setState(() {
         isToggled = !isToggled;
       });
     }
 
-
-    void createAccount() async{
+    void createAccount() async {
       String name = nameController.text.trim();
       String batch = batchController.text;
       String section = sectionController.text.toUpperCase();
@@ -96,74 +79,78 @@ class _SignupPageState extends State<SignupPage> {
       String password = passwordController.text;
       String confirmPass = confirmPassController.text;
 
-
       setState(() {
         isLoading = true;
       });
 
-      if(!isToggled){
-        if(
-            name.isEmpty || batch.isEmpty || section.isEmpty ||
-                studentId.isEmpty || faculty.isEmpty || dept.isEmpty ||
-                email.isEmpty || password.isEmpty || confirmPass.isEmpty){
+      if (!isToggled) {
+        if (name.isEmpty ||
+            batch.isEmpty ||
+            section.isEmpty ||
+            studentId.isEmpty ||
+            faculty.isEmpty ||
+            dept.isEmpty ||
+            email.isEmpty ||
+            password.isEmpty ||
+            confirmPass.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
-              snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Fill all the information to continue"))
-          );
-          
-        }
-
-        else{
-          if(confirmPass == password){
-            if(email.endsWith("@diu.edu.bd")){
-             password.length >= 8 ? await _studentSignup() :
-             ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Enter a strong password")));
-            }
-            else{
+              snackBarAnimationStyle:
+                  AnimationStyle(duration: Duration(seconds: 2)),
+              SnackBar(content: Text("Fill all the information to continue")));
+        } else {
+          if (confirmPass == password) {
+            if (email.endsWith("@diu.edu.bd")) {
+              password.length >= 8
+                  ? await _studentSignup()
+                  : ScaffoldMessenger.of(context).showSnackBar(
+                      snackBarAnimationStyle:
+                          AnimationStyle(duration: Duration(seconds: 2)),
+                      SnackBar(content: Text("Enter a strong password")));
+            } else {
               ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Enter a valid DIU mail")));
+                  snackBarAnimationStyle:
+                      AnimationStyle(duration: Duration(seconds: 2)),
+                  SnackBar(content: Text("Enter a valid DIU mail")));
             }
-
-          }
-          else{
+          } else {
             ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Password didn't match")));
+                snackBarAnimationStyle:
+                    AnimationStyle(duration: Duration(seconds: 2)),
+                SnackBar(content: Text("Password didn't match")));
           }
         }
-      }
-
-      else{
-        if(
-        name.isEmpty || teacherInitial.isEmpty || faculty.isEmpty || dept.isEmpty ||
-            email.isEmpty || password.isEmpty || confirmPass.isEmpty){
+      } else {
+        if (name.isEmpty ||
+            teacherInitial.isEmpty ||
+            faculty.isEmpty ||
+            dept.isEmpty ||
+            email.isEmpty ||
+            password.isEmpty ||
+            confirmPass.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Fill all the information to continue")));
-        }
-
-        else{
-          if(confirmPass == password){
-            if(email.endsWith("@diu.edu.bd")){
-              password.length >= 8 ? await _teacherSignup() :
+              snackBarAnimationStyle:
+                  AnimationStyle(duration: Duration(seconds: 2)),
+              SnackBar(content: Text("Fill all the information to continue")));
+        } else {
+          if (confirmPass == password) {
+            if (email.endsWith("@diu.edu.bd")) {
+              password.length >= 8
+                  ? await _teacherSignup()
+                  : ScaffoldMessenger.of(context).showSnackBar(
+                      snackBarAnimationStyle:
+                          AnimationStyle(duration: Duration(seconds: 2)),
+                      SnackBar(content: Text("Enter a strong password")));
+            } else {
               ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Enter a strong password")));
-
+                  snackBarAnimationStyle:
+                      AnimationStyle(duration: Duration(seconds: 2)),
+                  SnackBar(content: Text("Enter a valid DIU mail")));
             }
-            else{
-              ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Enter a valid DIU mail")));
-            }
-          }
-          else{
+          } else {
             ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text("Password didn't match")));
+                snackBarAnimationStyle:
+                    AnimationStyle(duration: Duration(seconds: 2)),
+                SnackBar(content: Text("Password didn't match")));
           }
         }
       }
@@ -172,9 +159,6 @@ class _SignupPageState extends State<SignupPage> {
         isLoading = false;
       });
     }
-
-
-
 
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
@@ -186,25 +170,26 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: h*.03),
+                SizedBox(height: h * .03),
                 // Logo
                 Container(
                   height: 100,
                   child: Image.asset('assets/images/logo.png'),
                   // child: const FlutterLogo(size: 100),
                 ),
-                SizedBox(height: h*.01),
+                SizedBox(height: h * .01),
                 // Welcome text
                 Text(
                   'Welcome',
                   style: TextTittleStyle,
                 ),
-                SizedBox(height: h*.02),
-                Toogler(toggled: isToggled,func: _toogle,),
+                SizedBox(height: h * .02),
+                Toogler(
+                  toggled: isToggled,
+                  func: _toogle,
+                ),
 
-
-
-                SizedBox(height: h*.015),
+                SizedBox(height: h * .015),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -212,69 +197,75 @@ class _SignupPageState extends State<SignupPage> {
                       map: Faculty_Info,
                       controller: facultyController,
                       title: "Faculty",
-                      func: () {setState(() {});},),
-                    SizedBox(width: w*.1,),
-                    isToggled?
-                    MultiChooser(
-                      map: facultyController.text == "" ? {} : Faculty_Info[facultyController.text],
-                      controller: departmentController,
-                      title: "Department",
-                    ):
-                    SingleChooser(
-                      map: facultyController.text == "" ? {} : Faculty_Info[facultyController.text],
-                      controller: departmentController,
-                      title: "Department",
-                      func: () {},),
+                      func: () {
+                        setState(() {});
+                      },
+                    ),
+                    SizedBox(
+                      width: w * .1,
+                    ),
+                    isToggled
+                        ? MultiChooser(
+                            map: facultyController.text == ""
+                                ? {}
+                                : Faculty_Info[facultyController.text],
+                            controller: departmentController,
+                            title: "Department",
+                          )
+                        : SingleChooser(
+                            map: facultyController.text == ""
+                                ? {}
+                                : Faculty_Info[facultyController.text],
+                            controller: departmentController,
+                            title: "Department",
+                            func: () {},
+                          ),
                   ],
                 ),
 
-
-
-                SizedBox(height: h*.015),
+                SizedBox(height: h * .015),
                 AnimatedContainer(
                     duration: duration,
-                  height: formHeight,
-                  width: w,
-                  child: Stack(
-                    children: [
-                      AnimatedPositioned(
-                          duration: duration,
-                          left: w*position -changePose,
-                          child: signupStudent(
+                    height: formHeight,
+                    width: w,
+                    child: Stack(
+                      children: [
+                        AnimatedPositioned(
+                            duration: duration,
+                            left: w * position - changePose,
+                            child: signupStudent(
+                                emailController: emailController,
+                                passwordController: passwordController,
+                                confirmPassController: confirmPassController,
+                                nameController: nameController,
+                                batchController: batchController,
+                                sectionController: sectionController,
+                                studentIdController: studentIdController)),
+                        AnimatedPositioned(
+                            duration: duration,
+                            left: -changePose + w * position + w,
+                            child: signupTeacher(
                               emailController: emailController,
                               passwordController: passwordController,
                               confirmPassController: confirmPassController,
                               nameController: nameController,
-                              batchController: batchController,
-                              sectionController: sectionController,
-                              studentIdController: studentIdController)
-                      ),
-                      AnimatedPositioned(
-                          duration: duration,
-                          left: -changePose + w*position + w,
-                          child: signupTeacher(
-                              emailController: emailController,
-                              passwordController: passwordController,
-                              confirmPassController: confirmPassController,
-                              nameController: nameController,
-                              teacherInitialController: teacherInitialController,)
-                      )
+                              teacherInitialController:
+                                  teacherInitialController,
+                            ))
                       ],
-                  )
+                    )),
 
-                ),
-
-                SizedBox(height: h*.001),
-                isLoading ?
-                const CupertinoActivityIndicator()
+                SizedBox(height: h * .001),
+                isLoading
+                    ? const CupertinoActivityIndicator()
                     : ElevatedButton(
-                  onPressed: createAccount,
-                  child: Text('Create Account'),
-                ),
-                SizedBox(height: h*.01),
+                        onPressed: createAccount,
+                        child: Text('Create Account'),
+                      ),
+                SizedBox(height: h * .01),
 
                 TextButton(
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => loginScreen()),
@@ -307,52 +298,58 @@ class _SignupPageState extends State<SignupPage> {
 
     UserCredential? user;
     try {
-      user = await _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) async {
-        CollectionReference collRef = FirebaseFirestore.instance.collection('student');
-        Map<String,dynamic> userData = {
-          'user' : "Student",
+      user = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        CollectionReference collRef =
+            FirebaseFirestore.instance.collection('student');
+        Map<String, dynamic> userData = {
+          'user': "Student",
           'name': name,
           'batch': batch,
           'section': section,
           'studentID': studentId,
-          'faculty' : faculty,
-          'department' : dept,
+          'faculty': faculty,
+          'department': dept,
           'email': email,
-          'password' : password,
-          'verified' : false
+          'password': password,
+          'verified': false
         };
-        collRef.add(userData).then((doc) async {
-          await _auth.currentUser?.sendEmailVerification().then((value) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => EmailVerifyScreen(isStudent: true, docId: doc.id,)));
-          },);
-        },);
+        collRef.add(userData).then(
+          (doc) async {
+            await _auth.currentUser?.sendEmailVerification().then(
+              (value) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EmailVerifyScreen(
+                              isStudent: true,
+                              docId: doc.id,
+                            )));
+              },
+            );
+          },
+        );
 
         // await getRoutineLocally("${userData["batch"]}${userData["section"]}", true);
         // StoreUserInfo(StudentInfoModel.fromJson(userData), true);
         // getUserInfo();
 
-
         // ScaffoldMessenger.of(context).showSnackBar(
         //     snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
         //     SnackBar(content: Text("Successfully Signed Up")));
 
-
         return null;
       });
-    }
-    on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text(e.code.toString())));
+          snackBarAnimationStyle:
+              AnimationStyle(duration: Duration(seconds: 2)),
+          SnackBar(content: Text(e.code.toString())));
     }
-
   }
 
-
-
   Future<void> _teacherSignup() async {
-
     String name = nameController.text.trim();
     String teacherInitial = teacherInitialController.text.trim().toUpperCase();
     String faculty = facultyController.text;
@@ -360,52 +357,56 @@ class _SignupPageState extends State<SignupPage> {
     String email = emailController.text.trim().toLowerCase();
     String password = passwordController.text;
 
-    
     UserCredential? user;
     try {
-      
-      user = await _auth.createUserWithEmailAndPassword( email: email, password: password).then((doc) async {
-        CollectionReference collRef = FirebaseFirestore.instance.collection('teacher');
-        Map<String,dynamic> userData = {
-          
-          'user' : "Teacher",
-          'name': name,
-          'ti': teacherInitial,
-          'faculty' : faculty,
-          'department' : dept,
-          'email': email,
-          'password' : password,
-          'verified' : false
-        };
-        collRef.add(userData).then((doc) async {
-          await _auth.currentUser?.sendEmailVerification().then((value) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => EmailVerifyScreen(isStudent: false, docId: doc.id,)));
-          },);
-        },);
+      user = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then(
+        (doc) async {
+          CollectionReference collRef =
+              FirebaseFirestore.instance.collection('teacher');
+          Map<String, dynamic> userData = {
+            'user': "Teacher",
+            'name': name,
+            'ti': teacherInitial,
+            'faculty': faculty,
+            'department': dept,
+            'email': email,
+            'password': password,
+            'verified': false
+          };
+          collRef.add(userData).then(
+            (doc) async {
+              await _auth.currentUser?.sendEmailVerification().then(
+                (value) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmailVerifyScreen(
+                                isStudent: false,
+                                docId: doc.id,
+                              )));
+                },
+              );
+            },
+          );
 
+          // await getRoutineLocally(userData["ti"], false);
+          // StoreUserInfo(TeacherInfoModel.fromJson(userData), false);
+          // getUserInfo();
 
-        // await getRoutineLocally(userData["ti"], false);
-        // StoreUserInfo(TeacherInfoModel.fromJson(userData), false);
-        // getUserInfo();
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //     snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
+          //     SnackBar(content: Text("Successfully Signed Up")));
 
-
-
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //     snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-        //     SnackBar(content: Text("Successfully Signed Up")));
-
-
-
-        return null;
-      },);
-    }
-    on FirebaseAuthException catch(e){
+          return null;
+        },
+      );
+    } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-            snackBarAnimationStyle: AnimationStyle(duration: Duration(seconds: 2)),
-            SnackBar(content: Text(e.code.toString())));
+          snackBarAnimationStyle:
+              AnimationStyle(duration: Duration(seconds: 2)),
+          SnackBar(content: Text(e.code.toString())));
     }
-
   }
-
 }

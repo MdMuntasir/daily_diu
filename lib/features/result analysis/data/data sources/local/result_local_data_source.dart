@@ -18,7 +18,9 @@ class ResultLocalDataSourceImpl implements ResultLocalDataSource {
     for (int i = 0; i < box.length; i++) {
       List<SemesterResultModel> temp = [];
       List data = box.get(i.toString());
-      for (Map<String, dynamic> result in data) {
+
+      for (Map res in data) {
+        final result = Map<String, dynamic>.from(res);
         temp.add(SemesterResultModel.fromJson(result));
       }
       results.add(temp);
