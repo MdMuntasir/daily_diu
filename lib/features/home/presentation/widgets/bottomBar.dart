@@ -1,6 +1,8 @@
+import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/home/presentation/widgets/customButton.dart';
 import 'package:diu_student/features/result%20analysis/presentation/pages/result_page.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_page.dart';
+import 'package:diu_student/features/web%20services/pages/attendance_portal.dart';
 import 'package:diu_student/features/web%20services/pages/blc_main.dart';
 import 'package:diu_student/features/web%20services/pages/noticeBoard.dart';
 import 'package:diu_student/features/web%20services/pages/portal.dart';
@@ -45,27 +47,40 @@ class _BottomPanelState extends State<BottomPanel> {
       icon: FontAwesomeIcons.calendarDays,
       function: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MainRoutinePage()));
+            MaterialPageRoute(builder: (context) => const MainRoutinePage()));
       },
       label: "Routine",
     );
-    CustomButton btn2 = CustomButton(
-      bgColor: widget.IconbgColor,
-      fgColor: widget.IconfgColor,
-      icon: FontAwesomeIcons.chartLine,
-      function: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResultPage()));
-      },
-      label: "Result",
-    );
+    CustomButton btn2 = UserRole == "Student"
+        ? CustomButton(
+            bgColor: widget.IconbgColor,
+            fgColor: widget.IconfgColor,
+            icon: FontAwesomeIcons.chartLine,
+            function: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ResultPage()));
+            },
+            label: "Result",
+          )
+        : CustomButton(
+            bgColor: widget.IconbgColor,
+            fgColor: widget.IconfgColor,
+            icon: FontAwesomeIcons.clipboardCheck,
+            function: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AttendancePortal()));
+            },
+            label: "Attendance",
+          );
     CustomButton btn3 = CustomButton(
       bgColor: widget.IconbgColor,
       fgColor: widget.IconfgColor,
       icon: FontAwesomeIcons.graduationCap,
       function: () {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => PortalPage()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const PortalPage()));
       },
       label: "Portal",
     );
@@ -75,7 +90,7 @@ class _BottomPanelState extends State<BottomPanel> {
       icon: FontAwesomeIcons.chalkboardUser,
       function: () {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => blcPage()));
+            context, MaterialPageRoute(builder: (context) => const blcPage()));
       },
       label: "BLC",
     );
@@ -85,7 +100,7 @@ class _BottomPanelState extends State<BottomPanel> {
       icon: FontAwesomeIcons.bell,
       function: () {
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => noticeBoardPage()));
+            MaterialPageRoute(builder: (context) => const noticeBoardPage()));
       },
       label: "Notice",
     );

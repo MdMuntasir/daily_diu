@@ -2,26 +2,25 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:diu_student/features/web%20services/widgets/cross_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/resources/information_repository.dart';
 import '../../home/presentation/pages/homePage.dart';
+import '../widgets/cross_button.dart';
 import '../widgets/offline_screen.dart';
 
-class PortalPage extends StatefulWidget {
-  const PortalPage({super.key});
+class AttendancePortal extends StatefulWidget {
+  const AttendancePortal({super.key});
 
   @override
-  State<PortalPage> createState() => _PortalPageState();
+  State<AttendancePortal> createState() => _AttendancePortalState();
 }
 
-final String mainUrl = UserRole == "Teacher"
-    ? "https://teacherportal.diu.edu.bd/"
-    : "http://studentportal.diu.edu.bd";
+const String mainUrl = 'https://elearn.daffodilvarsity.edu.bd/';
 
 WebViewController controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -32,15 +31,10 @@ WebViewController controller = WebViewController()
         // Update loading bar.
       },
       onPageStarted: (String url) {},
-      onPageFinished: (String url) {
-        log('Page finished loading: $url');
-      },
-      onWebResourceError: (WebResourceError error) {
-        log('Error loading resource: ${error.description}');
-      },
+      onPageFinished: (String url) {},
+      onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
         if (request.url.toLowerCase().endsWith('.pdf')) {
-          log('PDF link encountered: ${request.url}');
           _launchPDF(request.url);
           return NavigationDecision.prevent;
         }
@@ -57,7 +51,6 @@ Future<void> _launchPDF(String url) async {
       uri,
       mode: LaunchMode.externalApplication,
     )) {
-      log('Launched URL: $url');
     } else {
       log('Could not launch URL: $url');
     }
@@ -66,10 +59,10 @@ Future<void> _launchPDF(String url) async {
   }
 }
 
-class _PortalPageState extends State<PortalPage> {
+class _AttendancePortalState extends State<AttendancePortal> {
   bool pageLoaded = false;
   Timer? timer;
-  Color barColor = Color(0xFF00868D);
+  Color barColor = Color(0xFF62A8EA);
 
   @override
   void initState() {
@@ -80,9 +73,8 @@ class _PortalPageState extends State<PortalPage> {
   }
 
   Future<void> _connection() async {
-    final _checkConnection = await Connectivity().checkConnectivity();
-    Online = _checkConnection.contains(ConnectivityResult.mobile) ||
-        _checkConnection.contains(ConnectivityResult.wifi);
+    final internet = InternetConnection.createInstance();
+    final _checkConnection = await internet.hasInternetAccess;
 
     setState(() {
       if (!pageLoaded) controller.reload();
@@ -98,7 +90,6 @@ class _PortalPageState extends State<PortalPage> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
     return PopScope(

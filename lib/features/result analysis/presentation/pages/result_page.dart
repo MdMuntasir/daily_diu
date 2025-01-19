@@ -145,7 +145,7 @@ class _ResultPageState extends State<ResultPage> {
                     width: w * .6,
                     child: Center(
                       child: Text(
-                        "No data found in cache memory",
+                        "No data found. You may be a fresher, or the ID in your profile seems incorrect.",
                         style: TextStyle(
                           color: Colors.teal.shade900,
                           fontWeight: FontWeight.bold,

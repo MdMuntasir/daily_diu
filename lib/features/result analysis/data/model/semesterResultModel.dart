@@ -31,15 +31,15 @@ class SemesterResultModel extends SemesterResultEntity{
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['semesterId'] = this.semesterId;
-    data['semesterName'] = this.semesterName;
-    data['semesterYear'] = this.semesterYear;
-    data['customCourseId'] = this.customCourseId;
-    data['courseTitle'] = this.courseTitle;
-    data['totalCredit'] = this.totalCredit;
-    data['pointEquivalent'] = this.pointEquivalent;
-    data['gradeLetter'] = this.gradeLetter;
-    data['cgpa'] = this.cgpa;
+    data['semesterId'] = semesterId;
+    data['semesterName'] = semesterName;
+    data['semesterYear'] = semesterYear;
+    data['customCourseId'] = customCourseId;
+    data['courseTitle'] = courseTitle;
+    data['totalCredit'] = totalCredit;
+    data['pointEquivalent'] = pointEquivalent;
+    data['gradeLetter'] = gradeLetter;
+    data['cgpa'] = cgpa;
     return data;
   }
 }

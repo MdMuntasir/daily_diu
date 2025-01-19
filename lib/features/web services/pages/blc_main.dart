@@ -34,7 +34,6 @@ WebViewController controller = WebViewController()
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
         if (request.url.toLowerCase().endsWith('.pdf')) {
-          log('PDF link encountered: ${request.url}');
           _launchPDF(request.url);
           return NavigationDecision.prevent;
         }
@@ -63,6 +62,7 @@ Future<void> _launchPDF(String url) async {
 class _blcPageState extends State<blcPage> {
   bool pageLoaded = false;
   Timer? timer;
+  Color barColor = Color(0xFF62A8EA);
 
   @override
   void initState() {
@@ -91,9 +91,7 @@ class _blcPageState extends State<blcPage> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    Color barColor = Color(0xFF62A8EA);
 
     return PopScope(
       canPop: false,
@@ -102,7 +100,7 @@ class _blcPageState extends State<blcPage> {
           controller.goBack();
         } else {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => homePage()));
+              MaterialPageRoute(builder: (context) => const homePage()));
         }
       },
       child: Scaffold(

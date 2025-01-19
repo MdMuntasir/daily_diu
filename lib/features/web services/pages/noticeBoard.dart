@@ -66,6 +66,7 @@ Future<void> _launchPDF(String url) async {
 class _noticeBoardPageState extends State<noticeBoardPage> {
   bool pageLoaded = false;
   Timer? timer;
+  Color barColor = Color(0xFF5F683A);
 
   @override
   void initState() {
@@ -98,7 +99,6 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    Color barColor = Color(0xFF5F683A);
 
     return PopScope(
       canPop: false,
@@ -107,7 +107,7 @@ class _noticeBoardPageState extends State<noticeBoardPage> {
           controller.goBack();
         } else {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => homePage()));
+              MaterialPageRoute(builder: (context) => const homePage()));
         }
       },
       child: Scaffold(
