@@ -1,6 +1,6 @@
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/core/usecases/usecase.dart';
-import 'package:diu_student/features/routine/domain/entities/slot.dart';
+import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/features/routine/domain/repository/slot_repository.dart';
 
 import '../../../../../core/util/model/slot.dart';

@@ -11,26 +11,26 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/constants&variables/constants.dart';
 
-class TimeRepoImpl extends TimeRepository {
-  final RoutineApi _routineApi;
-
-  TimeRepoImpl(this._routineApi);
-
-  @override
-  Future<DataState<List<TimeModel>>> getTimes() async {
-    try {
-      final httpResponse = await _routineApi.getTimes();
-
-      if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(httpResponse.data);
-      } else {
-        return DataFailed("Something Went Wrong");
-      }
-    } on DioException catch (e) {
-      return DataFailed(e.message.toString());
-    }
-  }
-}
+// class TimeRepoImpl extends TimeRepository {
+//   final RoutineApi _routineApi;
+//
+//   TimeRepoImpl(this._routineApi);
+//
+//   @override
+//   Future<DataState<List<TimeModel>>> getTimes() async {
+//     try {
+//       final httpResponse = await _routineApi.getTimes();
+//
+//       if (httpResponse.response.statusCode == HttpStatus.ok) {
+//         return DataSuccess(httpResponse.data);
+//       } else {
+//         return DataFailed("Something Went Wrong");
+//       }
+//     } on DioException catch (e) {
+//       return DataFailed(e.message.toString());
+//     }
+//   }
+// }
 
 class getTimes {
   final Box _box = Hive.box("routine_box");

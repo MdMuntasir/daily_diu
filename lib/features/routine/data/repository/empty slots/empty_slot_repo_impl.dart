@@ -11,26 +11,26 @@ import 'package:http/http.dart' as http;
 
 import '../../../../../core/resources/information_repository.dart';
 
-class EmptySlotRepoImpl extends EmptySlotRepository {
-  final RoutineApi _routineApi;
-
-  EmptySlotRepoImpl(this._routineApi);
-
-  @override
-  Future<DataState<List<EmptySlotModel>>> getEmptySlots() async {
-    try {
-      final httpResponse = await _routineApi.getEmptySlots();
-
-      if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(httpResponse.data);
-      } else {
-        return DataFailed("Something Went Wrong");
-      }
-    } on DioException catch (e) {
-      return DataFailed(e.message.toString());
-    }
-  }
-}
+// class EmptySlotRepoImpl extends EmptySlotRepository {
+//   final RoutineApi _routineApi;
+//
+//   EmptySlotRepoImpl(this._routineApi);
+//
+//   @override
+//   Future<DataState<List<EmptySlotModel>>> getEmptySlots() async {
+//     try {
+//       final httpResponse = await _routineApi.getEmptySlots();
+//
+//       if (httpResponse.response.statusCode == HttpStatus.ok) {
+//         return DataSuccess(httpResponse.data);
+//       } else {
+//         return DataFailed("Something Went Wrong");
+//       }
+//     } on DioException catch (e) {
+//       return DataFailed(e.message.toString());
+//     }
+//   }
+// }
 
 class getEmptySlots {
   final Box _box = Hive.box("routine_box");

@@ -1,27 +1,17 @@
-import 'package:diu_student/features/routine/domain/entities/slot.dart';
+import 'package:diu_student/core/util/Entities/slot.dart';
 
 class SlotModel extends SlotEntity {
-  const SlotModel({
-    String? dept,
-    String? room,
-    String? time,
-    String? batch,
-    String? section,
-    String? course,
-    String? ti,
-    String? day
-    }) : super(
-    dept: dept,
-    room: room,
-    time: time,
-    batch: batch,
-    section: section,
-    course: course,
-    ti: ti,
-    day: day
-  );
+  const SlotModel(
+      {required super.dept,
+      required super.room,
+      required super.time,
+      required super.batch,
+      required super.section,
+      required super.course,
+      required super.ti,
+      required super.day});
 
-  factory SlotModel.fromJson(Map<String, dynamic> map){
+  factory SlotModel.fromJson(Map<String, dynamic> map) {
     return SlotModel(
       dept: map["department"] ?? "",
       room: map["room"] ?? "",
@@ -32,5 +22,19 @@ class SlotModel extends SlotEntity {
       ti: map["ti"] ?? "",
       day: map["day"] ?? "",
     );
+  }
+
+
+  Map<String, dynamic> toJson(){
+    Map<String, dynamic> data = <String,dynamic>{};
+    data["day"] = day;
+    data["dept"] = dept;
+    data["room"] = room;
+    data["batch"] = batch;
+    data["ti"] = ti;
+    data["section"] = section;
+    data["course"] = course;
+    data["time"] = time;
+    return data;
   }
 }
