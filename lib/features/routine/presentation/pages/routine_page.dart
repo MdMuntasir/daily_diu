@@ -1,10 +1,17 @@
+import 'package:diu_student/core/util/widgets/error_screen.dart';
 import 'package:diu_student/features/routine/presentation/pages/blank_routine.dart';
 import 'package:diu_student/features/routine/presentation/pages/manual_routine.dart';
 import 'package:diu_student/features/routine/presentation/pages/routineSearch_screen.dart';
+import 'package:diu_student/features/routine/presentation/state/routine_bloc.dart';
+import 'package:diu_student/features/routine/presentation/state/routine_event.dart';
+import 'package:diu_student/features/routine/presentation/state/routine_state.dart';
 import 'package:diu_student/features/routine/presentation/widgets/option_chooser.dart';
+import 'package:diu_student/features/routine/presentation/widgets/routine_body.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lottie/lottie.dart';
 import '../../../../core/constants&variables/variables.dart';
 import '../../../../core/controller/boolean_controller.dart';
 import 'package:diu_student/features/routine/presentation/widgets/department_chooser.dart';
@@ -26,6 +33,16 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
   TextEditingController optionController = TextEditingController();
   TextEditingController searchController = TextEditingController();
 
+  final options = ["Student", "Teacher", "Empty Slot", "Manual Search"];
+
+  final RoutineBloc routineBloc = RoutineBloc();
+
+  @override
+  void initState() {
+    routineBloc.add(RoutineInitialEvent());
+    super.initState();
+  }
+
   @override
   void dispose() {
     optionController.dispose();
@@ -36,90 +53,125 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
 
   bool deptSelected = false;
 
-  List options = ["Student", "Teacher", "Empty Slot", "Manual Search"];
-
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    Map<String, Widget> widgets = {
-      "Student": RoutineSearchScreen(student: true, deptSelected: deptSelected),
-      "Teacher":
-          RoutineSearchScreen(student: false, deptSelected: deptSelected),
-      "Empty Slot": EmptySlots(),
-      "Manual Search": ManualRoutine()
-    };
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: Hero(
-            tag: "Routine",
-            child: Text(
-              "Routine",
-              style: Theme.of(context).textTheme.displayMedium,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            centerTitle: true,
+            title: Hero(
+              tag: "Routine",
+              child: Text(
+                "Routine",
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
             ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: w * .05),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const NavBar()));
+                        },
+                        color: Colors.teal.shade900,
+                        icon: const Icon(FontAwesomeIcons.barsStaggered)),
+                  ],
+                ),
+              )
+            ],
           ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: w * .05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: h * .02,
+            children: [
+              SizedBox(
+                width: w,
+              ),
+              //Buttons on the upper section
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => NavBar()));
-                      },
-                      color: Colors.teal.shade900,
-                      icon: Icon(FontAwesomeIcons.barsStaggered)),
+                  ChooseDepartment(
+                    bloc: routineBloc,
+                  ),
+                  OptionChooser(
+                    enable: routineBloc.state is RoutineSuccess,
+                    list: options,
+                    controller: optionController,
+                    onChoose: () {
+                      setState(() {});
+                    },
+                  )
                 ],
               ),
-            )
-          ],
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: h * .02,
-          children: [
-            SizedBox(
-              width: w,
-            ),
 
-            //Buttons on the upper section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ChooseDepartment(
-                  func: () {
-                    studentController.setValue(hasFunction);
-                    teacherController.setValue(hasFunction);
-                    emptyController.setValue(hasFunction);
-                    manualController.setValue(hasFunction);
-                    setState(() {
-                      deptSelected = true;
-                    });
-                  },
-                ),
-                OptionChooser(
-                  enable: deptSelected,
-                  list: options,
-                  controller: optionController,
-                  onChoose: () {
+              BlocConsumer(
+                bloc: routineBloc,
+                listener: (context, state) {
+                  if (state is! RoutineLoading) {
                     setState(() {});
-                  },
-                )
-              ],
-            ),
+                  }
+                },
+                builder: (context, state) {
+                  switch (state.runtimeType) {
+                    case RoutineSuccess:
+                      return RoutineBody(
+                          option: optionController.text == ""
+                              ? "Student"
+                              : optionController.text);
 
-            widgets[optionController.text] ?? widgets["Student"]!
-          ],
-        ),
-      ),
+                    case RoutineEmptyState:
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: h * .02,
+                        children: [
+                          Lottie.asset(
+                            "assets/lottie/DataError.json",
+                            width: w * .6,
+                            height: w * .6,
+                            fit: BoxFit.contain,
+                          ),
+                          SizedBox(
+                            width: w,
+                          ),
+                          SizedBox(
+                            width: w * .6,
+                            child: Center(
+                              child: Text(
+                                "Routine not available. Please check your internet connection and try again.",
+                                style: TextStyle(
+                                  color: Colors.teal.shade900,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+
+                    case RoutineFailed:
+                      return ErrorScreen();
+
+                    default:
+                      return RoutineBody(option: optionController.text);
+                  }
+                },
+              ),
+            ],
+          )),
     );
   }
 }
