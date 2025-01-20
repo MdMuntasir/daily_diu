@@ -31,7 +31,7 @@ class ResultRepositoryImpl implements ResultRepo {
         List<List<SemesterResultModel>> results =
             resultLocalDataSource.fetchData();
         return results.isEmpty
-            ? const DataFailed("No internet connection")
+            ? const DataFailed("No internet connection!")
             : DataSuccess(results);
       }
       final semestersData = await remoteSemesters.getSemesters();

@@ -8,9 +8,11 @@ class ErrorScreen extends StatelessWidget {
 
   const ErrorScreen({
     super.key,
-    required this.onPressed,
+    this.onPressed = _defaultAction,
     this.message = "Oops! Something Went Wrong",
   });
+
+  static void _defaultAction() {}
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +48,16 @@ class ErrorScreen extends StatelessWidget {
             ),
           ),
         ),
-        OutlinedButton(
-          onPressed: onPressed,
-          child: Text(
-            "Refresh",
-            style: style.copyWith(fontSize: 12),
-          ),
-        )
+        onPressed == _defaultAction
+            ? SizedBox()
+            : OutlinedButton(
+                onPressed: onPressed,
+                child: Text(
+                  "Refresh",
+                  style: style.copyWith(fontSize: 12),
+                ),
+              ),
       ],
-    );
-  }
-}
-
-class TestPage extends StatelessWidget {
-  const TestPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ErrorScreen(onPressed: () {}),
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:diu_student/features/routine/presentation/widgets/manual_text_fi
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class ManualRoutine extends StatefulWidget {
   const ManualRoutine({super.key});
 
@@ -15,7 +14,6 @@ class ManualRoutine extends StatefulWidget {
 
 class _ManualRoutineState extends State<ManualRoutine> {
   double height2 = 0, width2 = 0;
-  double space = 0;
   bool routineShowed = false;
 
   TextEditingController dayController = TextEditingController();
@@ -25,9 +23,6 @@ class _ManualRoutineState extends State<ManualRoutine> {
   TextEditingController batchController = TextEditingController();
   TextEditingController sectionController = TextEditingController();
   TextEditingController timeController = TextEditingController();
-
-
-
 
   @override
   void dispose() {
@@ -41,8 +36,6 @@ class _ManualRoutineState extends State<ManualRoutine> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -50,57 +43,57 @@ class _ManualRoutineState extends State<ManualRoutine> {
 
     Color ShadowColor = Colors.teal, BodyColor = Colors.teal.shade50;
 
-    double width1 = w * .9, height1 = h * .45;
+    double width1 = w * .9;
 
-    if(h<w){
-      height1 = w * .5;
-      width1 = h * .9;
+    if (!routineShowed) {
+      height2 = h * .05;
+      width2 = w * .9;
     }
 
-    if(!routineShowed) {
-      space = h * .08;
-      height2 = h*.05;
-      width2 = w*.9;
-    }
-
-
-
-    void ShowSlots(){
+    void ShowSlots() {
       routineShowed = true;
-      height2 = h*.4;
-      setState(() {
-      });
+      height2 = 350;
+      setState(() {});
     }
-
 
     Column upperPart = Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: h*.005,),
         SizedBox(
-          width: w*.5,
+          height: h * .005,
         ),
-
+        SizedBox(
+          width: w * .5,
+        ),
         CustomChooser(list: Days, controller: dayController, label: "Day"),
-        CustomChooser(list: Times, controller: timeController, label: "Time",),
+        CustomChooser(
+          list: Times,
+          controller: timeController,
+          label: "Time",
+        ),
         ManualTextField(controller: roomController, title: "Room"),
-        ManualTextField(controller: teacherController, title: "Teacher Initial"),
-        ManualTextField(controller: batchController, title: "Batch", isDigit: true),
+        ManualTextField(
+            controller: teacherController, title: "Teacher Initial"),
+        ManualTextField(
+            controller: batchController, title: "Batch", isDigit: true),
         ManualTextField(controller: sectionController, title: "Section"),
         ManualTextField(controller: courseController, title: "Course Code"),
-
-
-        SizedBox(height: h*.005,),
+        SizedBox(
+          height: h * .005,
+        ),
         ElevatedButton(
           onPressed: ShowSlots,
-          child: Text("Search",style: TextStyle(fontWeight: FontWeight.bold),),
+          child: const Text(
+            "Search",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
-        SizedBox(height: h*.005,),
+        SizedBox(
+          height: h * .005,
+        ),
       ],
     );
-
-
 
     ManualSlotShower showSlots = ManualSlotShower(
       Batch: batchController.text.toUpperCase(),
@@ -112,50 +105,49 @@ class _ManualRoutineState extends State<ManualRoutine> {
       Time: timeController.text,
     );
 
-
-
-    Widget lowerPart = routineShowed ?
-        showSlots
-        : SizedBox();
-
-
-
-
-
+    Widget lowerPart = routineShowed ? showSlots : SizedBox();
 
     return SizedBox(
-      height: h*.75,
+      height: h * .75,
       child: SingleChildScrollView(
-          child: Column(
-
-            children: [
-              Container(
-                height: height1,
-                width: width1,
-                decoration: BoxDecoration(
-                    color: BodyColor,
-                    borderRadius: BorderRadius.all(Radius.circular(height1*.1)),
-                    boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: ShadowColor)]
-                ),
-                child: upperPart,
-              ),
-
-              SizedBox(height: h*.03,width: w,),
-
-              AnimatedContainer(
-                height: height2,
-                width: width2,
-                duration: Duration(milliseconds: 300),
-                decoration: routineShowed ? BoxDecoration(
-                    color: BodyColor,
-                    borderRadius: BorderRadius.all(Radius.circular(height2*.1)),
-                    boxShadow: [BoxShadow(spreadRadius: -20,blurRadius: 30,color: ShadowColor)]
-                ):
-                BoxDecoration(color: Colors.transparent),
-                child: lowerPart,
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            Container(
+              height: 450,
+              width: width1,
+              decoration: BoxDecoration(
+                  color: BodyColor,
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: -20, blurRadius: 30, color: ShadowColor)
+                  ]),
+              child: upperPart,
+            ),
+            SizedBox(
+              height: h * .03,
+              width: w,
+            ),
+            AnimatedContainer(
+              height: height2,
+              width: width2,
+              duration: Duration(milliseconds: 300),
+              decoration: routineShowed
+                  ? BoxDecoration(
+                      color: BodyColor,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(height2 * .1)),
+                      boxShadow: [
+                          BoxShadow(
+                              spreadRadius: -20,
+                              blurRadius: 30,
+                              color: ShadowColor)
+                        ])
+                  : BoxDecoration(color: Colors.transparent),
+              child: lowerPart,
+            ),
+          ],
+        ),
       ),
     );
   }

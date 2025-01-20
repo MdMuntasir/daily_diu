@@ -5,6 +5,7 @@ import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/features/login%20system/presentation/widgets/textStyle.dart';
 import 'package:diu_student/features/result%20analysis/presentation/pages/result_page.dart';
+import 'package:diu_student/features/routine/presentation/pages/routine_page.dart';
 import 'package:diu_student/features/web%20services/pages/noticeBoard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -44,6 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Hive.initFlutter();
     Box routineBox = await Hive.openBox("routine_box");
     Box resultBox = await Hive.openBox("Results");
+    await Hive.openBox("Routine");
 
     User? pre_user = FirebaseAuth.instance.currentUser;
     bool hasUser = pre_user != null;
@@ -79,8 +81,8 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     hasUser
-        ? Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const homePage()))
+        ? Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const MainRoutinePage()))
         : Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const loginScreen()));
   }
