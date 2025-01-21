@@ -1,7 +1,4 @@
 import 'package:diu_student/core/util/widgets/error_screen.dart';
-import 'package:diu_student/features/routine/presentation/pages/blank_routine.dart';
-import 'package:diu_student/features/routine/presentation/pages/manual_routine.dart';
-import 'package:diu_student/features/routine/presentation/pages/routineSearch_screen.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_bloc.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_event.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_state.dart';
@@ -12,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
-import '../../../../core/constants&variables/variables.dart';
 import '../../../../core/controller/boolean_controller.dart';
 import 'package:diu_student/features/routine/presentation/widgets/department_chooser.dart';
 import '../../../navbar/presentation/pages/NavBar.dart';
@@ -126,10 +122,15 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
                 builder: (context, state) {
                   switch (state.runtimeType) {
                     case RoutineSuccess:
+                      final successState = state as RoutineSuccess;
                       return RoutineBody(
-                          option: optionController.text == ""
-                              ? "Student"
-                              : optionController.text);
+                        option: optionController.text == ""
+                            ? "Student"
+                            : optionController.text,
+                        allSlots: successState.slots,
+                        emptySlots: successState.emptySlots,
+                        times: successState.times,
+                      );
 
                     case RoutineEmptyState:
                       return Column(
@@ -163,10 +164,15 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
                       );
 
                     case RoutineFailed:
-                      return ErrorScreen();
+                      return const ErrorScreen();
 
                     default:
-                      return RoutineBody(option: optionController.text);
+                      return RoutineBody(
+                        option: optionController.text,
+                        allSlots: [],
+                        emptySlots: [],
+                        times: [],
+                      );
                   }
                 },
               ),

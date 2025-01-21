@@ -1,3 +1,5 @@
+import 'package:diu_student/core/util/Entities/slot.dart';
+import 'package:diu_student/features/routine/domain/entities/empty_slot.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../pages/blank_routine.dart';
@@ -6,8 +8,16 @@ import '../pages/routineSearch_screen.dart';
 
 class RoutineBody extends StatefulWidget {
   final String option;
+  final List<SlotEntity> allSlots;
+  final List<EmptySlotEntity> emptySlots;
+  final List times;
 
-  const RoutineBody({super.key, required this.option});
+  const RoutineBody(
+      {super.key,
+      required this.option,
+      required this.allSlots,
+      required this.emptySlots,
+      required this.times});
 
   @override
   State<RoutineBody> createState() => _RoutineBodyState();
@@ -18,19 +28,37 @@ class _RoutineBodyState extends State<RoutineBody> {
   Widget build(BuildContext context) {
     switch (widget.option) {
       case "Student":
-        return const RoutineSearchScreen(student: true, deptSelected: true);
+        return RoutineSearchScreen(
+          student: true,
+          deptSelected: true,
+          allSlots: widget.allSlots,
+        );
 
       case "Teacher":
-        return const RoutineSearchScreen(student: false, deptSelected: true);
+        return RoutineSearchScreen(
+          student: false,
+          deptSelected: true,
+          allSlots: widget.allSlots,
+        );
 
       case "Empty Slot":
-        return const EmptySlots();
+        return EmptySlots(
+          times: widget.times,
+          emptySlots: widget.emptySlots,
+        );
 
       case "Manual Search":
-        return const ManualRoutine();
+        return ManualRoutine(
+          allSlots: widget.allSlots,
+          times: widget.times,
+        );
 
       default:
-        return const RoutineSearchScreen(student: true, deptSelected: false);
+        return const RoutineSearchScreen(
+          student: true,
+          deptSelected: false,
+          allSlots: [],
+        );
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_chooser.dart';
 import 'package:diu_student/features/routine/presentation/widgets/manual_slots_shower.dart';
 import 'package:diu_student/features/routine/presentation/widgets/manual_text_field.dart';
@@ -6,7 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ManualRoutine extends StatefulWidget {
-  const ManualRoutine({super.key});
+  final List<SlotEntity> allSlots;
+  final List times;
+
+  const ManualRoutine({super.key, required this.allSlots, required this.times});
 
   @override
   State<ManualRoutine> createState() => _ManualRoutineState();
@@ -68,7 +72,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
         ),
         CustomChooser(list: Days, controller: dayController, label: "Day"),
         CustomChooser(
-          list: Times,
+          list: widget.times,
           controller: timeController,
           label: "Time",
         ),
@@ -96,6 +100,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
     );
 
     ManualSlotShower showSlots = ManualSlotShower(
+      Slots: widget.allSlots,
       Batch: batchController.text.toUpperCase(),
       CourseCode: courseController.text.toUpperCase(),
       Day: dayController.text,
@@ -117,7 +122,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
               width: width1,
               decoration: BoxDecoration(
                   color: BodyColor,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
                   boxShadow: [
                     BoxShadow(
                         spreadRadius: -20, blurRadius: 30, color: ShadowColor)
