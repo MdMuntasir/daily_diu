@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/core/util/widgets/showRoutine.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,14 @@ import '../widgets/search_bar.dart';
 class RoutineSearchScreen extends StatefulWidget {
   final bool student;
   final bool deptSelected;
+  final List<SlotEntity> allSlots;
 
-  const RoutineSearchScreen(
-      {super.key, required this.student, required this.deptSelected});
+  const RoutineSearchScreen({
+    super.key,
+    required this.student,
+    required this.deptSelected,
+    required this.allSlots,
+  });
 
   @override
   State<RoutineSearchScreen> createState() => _RoutineSearchScreenState();
@@ -29,7 +35,7 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
   TextEditingController searchController = TextEditingController();
   String title = "";
   bool routineShowed = false, isDownloading = false;
-  List<SlotModel> slots = [];
+  List<SlotEntity> slots = [];
 
   //Function to download routine
   Future<void> _downloadRoutine() async {
@@ -99,7 +105,7 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
     String ti = searchController.text.toUpperCase();
     title = ti;
     slots.clear();
-    allSlots.forEach((slot) {
+    widget.allSlots.forEach((slot) {
       if (slot.ti == ti) {
         slots.add(slot);
       }
@@ -115,7 +121,7 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
     if (batchSection.length == 2) {
       title = batchSection[0] + "-" + batchSection[1].toUpperCase();
       slots.clear();
-      allSlots.forEach((slot) {
+      widget.allSlots.forEach((slot) {
         if (slot.batch == batchSection[0] &&
             slot.section![0] == batchSection[1][0].toUpperCase()) {
           slots.add(slot);

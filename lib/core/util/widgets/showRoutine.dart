@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/core/util/widgets/dayButton.dart';
 import 'package:diu_student/core/util/widgets/slotShower.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,7 @@ import '../model/slot.dart';
 
 class ShowRoutine extends StatefulWidget {
   final double height;
-  final List<SlotModel> slots;
+  final List<SlotEntity> slots;
 
   const ShowRoutine({super.key, required this.slots, this.height = 0});
 
@@ -96,7 +97,7 @@ class _ShowRoutineState extends State<ShowRoutine> {
       start = false;
     }
 
-    List<SlotModel> TodaySlots = [];
+    List<SlotEntity> TodaySlots = [];
 
     widget.slots.forEach((slot) {
       if (slot.day == choosed_day) {

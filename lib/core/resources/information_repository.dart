@@ -1,8 +1,7 @@
-import 'package:diu_student/core/constants&variables/variables.dart';
 import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
 import '../../features/home/data/models/user_info.dart';
 import '../../features/routine/data/models/empty_slot_model.dart';
-import '../../features/routine/data/repository/manual/manual.dart';
+
 import '../util/model/slot.dart';
 
 late var android_info;
@@ -15,23 +14,9 @@ class Information {
   static Map departments = {
     'SWE': [
       'Software Engineering',
-      () async {
-        await getRoutine("SWE");
-        if (allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
-          hasFunction = true;
-          selectedDepartment = "SWE";
-        }
-      }
     ],
     'CSE': [
       'Computer Science & Engineering',
-      () async {
-        await getRoutine("CSE");
-        if (allSlots.isNotEmpty && emptySlots.isNotEmpty && Times.isNotEmpty) {
-          hasFunction = true;
-          selectedDepartment = "CSE";
-        }
-      }
     ],
   };
 }
