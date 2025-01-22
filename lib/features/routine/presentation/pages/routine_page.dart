@@ -130,6 +130,7 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
                         allSlots: successState.slots,
                         emptySlots: successState.emptySlots,
                         times: successState.times,
+                        department: successState.department,
                       );
 
                     case RoutineEmptyState:
@@ -172,6 +173,7 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
                         allSlots: [],
                         emptySlots: [],
                         times: [],
+                        department: "",
                       );
                   }
                 },
