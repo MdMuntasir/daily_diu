@@ -8,6 +8,7 @@ import '../pages/routineSearch_screen.dart';
 
 class RoutineBody extends StatefulWidget {
   final String option;
+  final String department;
   final List<SlotEntity> allSlots;
   final List<EmptySlotEntity> emptySlots;
   final List times;
@@ -17,7 +18,8 @@ class RoutineBody extends StatefulWidget {
       required this.option,
       required this.allSlots,
       required this.emptySlots,
-      required this.times});
+      required this.times,
+      required this.department});
 
   @override
   State<RoutineBody> createState() => _RoutineBodyState();
@@ -32,6 +34,7 @@ class _RoutineBodyState extends State<RoutineBody> {
           student: true,
           deptSelected: true,
           allSlots: widget.allSlots,
+          department: widget.department,
         );
 
       case "Teacher":
@@ -39,6 +42,7 @@ class _RoutineBodyState extends State<RoutineBody> {
           student: false,
           deptSelected: true,
           allSlots: widget.allSlots,
+          department: widget.department,
         );
 
       case "Empty Slot":
@@ -58,6 +62,7 @@ class _RoutineBodyState extends State<RoutineBody> {
           student: true,
           deptSelected: false,
           allSlots: [],
+          department: "",
         );
     }
   }
