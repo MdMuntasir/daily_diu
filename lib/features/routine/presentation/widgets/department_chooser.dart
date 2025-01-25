@@ -29,27 +29,6 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    List<PopupMenuItem> options = [];
-
-    departments.forEach((key, value) {
-      options.add(PopupMenuItem(
-          value: value[0],
-          onTap: () async {
-            widget.bloc.add(RoutineLoadingEvent(key.toString().toLowerCase()));
-          },
-          child: Container(
-              margin: EdgeInsets.symmetric(vertical: h * .001),
-              padding: EdgeInsets.symmetric(vertical: h * .005),
-              color: Colors.teal.shade50,
-              child: Center(
-                child: Text(
-                  value[0],
-                  style: TextStyle(
-                      color: Colors.teal.shade500, fontWeight: FontWeight.bold),
-                ),
-              ))));
-    });
-
     return BlocBuilder(
       bloc: widget.bloc,
       builder: (context, state) {
@@ -73,12 +52,33 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                     showPopover(
                         width: w * .9,
                         context: context,
-                        bodyBuilder: (context) => SingleChildScrollView(
-                                child: Center(
-                                    child: Column(
-                              children: options,
-                            ))),
-                        direction: PopoverDirection.bottom);
+                        bodyBuilder: (context) => ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: departments.length,
+                            itemBuilder: (context, index) {
+                              String key = departments.keys.toList()[index];
+                              return PopupMenuItem(
+                                  value: departments[key][0],
+                                  onTap: () async {
+                                    widget.bloc.add(RoutineLoadingEvent(
+                                        key.toString().toLowerCase()));
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: h * .001),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: h * .005),
+                                      color: Colors.teal.shade50,
+                                      child: Center(
+                                        child: Text(
+                                          departments[key][0],
+                                          style: TextStyle(
+                                              color: Colors.teal.shade500,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )));
+                            }),
+                        direction: PopoverDirection.top);
                   },
                   style: ButtonStyle(
                     backgroundColor:
@@ -101,12 +101,33 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                     showPopover(
                         width: w * .9,
                         context: context,
-                        bodyBuilder: (context) => SingleChildScrollView(
-                                child: Center(
-                                    child: Column(
-                              children: options,
-                            ))),
-                        direction: PopoverDirection.bottom);
+                        bodyBuilder: (context) => ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: departments.length,
+                            itemBuilder: (context, index) {
+                              String key = departments.keys.toList()[index];
+                              return PopupMenuItem(
+                                  value: departments[key][0],
+                                  onTap: () async {
+                                    widget.bloc.add(RoutineLoadingEvent(
+                                        key.toString().toLowerCase()));
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: h * .001),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: h * .005),
+                                      color: Colors.teal.shade50,
+                                      child: Center(
+                                        child: Text(
+                                          departments[key][0],
+                                          style: TextStyle(
+                                              color: Colors.teal.shade500,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )));
+                            }),
+                        direction: PopoverDirection.top);
                   },
                   style: ButtonStyle(
                     backgroundColor:
