@@ -1,18 +1,6 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diu_student/features/home/presentation/pages/homePage.dart';
-import 'package:diu_student/features/login%20system/firebase_auth/firebase_auth_services.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'customWidgets.dart';
-import 'textStyle.dart';
-
-
 
 class signupStudent extends StatelessWidget {
   final TextEditingController emailController;
@@ -22,7 +10,16 @@ class signupStudent extends StatelessWidget {
   final TextEditingController batchController;
   final TextEditingController sectionController;
   final TextEditingController studentIdController;
-  const signupStudent({super.key, required this.emailController, required this.passwordController, required this.nameController, required this.batchController, required this.sectionController, required this.studentIdController, required this.confirmPassController});
+
+  const signupStudent(
+      {super.key,
+      required this.emailController,
+      required this.passwordController,
+      required this.nameController,
+      required this.batchController,
+      required this.sectionController,
+      required this.studentIdController,
+      required this.confirmPassController});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +28,9 @@ class signupStudent extends StatelessWidget {
         fields: [
           TextField(
             controller: nameController,
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))
+            ],
             decoration: const InputDecoration(
               hintText: "Name",
               counterText: "",
@@ -52,7 +51,9 @@ class signupStudent extends StatelessWidget {
           ),
           TextField(
             controller: studentIdController,
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9-]'))],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9-]'))
+            ],
             decoration: const InputDecoration(
               hintText: "Student ID;   Ex: 232-35-689",
               counterText: "",
@@ -62,7 +63,7 @@ class signupStudent extends StatelessWidget {
           ),
           TextFormField(
             controller: emailController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "E.g: softenge@diu.edu.bd",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
@@ -96,7 +97,6 @@ class signupStudent extends StatelessWidget {
           ),
         ],
       ),
-
     );
   }
 }
