@@ -10,6 +10,7 @@ import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:diu_student/features/home/domain/repository/home_repository.dart';
 
 class HomeRepoImplement implements HomeRepository {
+  final UserEntity user;
   final RemoteHomeData remoteHomeData;
   final LocalHomeData localHomeData;
   final ConnectionChecker connectionChecker;
@@ -18,17 +19,24 @@ class HomeRepoImplement implements HomeRepository {
     this.remoteHomeData,
     this.connectionChecker,
     this.localHomeData,
+    this.user,
   );
 
   @override
-  Future<DataState<List<SlotEntity>>> getRoutine(UserEntity user) async {
+  Future<DataState<List<SlotEntity>>> getRoutine() async {
     try {
-      final dataState = await remoteHomeData.userRoutine(user: user);
-      if (dataState is DataSuccess<List<SlotModel>>) {
-        final routine = dataState.data!;
+      if (await connectionChecker.isConnected) {
+        final dataState = await remoteHomeData.userRoutine(user: user);
+        if (dataState is DataSuccess<List<SlotModel>>) {
+          final routine = dataState.data!;
+          localHomeData.uploadUserRoutine(routine: routine);
+          return DataSuccess(routine);
+        }
+        return const DataFailed("User not found");
+      } else {
+        final routine = localHomeData.fetchUserRoutine();
         return DataSuccess(routine);
       }
-      return const DataFailed("User not found");
     } on DioException catch (e) {
       return DataFailed(e.message.toString());
     }
