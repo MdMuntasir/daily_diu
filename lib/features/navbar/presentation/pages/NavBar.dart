@@ -1,4 +1,3 @@
-import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:diu_student/features/navbar/presentation/pages/profileEdit.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/developer_info.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/user_info_show.dart';
@@ -9,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 
 import '../../../../core/util/widgets/custom_alert_box.dart';
+import '../../../authentication/presentation/pages/login.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
