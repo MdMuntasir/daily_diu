@@ -22,7 +22,7 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   bool cgpaShow = false;
-  final resultBloc = ResultBloc(id: studentInfo.id ?? "232-35-999");
+  final resultBloc = ResultBloc(id: studentInfo.studentID ?? "232-35-999");
 
   @override
   void initState() {

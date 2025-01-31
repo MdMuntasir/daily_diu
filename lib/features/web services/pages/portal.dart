@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/features/web%20services/widgets/cross_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 import '../../../core/resources/information_repository.dart';
 import '../../home/presentation/pages/homePage.dart';
 import '../widgets/offline_screen.dart';
@@ -74,7 +71,7 @@ class _PortalPageState extends State<PortalPage> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 3), (_) async {
+    timer = Timer.periodic(const Duration(seconds: 3), (_) async {
       await _connection();
     });
   }

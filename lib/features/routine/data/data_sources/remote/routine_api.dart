@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/routine/data/models/time.dart';
-import '../../../../../core/constants&variables/constants.dart';
+import '../../../../../core/constants/constants.dart';
 import '../../../../../core/util/model/slot.dart';
 import '../../models/empty_slot_model.dart';
 
@@ -45,8 +45,7 @@ class RoutineApiImpl implements RoutineApi {
   @override
   Future<DataState<List<SlotModel>>> getSlots() async {
     try {
-      final response =
-          await dio.get("$routine_api/$department-routine");
+      final response = await dio.get("$routine_api/$department-routine");
 
       if (response.statusCode == 200) {
         List<SlotModel> slots = [];
