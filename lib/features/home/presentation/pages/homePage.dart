@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/home/presentation/widgets/bottomBar.dart';
 import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
@@ -9,13 +10,13 @@ import 'package:diu_student/features/home/presentation/widgets/informationShower
 import 'package:diu_student/core/util/widgets/showRoutine.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../core/constants&variables/constants.dart';
+import '../../../../core/constants/constants.dart';
 import '../../../../core/util/services.dart';
-
 
 class homePage extends StatefulWidget {
   const homePage({super.key});
@@ -31,11 +32,15 @@ class _homePageState extends State<homePage> {
 
   double pos = 0, prog = 0;
 
-  Radius left = Radius.zero,right = Radius.zero;
+  Radius left = Radius.zero, right = Radius.zero;
   Widget _information = SizedBox();
 
-  Gradient lightGrad1 = LinearGradient(colors: [Color(0xFF74ebd5), Color(0xFFACB6E5),]);
+  Gradient lightGrad1 = const LinearGradient(colors: [
+    Color(0xFF74ebd5),
+    Color(0xFFACB6E5),
+  ]);
   Color bottomColor = Color(0xFFB6EADA);
+
   // Color bottomColor = Colors.teal.shade700;
 
   @override
@@ -43,122 +48,101 @@ class _homePageState extends State<homePage> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-
-    if(!showOptions){
+    if (!showOptions) {
       bottomColor = Colors.teal.shade400;
-      pos = -h*.585;
-      left = Radius.elliptical(w, h*.2);
-      right = Radius.elliptical(w, h*.2);
-    }
-    else{
+      pos = -h * .585;
+      left = Radius.elliptical(w, h * .2);
+      right = Radius.elliptical(w, h * .2);
+    } else {
       bottomColor = Color(0xFFB6EADA);
       pos = 0;
-      left = Radius.circular(w*.2);
-      right = Radius.circular(w*.2);
+      left = Radius.circular(w * .2);
+      right = Radius.circular(w * .2);
     }
 
-
-    void barFunc(){
+    void barFunc() {
       showOptions = !showOptions;
-      setState(() {
-      });
+      setState(() {});
     }
 
-
-
-
-    Future<void> _downloadRoutine() async{
-
+    Future<void> _downloadRoutine() async {
       bool RequestAccepted;
 
       final _checkConnection = await Connectivity().checkConnectivity();
-      bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) || _checkConnection.contains(ConnectivityResult.wifi);
+      bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) ||
+          _checkConnection.contains(ConnectivityResult.wifi);
 
-      if(android_info.version.sdkInt <= 32){
+      if (android_info.version.sdkInt <= 32) {
         RequestAccepted = await Permission.storage.request().isGranted;
-      }
-      else{
+      } else {
         RequestAccepted = await Permission.photos.request().isGranted;
       }
 
+      String info = isStudent
+          ? "${studentInfo.batch!}${studentInfo.section!}"
+          : "${teacherInfo.ti}";
 
-      String info = isStudent? "${studentInfo.batch!}${studentInfo.section!}" : "${teacherInfo.ti}";
-
-
-      if(RequestAccepted){
-        if(isConnected){
+      if (RequestAccepted) {
+        if (isConnected) {
           setState(() {
             isDownloading = true;
           });
 
           await Services().DownloadFile(
-
-              url: isStudent? "$routine_api/${studentInfo.department}/routine-pdf/$info" :
-              "$routine_api/${teacherInfo.department}/full-teacher-pdf/$info",
-
-              filename: info,
-
-              (path) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(path)));
-              },
-
-              onDownloadError: (){
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(content: Text("Download failed")));
-              }
-          );
-
+              url: isStudent
+                  ? "$routine_api/${studentInfo.department}/routine-pdf/$info"
+                  : "$routine_api/${teacherInfo.department}/full-teacher-pdf/$info",
+              filename: info, (path) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(path)));
+          }, onDownloadError: () {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Download failed")));
+          });
 
           setState(() {
             isDownloading = false;
           });
-        }
-
-        else{
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("No Internet Connection")));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("No Internet Connection")));
         }
       }
     }
-
-
-
-
 
     List timeStamps = [];
 
     for (var time in test_time[0]["Time"]) {
       List splited = time.toString().split("-");
 
-      List start = [int.parse(splited[0].split(":")[0]),int.parse(splited[0].split(":")[1])],
-          end = [int.parse(splited[1].split(":")[0]),int.parse(splited[1].split(":")[1])];
+      List start = [
+            int.parse(splited[0].split(":")[0]),
+            int.parse(splited[0].split(":")[1])
+          ],
+          end = [
+            int.parse(splited[1].split(":")[0]),
+            int.parse(splited[1].split(":")[1])
+          ];
 
       start[0] = start[0] < 7 ? start[0] + 12 : start[0];
       end[0] = end[0] < 7 ? end[0] + 12 : end[0];
 
-      splited[0] = "${start[0] + start[1]/60}";
-      splited[1] = "${end[0] + end[1]/60 - .01}";
-      timeStamps.add((
-      splited[0],
-      splited[1]));
+      splited[0] = "${start[0] + start[1] / 60}";
+      splited[1] = "${end[0] + end[1] / 60 - .01}";
+      timeStamps.add((splited[0], splited[1]));
     }
 
-
-    if(studentInfo.user != null){
+    if (studentInfo.user != null) {
       String name = studentInfo.name.toString().split(" ")[0];
       _information = StudentInfoShow(
-          Name: name,
-          ID: studentInfo.id!,
-          Department: studentInfo.department!,
-          Batch: studentInfo.batch!,
-          Section: studentInfo.section!,
-          grad: lightGrad1,
+        Name: name,
+        ID: studentInfo.studentID!,
+        Department: studentInfo.department!,
+        Batch: studentInfo.batch!,
+        Section: studentInfo.section!,
+        grad: lightGrad1,
       );
-    }
-
-
-    else {
+    } else {
       String dept = teacherInfo.department.toString().split('-').join("+");
       String name = teacherInfo.name.toString().split(" ")[0];
 
@@ -174,44 +158,42 @@ class _homePageState extends State<homePage> {
     // print(MainRoutine);
 
     return GestureDetector(
-      onVerticalDragDown: (details){
-        if(details.globalPosition.dy <= h*.42)
+      onVerticalDragDown: (details) {
+        if (details.globalPosition.dy <= h * .42)
           showOptions = false;
-        else if(details.globalPosition.dy >= h*.934 && details.globalPosition.dy <= h)
-          showOptions = true;
-        setState(() {
-        });
+        else if (details.globalPosition.dy >= h * .934 &&
+            details.globalPosition.dy <= h) showOptions = true;
+        setState(() {});
       },
-
-
-
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          toolbarHeight: h*.05,
+          toolbarHeight: h * .05,
           title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => NavBar()));
                     },
                     color: Colors.black87,
                     icon: Icon(FontAwesomeIcons.barsStaggered)),
-
-                isDownloading?
-                Padding(
-                  padding: EdgeInsets.only(right: w*.03),
-                  child: Lottie.asset("assets/lottie/Download.json",height: w*.052,width: w*.055),
-                )
-                :
-                IconButton(
-                    onPressed: _downloadRoutine,
-                    icon: Icon(Icons.file_download_outlined, size: w*.07,)
-                )
+                isDownloading
+                    ? Padding(
+                        padding: EdgeInsets.only(right: w * .03),
+                        child: Lottie.asset("assets/lottie/Download.json",
+                            height: w * .052, width: w * .055),
+                      )
+                    : IconButton(
+                        onPressed: _downloadRoutine,
+                        icon: Icon(
+                          Icons.file_download_outlined,
+                          size: w * .07,
+                        ))
               ],
             ),
           ),
@@ -229,8 +211,9 @@ class _homePageState extends State<homePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _information,
-
-                    ShowRoutine(slots: MainRoutine,)
+                    ShowRoutine(
+                      slots: MainRoutine,
+                    )
                   ],
                 ),
               ),
