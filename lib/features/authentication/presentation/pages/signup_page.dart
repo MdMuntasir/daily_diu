@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/email_varification_page.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,8 @@ import '../widgets/signup_teacher.dart';
 import '../widgets/single_chooser.dart';
 import '../widgets/textStyle.dart';
 import '../widgets/toogler.dart';
+import 'email_varification_page.dart';
+import 'login.dart';
 
 class SignupPage extends StatefulWidget {
   @override

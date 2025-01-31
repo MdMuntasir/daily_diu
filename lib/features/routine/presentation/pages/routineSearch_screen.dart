@@ -1,19 +1,10 @@
-import 'dart:developer';
-
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/core/util/widgets/download_file.dart';
 import 'package:diu_student/core/util/widgets/showRoutine.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import '../../../../core/constants&variables/constants.dart';
-import '../../../../core/util/model/slot.dart';
-import '../../../../core/util/services.dart';
+import '../../../../core/constants/constants.dart';
 import '../widgets/search_bar.dart';
 
 class RoutineSearchScreen extends StatefulWidget {
