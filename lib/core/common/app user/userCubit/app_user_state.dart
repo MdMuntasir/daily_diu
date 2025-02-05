@@ -16,6 +16,8 @@ class LoggedAppUser extends AppUserState {
   const LoggedAppUser(this.user);
 }
 
+class LoggedOutAppUser extends AppUserState {}
+
 class UserFetchFailure extends AppUserState {
   final String errorMessage;
 

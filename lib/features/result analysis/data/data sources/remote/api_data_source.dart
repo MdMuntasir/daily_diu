@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:diu_student/core/constants&variables/constants.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/result%20analysis/data/model/semesterModel.dart';
 import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
+
+import '../../../../../core/constants/constants.dart';
 
 final dio = Dio();
 

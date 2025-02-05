@@ -20,7 +20,7 @@ class AttendancePortal extends StatefulWidget {
   State<AttendancePortal> createState() => _AttendancePortalState();
 }
 
-const String mainUrl = 'https://elearn.daffodilvarsity.edu.bd/';
+const String mainUrl = 'https://sso.diu.edu.bd/';
 
 WebViewController controller = WebViewController()
   ..setJavaScriptMode(JavaScriptMode.unrestricted)
