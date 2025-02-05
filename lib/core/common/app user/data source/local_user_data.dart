@@ -21,6 +21,6 @@ class LocalUserDataImpl implements LocalUserData {
 
   @override
   void uploadUserData(UserModel user) {
-    box.put("User", UserModel().toMap(user));
+    box.put("User", const UserModel().toMap(user));
   }
 }

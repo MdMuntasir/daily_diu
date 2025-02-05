@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/core/util/widgets/show_message.dart';
+import 'package:diu_student/features/authentication/presentation/pages/signup_page.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_user_info.dart';
-import 'package:diu_student/features/home/data/models/user_info.dart';
+import 'package:diu_student/core/util/model/user_info.dart';
 import 'package:diu_student/features/home/data/repository/user_info_store.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/signup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

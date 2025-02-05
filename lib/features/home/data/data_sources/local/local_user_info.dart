@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/features/home/data/data_sources/remote/remote_user_info.dart';
-import 'package:diu_student/features/home/data/models/user_info.dart';
+import 'package:diu_student/core/util/model/user_info.dart';
 import 'package:hive/hive.dart';
 
 import '../../../../../core/resources/information_repository.dart';
