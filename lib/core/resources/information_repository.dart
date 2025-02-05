@@ -1,5 +1,5 @@
 import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
-import '../../features/home/data/models/user_info.dart';
+import '../util/model/user_info.dart';
 import '../../features/routine/data/models/empty_slot_model.dart';
 
 import '../util/model/slot.dart';
