@@ -21,7 +21,7 @@ class AppUserCubit extends Cubit<AppUserState> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     await currentUser?.reload();
     if (currentUser == null) {
-      emit(InitialAppUser());
+      emit(LoggedOutAppUser());
     } else {
       if (currentUser.emailVerified) {
         final user = await UserUseCase(UserRepoImpl(
@@ -40,8 +40,9 @@ class AppUserCubit extends Cubit<AppUserState> {
     }
   }
 
-  Future<UserEntity> currentUser(AppUserCubit cubit) async {
+  UserEntity currentUser(AppUserCubit cubit) {
     final state = cubit.state;
-    return state is LoggedAppUser ? state.user : const UserModel();
+    final user = state is LoggedAppUser ? state.user : const UserModel();
+    return user;
   }
 }
