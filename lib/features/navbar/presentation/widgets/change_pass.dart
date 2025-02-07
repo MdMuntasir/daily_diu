@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../login system/presentation/widgets/customWidgets.dart';
+import '../../../authentication/presentation/widgets/customWidgets.dart';
 
 class ChangePassForm extends StatefulWidget {
   final TextEditingController passwordController;
   final TextEditingController NewPassController;
   final TextEditingController ConfirmNewPassController;
-  const ChangePassForm({
-    super.key,
-    required this.passwordController,
-    required this.NewPassController,
-    required this.ConfirmNewPassController});
+
+  const ChangePassForm(
+      {super.key,
+      required this.passwordController,
+      required this.NewPassController,
+      required this.ConfirmNewPassController});
 
   @override
   State<ChangePassForm> createState() => _ChangePassFormState();
@@ -26,7 +27,6 @@ class _ChangePassFormState extends State<ChangePassForm> {
     return Center(
       child: Column(
         children: [
-
           CustomForm(
             fields: [
               TextField(
@@ -38,8 +38,6 @@ class _ChangePassFormState extends State<ChangePassForm> {
                 ),
                 obscureText: true,
               ),
-
-
               TextField(
                 controller: widget.NewPassController,
                 decoration: InputDecoration(
@@ -49,8 +47,6 @@ class _ChangePassFormState extends State<ChangePassForm> {
                 ),
                 obscureText: true,
               ),
-
-
               TextField(
                 controller: widget.ConfirmNewPassController,
                 decoration: InputDecoration(
@@ -60,12 +56,10 @@ class _ChangePassFormState extends State<ChangePassForm> {
                 ),
                 obscureText: true,
               ),
-
             ],
           ),
         ],
       ),
-
     );
   }
 }

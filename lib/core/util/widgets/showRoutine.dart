@@ -178,19 +178,31 @@ class _ShowRoutineState extends State<ShowRoutine> {
           SlotCards.isEmpty
               ? SizedBox(
                   height: h * .01 * height,
-                  child: Center(
-                    child: Text(
-                      days[_toDay] == choosed_day
-                          ? "No class today\nEnjoy your day"
-                          : "This is your off day",
-                      style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                          shadows: [
-                            Shadow(blurRadius: 5, offset: Offset(1, 1.5))
-                          ]),
-                      textAlign: TextAlign.center,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: h * .1,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.cover,
+                          child: Image.asset("assets/images/Sleeping.png"),
+                        ),
+                        Text(
+                          days[_toDay] == choosed_day
+                              ? "No class today\nEnjoy your day"
+                              : "This is your off day",
+                          style: const TextStyle(
+                              fontFamily: "Madimi",
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                              shadows: [
+                                Shadow(blurRadius: 5, offset: Offset(1, 1.5))
+                              ]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ),
                 )
