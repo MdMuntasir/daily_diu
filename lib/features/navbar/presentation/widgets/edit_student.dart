@@ -1,21 +1,9 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/resources/information_repository.dart';
-import 'package:diu_student/features/home/presentation/pages/homePage.dart';
-import 'package:diu_student/features/login%20system/firebase_auth/firebase_auth_services.dart';
-import 'package:diu_student/features/login%20system/presentation/pages/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../../login system/presentation/widgets/multi_chooser.dart';
-import '../../../login system/presentation/widgets/single_chooser.dart';
+import '../../../authentication/presentation/widgets/single_chooser.dart';
 import 'customWidgets.dart';
-
-
-
 
 class EditStudentProfile extends StatefulWidget {
   final TextEditingController facultyController;
@@ -26,33 +14,31 @@ class EditStudentProfile extends StatefulWidget {
   final TextEditingController batchController;
   final TextEditingController sectionController;
   final TextEditingController studentIdController;
-  const EditStudentProfile({super.key,
-    required this.emailController,
-    required this.passwordController,
-    required this.nameController,
-    required this.batchController,
-    required this.sectionController,
-    required this.studentIdController,
-    required this.facultyController,
-    required this.departmentController});
+
+  const EditStudentProfile(
+      {super.key,
+      required this.emailController,
+      required this.passwordController,
+      required this.nameController,
+      required this.batchController,
+      required this.sectionController,
+      required this.studentIdController,
+      required this.facultyController,
+      required this.departmentController});
 
   @override
   State<EditStudentProfile> createState() => _EditStudentProfileState();
 }
 
 class _EditStudentProfileState extends State<EditStudentProfile> {
-  
-
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    
-    
+
     return Center(
       child: Column(
         children: [
-          
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -60,28 +46,33 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                 map: Faculty_Info,
                 controller: widget.facultyController,
                 title: studentInfo.faculty!,
-                func: () {setState(() {});},),
-              
-              SizedBox(width: w*.1,),
-
-
+                func: () {
+                  setState(() {});
+                },
+              ),
+              SizedBox(
+                width: w * .1,
+              ),
               SingleChooser(
-                map: widget.facultyController.text == "" ? {} : Faculty_Info[widget.facultyController.text],
+                map: widget.facultyController.text == ""
+                    ? {}
+                    : Faculty_Info[widget.facultyController.text],
                 controller: widget.departmentController,
                 title: studentInfo.department!,
-                func: () {},),
+                func: () {},
+              ),
             ],
           ),
-
-
-          SizedBox(height: h*.02,),
-
-
+          SizedBox(
+            height: h * .02,
+          ),
           CustomForm(
             fields: [
               TextField(
                 controller: widget.nameController,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))
+                ],
                 decoration: InputDecoration(
                   hintText: "Name:  ${studentInfo.name}",
                   counterText: "",
@@ -102,15 +93,16 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
               ),
               TextField(
                 controller: widget.studentIdController,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9-]'))],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9-]'))
+                ],
                 decoration: InputDecoration(
-                  hintText: "ID:  ${studentInfo.id}",
+                  hintText: "ID:  ${studentInfo.studentID}",
                   counterText: "",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
                 ),
               ),
-
               TextField(
                 controller: widget.passwordController,
                 decoration: InputDecoration(
@@ -120,12 +112,10 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                 ),
                 obscureText: true,
               ),
-
             ],
           ),
         ],
       ),
-
     );
   }
 }

@@ -3,13 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-import '../../../login system/presentation/widgets/multi_chooser.dart';
-import '../../../login system/presentation/widgets/single_chooser.dart';
+import '../../../authentication/presentation/widgets/multi_chooser.dart';
+import '../../../authentication/presentation/widgets/single_chooser.dart';
 import 'customWidgets.dart';
-
-
-
 
 class EditTeacherProfile extends StatefulWidget {
   final TextEditingController facultyController;
@@ -18,6 +14,7 @@ class EditTeacherProfile extends StatefulWidget {
   final TextEditingController passwordController;
   final TextEditingController nameController;
   final TextEditingController teacherInitialController;
+
   const EditTeacherProfile({
     super.key,
     required this.emailController,
@@ -25,7 +22,8 @@ class EditTeacherProfile extends StatefulWidget {
     required this.nameController,
     required this.teacherInitialController,
     required this.facultyController,
-    required this.departmentController,});
+    required this.departmentController,
+  });
 
   @override
   State<EditTeacherProfile> createState() => _EditTeacherProfileState();
@@ -37,10 +35,8 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-
     List<String>? departments = teacherInfo.department?.split('-');
     String dept = departments != null ? "${departments[0]}..." : "Department";
-
 
     return Center(
       child: Column(
@@ -52,29 +48,32 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
                 map: Faculty_Info,
                 controller: widget.facultyController,
                 title: teacherInfo.faculty!,
-                func: () {setState(() {});},),
-
-              SizedBox(width: w*.1,),
-
-
+                func: () {
+                  setState(() {});
+                },
+              ),
+              SizedBox(
+                width: w * .1,
+              ),
               MultiChooser(
-                map: widget.facultyController.text == "" ? Faculty_Info[teacherInfo.faculty] : Faculty_Info[widget.facultyController.text],
+                map: widget.facultyController.text == ""
+                    ? Faculty_Info[teacherInfo.faculty]
+                    : Faculty_Info[widget.facultyController.text],
                 controller: widget.departmentController,
                 title: dept,
               ),
-
             ],
           ),
-
-
-          SizedBox(height: h*.02,),
-
-
+          SizedBox(
+            height: h * .02,
+          ),
           CustomForm(
             fields: [
               TextField(
                 controller: widget.nameController,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))
+                ],
                 decoration: InputDecoration(
                   hintText: "Name: ${teacherInfo.name}",
                   counterText: "",
@@ -87,8 +86,6 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
                 hintText: "Teacher Initial:  ${teacherInfo.ti}",
                 maxLen: 4,
               ),
-
-
               TextField(
                 controller: widget.passwordController,
                 decoration: InputDecoration(
@@ -98,7 +95,6 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
                 ),
                 obscureText: true,
               ),
-
             ],
           ),
         ],

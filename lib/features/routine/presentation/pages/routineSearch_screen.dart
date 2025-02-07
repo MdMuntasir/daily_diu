@@ -126,8 +126,9 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
                       ),
                       DownloadFile(
                         fileName: info(),
-                        url:
-                            "$routine_api/${widget.department.toLowerCase()}/routine-pdf/${info()}",
+                        url: widget.student
+                            ? "$routine_api/${widget.department.toLowerCase()}/routine-pdf/${info()}"
+                            : "$routine_api/${widget.department.toLowerCase()}/teacher-pdf/${info()}",
                         context: context,
                       )
                     ],

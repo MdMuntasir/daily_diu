@@ -8,13 +8,13 @@ abstract class RemoteUserData {
 }
 
 class RemoteUserDataImpl implements RemoteUserData {
-  User? user;
-  FirebaseFirestore firestore;
-
-  RemoteUserDataImpl(this.user, this.firestore);
+  RemoteUserDataImpl();
 
   @override
   Future<DataState<UserModel>> userData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final firestore = FirebaseFirestore.instance;
+
     await user?.reload();
 
     final snapshot1 = await firestore

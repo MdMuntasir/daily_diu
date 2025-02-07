@@ -11,14 +11,14 @@ class DownloadFile extends StatefulWidget {
   final String fileName;
   final BuildContext context;
   final Color color;
-  final Color downloadingColor;
+  final bool blackDownloading;
   final String url;
 
   const DownloadFile({
     super.key,
     this.fileName = "Untitled File",
     this.color = Colors.white,
-    this.downloadingColor = Colors.white,
+    this.blackDownloading = false,
     required this.url,
     required this.context,
   });
@@ -89,12 +89,16 @@ class _DownloadFileState extends State<DownloadFile> {
     return isDownloading
         ? Padding(
             padding: EdgeInsets.symmetric(horizontal: w * .03),
-            child: Lottie.asset("assets/lottie/Download.json",
-                height: w * .053, width: w * .055),
+            child: Lottie.asset(
+                widget.blackDownloading
+                    ? "assets/lottie/DownloadBlack.json"
+                    : "assets/lottie/Download.json",
+                height: w * .053,
+                width: w * .055),
           )
         : IconButton(
             onPressed: _download,
             icon: Icon(Icons.file_download_outlined,
-                color: Colors.white, size: w * .07));
+                color: widget.color, size: w * .07));
   }
 }
