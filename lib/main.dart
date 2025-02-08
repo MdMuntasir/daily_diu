@@ -1,11 +1,9 @@
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_state.dart';
-import 'package:diu_student/features/authentication/presentation/pages/email_varification_page.dart';
 import 'package:diu_student/features/authentication/presentation/pages/login.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
 import 'package:diu_student/injection_container.dart';
-import 'package:diu_student/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

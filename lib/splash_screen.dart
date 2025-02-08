@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     User? pre_user = FirebaseAuth.instance.currentUser;
     bool hasUser = pre_user != null;
 
-    android_info = await DeviceInfoPlugin().androidInfo;
+    androidInfo = await DeviceInfoPlugin().androidInfo;
 
     if (hasUser) {
       User user = FirebaseAuth.instance.currentUser!;

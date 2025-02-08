@@ -5,6 +5,7 @@ import 'package:diu_student/features/home/presentation/state/home_event.dart';
 import 'package:diu_student/features/home/presentation/state/home_state.dart';
 import 'package:diu_student/features/home/presentation/widgets/bottomBar.dart';
 import 'package:diu_student/features/home/presentation/widgets/home_info_show.dart';
+import 'package:diu_student/features/home/presentation/widgets/loading_home_screen.dart';
 import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
 import 'package:diu_student/core/util/widgets/showRoutine.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,13 +34,12 @@ class _homePageState extends State<homePage> {
   double pos = 0, prog = 0;
 
   Radius left = Radius.zero, right = Radius.zero;
-  Widget _information = SizedBox();
 
   Gradient lightGrad1 = const LinearGradient(colors: [
     Color(0xFF74ebd5),
     Color(0xFFACB6E5),
   ]);
-  Color bottomColor = Color(0xFFB6EADA);
+  Color bottomColor = const Color(0xFFB6EADA);
 
   // Color bottomColor = Colors.teal.shade700;
 
@@ -70,76 +70,6 @@ class _homePageState extends State<homePage> {
       showOptions = !showOptions;
       setState(() {});
     }
-
-    // Future<void> _downloadRoutine() async {
-    //   bool RequestAccepted;
-    //
-    //   final _checkConnection = await Connectivity().checkConnectivity();
-    //   bool isConnected = _checkConnection.contains(ConnectivityResult.mobile) ||
-    //       _checkConnection.contains(ConnectivityResult.wifi);
-    //
-    //   if (android_info.version.sdkInt <= 32) {
-    //     RequestAccepted = await Permission.storage.request().isGranted;
-    //   } else {
-    //     RequestAccepted = await Permission.photos.request().isGranted;
-    //   }
-    //
-    //   String info = isStudent
-    //       ? "${studentInfo.batch!}${studentInfo.section!}"
-    //       : "${teacherInfo.ti}";
-    //
-    //   if (RequestAccepted) {
-    //     if (isConnected) {
-    //       setState(() {
-    //         isDownloading = true;
-    //       });
-    //
-    //       await Services().DownloadFile(
-    //           url: isStudent
-    //               ? "$routine_api/${studentInfo.department}/routine-pdf/$info"
-    //               : "$routine_api/${teacherInfo.department}/full-teacher-pdf/$info",
-    //           filename: info, (path) {
-    //         ScaffoldMessenger.of(context)
-    //             .showSnackBar(SnackBar(content: Text(path)));
-    //       }, onDownloadError: () {
-    //         ScaffoldMessenger.of(context)
-    //             .showSnackBar(const SnackBar(content: Text("Download failed")));
-    //       });
-    //
-    //       setState(() {
-    //         isDownloading = false;
-    //       });
-    //     } else {
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //           const SnackBar(content: Text("No Internet Connection")));
-    //     }
-    //   }
-    // }
-
-    // if (studentInfo.user != null) {
-    //   String name = studentInfo.name.toString().split(" ")[0];
-    //   _information = StudentInfoShow(
-    //     Name: name,
-    //     ID: studentInfo.studentID!,
-    //     Department: studentInfo.department!,
-    //     Batch: studentInfo.batch!,
-    //     Section: studentInfo.section!,
-    //     grad: lightGrad1,
-    //   );
-    // } else {
-    //   String dept = teacherInfo.department.toString().split('-').join("+");
-    //   String name = teacherInfo.name.toString().split(" ")[0];
-    //
-    //   _information = TeacherInfoShow(
-    //     Name: name,
-    //     Department: dept,
-    //     Faculty: teacherInfo.faculty!,
-    //     TeacherInitial: teacherInfo.ti!,
-    //     grad: lightGrad1,
-    //   );
-    // }
-
-    // print(MainRoutine);
 
     return BlocConsumer(
         bloc: context.read<HomeBloc>(),
@@ -178,7 +108,6 @@ class _homePageState extends State<homePage> {
                               },
                               color: Colors.black87,
                               icon: const Icon(FontAwesomeIcons.barsStaggered)),
-
                           DownloadFile(
                             fileName: isStudent
                                 ? "${currentUser.batch}${currentUser.section}"
@@ -190,21 +119,6 @@ class _homePageState extends State<homePage> {
                             blackDownloading: true,
                             context: context,
                           )
-
-                          // isDownloading
-                          //     ? Padding(
-                          //         padding: EdgeInsets.only(right: w * .03),
-                          //         child: Lottie.asset(
-                          //             "assets/lottie/Download.json",
-                          //             height: w * .052,
-                          //             width: w * .055),
-                          //       )
-                          //     : IconButton(
-                          //         onPressed: _downloadRoutine,
-                          //         icon: Icon(
-                          //           Icons.file_download_outlined,
-                          //           size: w * .07,
-                          //         ))
                         ],
                       ),
                     ),
@@ -241,7 +155,7 @@ class _homePageState extends State<homePage> {
                       ),
                       AnimatedPositioned(
                         bottom: pos,
-                        duration: Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 400),
                         child: BottomPanel(
                             color: bottomColor,
                             controller: !showOptions,
@@ -256,18 +170,20 @@ class _homePageState extends State<homePage> {
               );
 
             case LoadingHomeState:
-              return const Center(
-                child: CupertinoActivityIndicator(),
-              );
+              return const LoadingHomeScreen();
 
             case HomeFailedState:
-              return const Center(
-                child: ErrorScreen(),
+              return Scaffold(
+                body: const Center(
+                  child: ErrorScreen(),
+                ),
               );
 
             default:
-              return const Center(
-                child: ErrorScreen(),
+              return Scaffold(
+                body: const Center(
+                  child: ErrorScreen(),
+                ),
               );
           }
         });

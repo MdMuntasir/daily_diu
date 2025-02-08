@@ -4,7 +4,7 @@ import '../../features/routine/data/models/empty_slot_model.dart';
 
 import '../util/model/slot.dart';
 
-late var android_info;
+late var androidInfo;
 
 String selectedDepartment = "";
 
