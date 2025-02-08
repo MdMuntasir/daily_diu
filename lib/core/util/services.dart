@@ -7,7 +7,7 @@ class Services {
     void onDownloadCompleted(String path), {
     required final String url,
     required final String filename,
-    String path = "/storage/emulated/0/Download/routine.pdf",
+    String path = "",
     final VoidCallback? onDownloadError,
   }) async {
     path = "/storage/emulated/0/Download/$filename.pdf";

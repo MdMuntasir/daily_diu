@@ -17,7 +17,10 @@ class HomeInfoShow extends StatelessWidget {
     required this.isStudent,
     required this.name,
     required this.department,
-    required this.grad,
+    this.grad = const LinearGradient(colors: [
+      Color(0xFF74ebd5),
+      Color(0xFFACB6E5),
+    ]),
     this.id = "",
     this.batch = "",
     this.section = "",

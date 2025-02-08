@@ -1,10 +1,10 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../resources/information_repository.dart';
 import '../services.dart';
 
 class DownloadFile extends StatefulWidget {
@@ -36,6 +36,7 @@ class _DownloadFileState extends State<DownloadFile> {
     bool RequestAccepted;
 
     final isConnected = await internetConnection.hasInternetAccess;
+    final androidInfo = await DeviceInfoPlugin().androidInfo;
 
     if (widget.fileName == "") {
       if (widget.context.mounted) {
@@ -43,7 +44,7 @@ class _DownloadFileState extends State<DownloadFile> {
             const SnackBar(content: Text("Input format is incorrect")));
       }
     } else {
-      if (android_info.version.sdkInt <= 32) {
+      if (androidInfo.version.sdkInt <= 32) {
         RequestAccepted = await Permission.storage.request().isGranted;
       } else {
         RequestAccepted = await Permission.photos.request().isGranted;
