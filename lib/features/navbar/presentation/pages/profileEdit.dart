@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
+import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:diu_student/core/util/widgets/show_message.dart';
 import 'package:diu_student/features/navbar/presentation/pages/passChangePage.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/edit_student.dart';
@@ -7,6 +8,7 @@ import 'package:diu_student/features/navbar/presentation/widgets/edit_teacher.da
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../home/data/data_sources/local/local_routine.dart';
@@ -32,6 +34,13 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController facultyController = TextEditingController();
   bool isLoading = false;
   User user = FirebaseAuth.instance.currentUser!;
+  late UserEntity currentUser;
+
+  @override
+  void initState() {
+    currentUser = AppUserCubit().currentUser(context.read<AppUserCubit>());
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -52,7 +61,7 @@ class _EditProfileState extends State<EditProfile> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     bool horizontal = h > w;
-    bool isStudent = studentInfo.user != null;
+    bool isStudent = currentUser.user != null;
 
     Future<void> _submit() async {
       String name = nameController.text.trim();
@@ -77,24 +86,24 @@ class _EditProfileState extends State<EditProfile> {
                   ShowAlertMessage(text: "Choose department"));
         } else {
           if (isStudent) {
-            if (password == studentInfo.password) {
+            if (password == currentUser.password) {
               try {
                 await FirebaseFirestore.instance
                     .collection("student")
-                    .doc(studentInfo.docID)
+                    .doc(currentUser.docID)
                     .update({
-                  'name': name.isNotEmpty ? name : studentInfo.name,
-                  'batch': batch.isNotEmpty ? batch : studentInfo.batch,
-                  'section': section.isNotEmpty ? section : studentInfo.section,
+                  'name': name.isNotEmpty ? name : currentUser.name,
+                  'batch': batch.isNotEmpty ? batch : currentUser.batch,
+                  'section': section.isNotEmpty ? section : currentUser.section,
                   'studentID':
-                      studentId.isNotEmpty ? studentId : studentInfo.studentID,
-                  'faculty': faculty.isNotEmpty ? faculty : studentInfo.faculty,
-                  'department': dept.isNotEmpty ? dept : studentInfo.department,
+                      studentId.isNotEmpty ? studentId : currentUser.studentID,
+                  'faculty': faculty.isNotEmpty ? faculty : currentUser.faculty,
+                  'department': dept.isNotEmpty ? dept : currentUser.department,
                 }).then(
                   (value) async {
                     await getUserInfo();
-                    await getRoutineLocally(studentInfo.department,
-                        "${studentInfo.batch}${studentInfo.section}", true);
+                    await getRoutineLocally(currentUser.department,
+                        "${currentUser.batch}${currentUser.section}", true);
 
                     nameController.clear();
                     batchController.clear();
@@ -125,23 +134,23 @@ class _EditProfileState extends State<EditProfile> {
                       ShowAlertMessage(text: "Wrong password"));
             }
           } else {
-            if (password == teacherInfo.password) {
+            if (password == currentUser.password) {
               try {
                 await FirebaseFirestore.instance
                     .collection("teacher")
-                    .doc(teacherInfo.docID)
+                    .doc(currentUser.docID)
                     .update({
-                  'name': name.isNotEmpty ? name : teacherInfo.name,
+                  'name': name.isNotEmpty ? name : currentUser.name,
                   'ti': teacherInitial.isNotEmpty
                       ? teacherInitial
-                      : teacherInfo.ti,
-                  'faculty': faculty.isNotEmpty ? faculty : teacherInfo.faculty,
-                  'department': dept.isNotEmpty ? dept : teacherInfo.department,
+                      : currentUser.ti,
+                  'faculty': faculty.isNotEmpty ? faculty : currentUser.faculty,
+                  'department': dept.isNotEmpty ? dept : currentUser.department,
                 }).then(
                   (value) async {
                     await getUserInfo();
                     await getRoutineLocally(
-                        teacherInfo.department, teacherInfo.ti, false);
+                        currentUser.department, currentUser.ti, false);
 
                     nameController.clear();
                     teacherInitialController.clear();
@@ -208,7 +217,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
           SizedBox(
             width: w * .8,
-            child: Text(
+            child: const Text(
               "Only update fields that need to be modified, leave blank the other fields. Providing your password is mandatory to continue. ",
               style: TextStyle(
                 fontSize: 18,

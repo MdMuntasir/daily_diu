@@ -1,19 +1,18 @@
 import 'package:diu_student/core/Network/connection_checker.dart';
-import 'package:diu_student/core/common/app%20user/data%20source/local_user_data.dart';
-import 'package:diu_student/core/common/app%20user/data%20source/remote_user_data.dart';
-import 'package:diu_student/core/common/app%20user/repository/user_repository.dart';
-import 'package:diu_student/core/common/app%20user/usecase/user_usecase.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
-import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
-import 'package:diu_student/core/util/model/user_info.dart';
-
 import 'package:diu_student/features/home/data/data_sources/local/local_home_data.dart';
 import 'package:diu_student/features/home/data/data_sources/remote/remote_home_data.dart';
 import 'package:diu_student/features/home/data/repository/home_repo_implement.dart';
 import 'package:diu_student/features/home/domain/repository/home_repository.dart';
 import 'package:diu_student/features/home/domain/usecases/home_usecase.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
+import 'package:diu_student/features/routine/data/repository/routine_repository_implement.dart';
+import 'package:diu_student/features/routine/domain/repository/routine_repository.dart';
+import 'package:diu_student/features/routine/domain/usecases/all_slot_usecase.dart';
+import 'package:diu_student/features/routine/domain/usecases/empty_slot_usecase.dart';
+import 'package:diu_student/features/routine/domain/usecases/time_usecase.dart';
+import 'package:diu_student/features/routine/presentation/state/routine_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
@@ -36,7 +35,7 @@ Future<void> initializeDependency() async {
   await AppUserCubit().updateUser();
 
   _initResult();
-  _initRoutine();
+  _initRoutine(Hive.box("Routine"));
   _initHome(Hive.box("Routine"));
 
   serviceLocator.registerFactory(() => InternetConnection());
@@ -54,7 +53,9 @@ Future<void> initializeDependency() async {
 
 void _initResult() {}
 
-void _initRoutine() {}
+void _initRoutine(Box routineBox) {
+  serviceLocator.registerLazySingleton(() => RoutineBloc());
+}
 
 void _initHome(Box routineBox) {
   serviceLocator

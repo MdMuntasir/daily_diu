@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:diu_student/core/util/widgets/error_screen.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
 import 'package:diu_student/features/home/presentation/state/home_event.dart';
@@ -8,7 +7,6 @@ import 'package:diu_student/features/home/presentation/widgets/home_info_show.da
 import 'package:diu_student/features/home/presentation/widgets/loading_home_screen.dart';
 import 'package:diu_student/features/navbar/presentation/pages/NavBar.dart';
 import 'package:diu_student/core/util/widgets/showRoutine.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,12 +40,6 @@ class _homePageState extends State<homePage> {
   Color bottomColor = const Color(0xFFB6EADA);
 
   // Color bottomColor = Colors.teal.shade700;
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<HomeBloc>().add(HomeInitialEvent());
-  }
 
   @override
   Widget build(BuildContext context) {

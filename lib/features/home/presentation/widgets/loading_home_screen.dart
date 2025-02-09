@@ -22,7 +22,11 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen> {
 
     return Scaffold(
       body: Skeletonizer(
-          enabled: true, // Show skeleton effect
+          effect: const PulseEffect(),
+          enableSwitchAnimation: true,
+          containersColor: Colors.teal.shade100,
+          enabled: true,
+          // Show skeleton effect
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -46,7 +50,26 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen> {
                       ),
                       ShowRoutine(
                         slots: [
-
+                          SlotModel(
+                            dept: "",
+                            room: "",
+                            time: "Time",
+                            batch: "",
+                            section: "",
+                            course: "",
+                            ti: "",
+                            day: "",
+                          ),
+                          SlotModel(
+                            dept: "",
+                            room: "",
+                            time: "Time",
+                            batch: "",
+                            section: "",
+                            course: "",
+                            ti: "",
+                            day: "",
+                          ),
                         ],
                       )
                     ],

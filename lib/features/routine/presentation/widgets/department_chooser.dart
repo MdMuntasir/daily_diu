@@ -10,11 +10,8 @@ import 'package:popover/popover.dart';
 import '../../../../core/resources/information_repository.dart';
 
 class ChooseDepartment extends StatefulWidget {
-  final RoutineBloc bloc;
-
   const ChooseDepartment({
     super.key,
-    required this.bloc,
   });
 
   @override
@@ -30,7 +27,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     double h = MediaQuery.of(context).size.height;
 
     return BlocBuilder(
-      bloc: widget.bloc,
+      bloc: context.read<RoutineBloc>(),
       builder: (context, state) {
         switch (state.runtimeType) {
           case RoutineLoading:
@@ -60,8 +57,9 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                               return PopupMenuItem(
                                   value: departments[key][0],
                                   onTap: () async {
-                                    widget.bloc.add(RoutineLoadingEvent(
-                                        key.toString().toLowerCase()));
+                                    context.read<RoutineBloc>().add(
+                                        RoutineLoadingEvent(
+                                            key.toString().toLowerCase()));
                                   },
                                   child: Container(
                                       margin: EdgeInsets.symmetric(
@@ -109,8 +107,9 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                               return PopupMenuItem(
                                   value: departments[key][0],
                                   onTap: () async {
-                                    widget.bloc.add(RoutineLoadingEvent(
-                                        key.toString().toLowerCase()));
+                                    context.read<RoutineBloc>().add(
+                                        RoutineLoadingEvent(
+                                            key.toString().toLowerCase()));
                                   },
                                   child: Container(
                                       margin: EdgeInsets.symmetric(

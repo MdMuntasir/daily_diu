@@ -1,8 +1,6 @@
-import 'dart:ui';
-
-import 'package:diu_student/core/resources/information_repository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserInfoShow extends StatelessWidget {
   const UserInfoShow({super.key});
@@ -14,8 +12,10 @@ class UserInfoShow extends StatelessWidget {
     bool horizontal = h > w;
     double round = 20;
 
-    bool isStudent = studentInfo.user != null;
-    String Department = isStudent ? "" : teacherInfo.department!;
+    final user = AppUserCubit().currentUser(context.read<AppUserCubit>());
+
+    bool isStudent = user.user == "Student";
+    String Department = user.department!;
 
     Row _row(String title, String sub) {
       return Row(
@@ -44,7 +44,7 @@ class UserInfoShow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                studentInfo.name!,
+                user.name!,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -55,7 +55,7 @@ class UserInfoShow extends StatelessWidget {
               SizedBox(
                 width: w,
                 child: Text(
-                  studentInfo.email!,
+                  user.email!,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 18,
@@ -63,16 +63,16 @@ class UserInfoShow extends StatelessWidget {
                   textAlign: TextAlign.start,
                 ),
               ),
-              _row("Student ID", studentInfo.studentID!),
-              _row("Faculty", studentInfo.faculty!),
-              _row("Department", studentInfo.department!),
-              _row("Section", "${studentInfo.batch!}-${studentInfo.section!}"),
+              _row("Student ID", user.studentID!),
+              _row("Faculty", user.faculty!),
+              _row("Department", user.department!),
+              _row("Section", "${user.batch!}-${user.section!}"),
             ],
           )
         : Column(
             children: [
               Text(
-                teacherInfo.name!,
+                user.name!,
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
@@ -83,7 +83,7 @@ class UserInfoShow extends StatelessWidget {
               SizedBox(
                 width: w,
                 child: Text(
-                  teacherInfo.email!,
+                  user.email!,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 18,
@@ -91,8 +91,8 @@ class UserInfoShow extends StatelessWidget {
                   textAlign: TextAlign.start,
                 ),
               ),
-              _row("Teacher Initial", teacherInfo.ti!),
-              _row("Faculty", teacherInfo.faculty!),
+              _row("Teacher Initial", user.ti!),
+              _row("Faculty", user.faculty!),
               _row(
                   "Department",
                   Department.split("-").length > 1
