@@ -59,7 +59,8 @@ class _DownloadFileState extends State<DownloadFile> {
           await Services()
               .DownloadFile(url: widget.url, filename: widget.fileName, (path) {
             ScaffoldMessenger.of(widget.context)
-                .showSnackBar(SnackBar(content: Text(path)));
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(content: Text(path)));
           }, onDownloadError: () {
             ScaffoldMessenger.of(widget.context)
                 .showSnackBar(const SnackBar(content: Text("Download failed")));

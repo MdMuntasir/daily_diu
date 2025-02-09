@@ -4,7 +4,6 @@ import 'package:diu_student/features/routine/presentation/state/routine_event.da
 import 'package:diu_student/features/routine/presentation/state/routine_state.dart';
 import 'package:diu_student/features/routine/presentation/widgets/option_chooser.dart';
 import 'package:diu_student/features/routine/presentation/widgets/routine_body.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,11 +30,9 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
 
   final options = ["Student", "Teacher", "Empty Slot", "Manual Search"];
 
-  final RoutineBloc routineBloc = RoutineBloc();
-
   @override
   void initState() {
-    routineBloc.add(RoutineInitialEvent());
+    context.read<RoutineBloc>().add(RoutineInitialEvent());
     super.initState();
   }
 
@@ -98,11 +95,9 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ChooseDepartment(
-                    bloc: routineBloc,
-                  ),
+                  const ChooseDepartment(),
                   OptionChooser(
-                    enable: routineBloc.state is RoutineSuccess,
+                    enable: context.read<RoutineBloc>().state is RoutineSuccess,
                     list: options,
                     controller: optionController,
                     onChoose: () {
@@ -113,7 +108,7 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
               ),
 
               BlocConsumer(
-                bloc: routineBloc,
+                bloc: context.read<RoutineBloc>(),
                 listener: (context, state) {
                   if (state is! RoutineLoading) {
                     setState(() {});

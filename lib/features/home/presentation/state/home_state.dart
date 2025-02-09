@@ -25,11 +25,3 @@ class HomeFailedState extends HomeState {
 
   const HomeFailedState(this.errorMessage);
 }
-
-class OpenBottomBar extends HomeActionState {}
-
-class CloseBottomBar extends HomeActionState {}
-
-class OpenNavbar extends HomeActionState {}
-
-class DownloadRoutine extends HomeActionState {}
