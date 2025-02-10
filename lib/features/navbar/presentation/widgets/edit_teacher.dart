@@ -1,4 +1,5 @@
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import '../../../authentication/presentation/widgets/single_chooser.dart';
 import 'customWidgets.dart';
 
 class EditTeacherProfile extends StatefulWidget {
+  final UserEntity user;
   final TextEditingController facultyController;
   final TextEditingController departmentController;
   final TextEditingController emailController;
@@ -17,6 +19,7 @@ class EditTeacherProfile extends StatefulWidget {
 
   const EditTeacherProfile({
     super.key,
+    required this.user,
     required this.emailController,
     required this.passwordController,
     required this.nameController,
@@ -35,7 +38,7 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-    List<String>? departments = teacherInfo.department?.split('-');
+    List<String>? departments = widget.user.department?.split('-');
     String dept = departments != null ? "${departments[0]}..." : "Department";
 
     return Center(
@@ -47,7 +50,7 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
               SingleChooser(
                 map: Faculty_Info,
                 controller: widget.facultyController,
-                title: teacherInfo.faculty!,
+                title: widget.user.faculty!,
                 func: () {
                   setState(() {});
                 },
@@ -57,7 +60,7 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
               ),
               MultiChooser(
                 map: widget.facultyController.text == ""
-                    ? Faculty_Info[teacherInfo.faculty]
+                    ? Faculty_Info[widget.user.faculty]
                     : Faculty_Info[widget.facultyController.text],
                 controller: widget.departmentController,
                 title: dept,
@@ -75,7 +78,7 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))
                 ],
                 decoration: InputDecoration(
-                  hintText: "Name: ${teacherInfo.name}",
+                  hintText: "Name: ${widget.user.name}",
                   counterText: "",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
@@ -83,7 +86,7 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
               ),
               CustomTextField(
                 controller: widget.teacherInitialController,
-                hintText: "Teacher Initial:  ${teacherInfo.ti}",
+                hintText: "Teacher Initial:  ${widget.user.ti}",
                 maxLen: 4,
               ),
               TextField(

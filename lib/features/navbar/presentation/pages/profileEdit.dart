@@ -231,6 +231,8 @@ class _EditProfileState extends State<EditProfile> {
           ),
           isStudent
               ? EditStudentProfile(
+                  user:
+                      AppUserCubit().currentUser(context.read<AppUserCubit>()),
                   emailController: emailController,
                   passwordController: passwordController,
                   nameController: nameController,
@@ -241,6 +243,8 @@ class _EditProfileState extends State<EditProfile> {
                   departmentController: departmentController,
                 )
               : EditTeacherProfile(
+                  user:
+                      AppUserCubit().currentUser(context.read<AppUserCubit>()),
                   emailController: emailController,
                   passwordController: passwordController,
                   nameController: nameController,
@@ -282,8 +286,8 @@ class _EditProfileState extends State<EditProfile> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => PassChangePage()));
               },
-              style: ButtonStyle(
-                  elevation: const WidgetStatePropertyAll(8),
+              style: const ButtonStyle(
+                  elevation: WidgetStatePropertyAll(8),
                   backgroundColor: WidgetStatePropertyAll(Colors.white)),
               child: const Text(
                 "Change Password",

@@ -20,9 +20,9 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-          style: TextStyle(shadows: [
-            Shadow(color: shadowColor, blurRadius: 2, offset: Offset(1, 1.5))
-          ]),
+          // style: TextStyle(shadows: [
+          //   Shadow(color: shadowColor, blurRadius: 2, offset: Offset(1, 1.5))
+          // ]),
           children: [
             TextSpan(
                 text: first + " : ",

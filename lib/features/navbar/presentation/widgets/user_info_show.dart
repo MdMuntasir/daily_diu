@@ -1,9 +1,12 @@
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
+import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserInfoShow extends StatelessWidget {
-  const UserInfoShow({super.key});
+  final UserEntity user;
+
+  const UserInfoShow({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +14,6 @@ class UserInfoShow extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     bool horizontal = h > w;
     double round = 20;
-
-    final user = AppUserCubit().currentUser(context.read<AppUserCubit>());
 
     bool isStudent = user.user == "Student";
     String Department = user.department!;
@@ -25,14 +26,14 @@ class UserInfoShow extends StatelessWidget {
             "$title : ",
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: 16,
                 fontFamily: "Madimi"),
           ),
           Text(
             sub,
             style: const TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: 16,
                 fontFamily: "Madimi"),
           ),
         ],
@@ -58,7 +59,7 @@ class UserInfoShow extends StatelessWidget {
                   user.email!,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontFamily: "Madimi"),
                   textAlign: TextAlign.start,
                 ),
@@ -86,7 +87,7 @@ class UserInfoShow extends StatelessWidget {
                   user.email!,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontFamily: "Madimi"),
                   textAlign: TextAlign.start,
                 ),

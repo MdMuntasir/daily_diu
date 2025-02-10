@@ -55,7 +55,7 @@ class StudentInfoShow extends StatelessWidget {
                   "Welcome " + Name,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                       fontSize: horizontal ? w * .085 : 40,
-                      color: Colors.teal.shade900,
+                      color: Colors.teal.shade800,
                       fontFamily: "Funky_Coffee"),
                   textAlign: TextAlign.center,
                 ),
@@ -67,7 +67,7 @@ class StudentInfoShow extends StatelessWidget {
             CustomText(
               first: "ID",
               second: ID,
-              color: Colors.teal.shade900,
+              color: Colors.teal.shade700,
               shadowColor: Colors.black45,
             ),
             SizedBox(
@@ -76,7 +76,7 @@ class StudentInfoShow extends StatelessWidget {
             CustomText(
               first: "Department",
               second: Department,
-              color: Colors.teal.shade900,
+              color: Colors.teal.shade700,
               shadowColor: Colors.black45,
             ),
             SizedBox(
@@ -88,7 +88,7 @@ class StudentInfoShow extends StatelessWidget {
                 CustomText(
                   first: "Batch",
                   second: Batch,
-                  color: Colors.teal.shade900,
+                  color: Colors.teal.shade700,
                   shadowColor: Colors.black45,
                 ),
                 SizedBox(
@@ -97,7 +97,7 @@ class StudentInfoShow extends StatelessWidget {
                 CustomText(
                   first: "Section",
                   second: Section,
-                  color: Colors.teal.shade900,
+                  color: Colors.teal.shade700,
                   shadowColor: Colors.black45,
                 ),
                 SizedBox(
@@ -160,7 +160,7 @@ class TeacherInfoShow extends StatelessWidget {
               "Welcome " + Name,
               style: Theme.of(context).textTheme.displayLarge!.copyWith(
                   fontSize: horizontal ? w * .085 : 40,
-                  color: Colors.teal.shade900,
+                  color: Colors.teal.shade800,
                   fontFamily: "Funky_Coffee"),
               textAlign: TextAlign.center,
             ),
@@ -170,7 +170,7 @@ class TeacherInfoShow extends StatelessWidget {
             CustomText(
               first: "Teacher Initial",
               second: TeacherInitial,
-              color: Colors.teal.shade900,
+              color: Colors.teal.shade700,
               shadowColor: Colors.black45,
             ),
             SizedBox(
@@ -179,7 +179,7 @@ class TeacherInfoShow extends StatelessWidget {
             CustomText(
               first: "Faculty",
               second: Faculty,
-              color: Colors.teal.shade900,
+              color: Colors.teal.shade700,
               shadowColor: Colors.black45,
             ),
             SizedBox(
@@ -190,7 +190,7 @@ class TeacherInfoShow extends StatelessWidget {
               second: Department.split("+").length > 1
                   ? "${Department.split("+")[0]}..."
                   : Department,
-              color: Colors.teal.shade900,
+              color: Colors.teal.shade700,
               shadowColor: Colors.black45,
             ),
           ],
