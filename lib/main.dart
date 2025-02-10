@@ -3,6 +3,7 @@ import 'package:diu_student/core/common/app%20user/userCubit/app_user_state.dart
 import 'package:diu_student/features/authentication/presentation/pages/login.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_bloc.dart';
 import 'package:diu_student/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ void main() async {
       .then((_) {
     runApp(MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => serviceLocator<NavBloc>()),
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
         BlocProvider(create: (_) => serviceLocator<HomeBloc>()),
         BlocProvider(create: (_) => serviceLocator<RoutineBloc>())

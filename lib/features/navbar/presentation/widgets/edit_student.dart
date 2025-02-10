@@ -1,4 +1,5 @@
 import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import '../../../authentication/presentation/widgets/single_chooser.dart';
 import 'customWidgets.dart';
 
 class EditStudentProfile extends StatefulWidget {
+  final UserEntity user;
   final TextEditingController facultyController;
   final TextEditingController departmentController;
   final TextEditingController emailController;
@@ -17,6 +19,7 @@ class EditStudentProfile extends StatefulWidget {
 
   const EditStudentProfile(
       {super.key,
+      required this.user,
       required this.emailController,
       required this.passwordController,
       required this.nameController,
@@ -45,7 +48,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
               SingleChooser(
                 map: Faculty_Info,
                 controller: widget.facultyController,
-                title: studentInfo.faculty!,
+                title: widget.user.faculty!,
                 func: () {
                   setState(() {});
                 },
@@ -58,7 +61,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                     ? {}
                     : Faculty_Info[widget.facultyController.text],
                 controller: widget.departmentController,
-                title: studentInfo.department!,
+                title: widget.user.department!,
                 func: () {},
               ),
             ],
@@ -74,7 +77,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))
                 ],
                 decoration: InputDecoration(
-                  hintText: "Name:  ${studentInfo.name}",
+                  hintText: "Name:  ${widget.user.name}",
                   counterText: "",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
@@ -82,13 +85,13 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
               ),
               CustomTextField(
                 controller: widget.batchController,
-                hintText: "Batch:   ${studentInfo.batch}",
+                hintText: "Batch:   ${widget.user.batch}",
                 isDigit: true,
                 maxLen: 2,
               ),
               CustomTextField(
                 controller: widget.sectionController,
-                hintText: "Section:  ${studentInfo.section}",
+                hintText: "Section:  ${widget.user.section}",
                 maxLen: 2,
               ),
               TextField(
@@ -97,7 +100,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9-]'))
                 ],
                 decoration: InputDecoration(
-                  hintText: "ID:  ${studentInfo.studentID}",
+                  hintText: "ID:  ${widget.user.studentID}",
                   counterText: "",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
@@ -105,7 +108,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
               ),
               TextField(
                 controller: widget.passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Password",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,

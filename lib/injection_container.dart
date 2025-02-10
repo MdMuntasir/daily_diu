@@ -7,6 +7,10 @@ import 'package:diu_student/features/home/data/repository/home_repo_implement.da
 import 'package:diu_student/features/home/domain/repository/home_repository.dart';
 import 'package:diu_student/features/home/domain/usecases/home_usecase.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
+import 'package:diu_student/features/navbar/Data/repository/nav_repo_implement.dart';
+import 'package:diu_student/features/navbar/Domain/repository/nav_repository.dart';
+import 'package:diu_student/features/navbar/Domain/usecase/nav_signout_usecase.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
 import 'package:diu_student/features/routine/data/repository/routine_repository_implement.dart';
 import 'package:diu_student/features/routine/domain/repository/routine_repository.dart';
 import 'package:diu_student/features/routine/domain/usecases/all_slot_usecase.dart';
@@ -34,6 +38,7 @@ Future<void> initializeDependency() async {
 
   await AppUserCubit().updateUser();
 
+  _initNavbar(Hive.box("UserInfo"));
   _initResult();
   _initRoutine(Hive.box("Routine"));
   _initHome(Hive.box("Routine"));
@@ -49,6 +54,21 @@ Future<void> initializeDependency() async {
 
   serviceLocator.registerFactory<UserEntity>(
       () => AppUserCubit().currentUser(serviceLocator()));
+}
+
+void _initNavbar(Box box) {
+  serviceLocator
+    ..registerFactory<NavRepository>(() => NavRepoImpl(
+          box,
+          serviceLocator(),
+        ))
+    ..registerFactory<NavSignOutUseCase>(() => NavSignOutUseCase(
+          serviceLocator(),
+        ))
+    ..registerLazySingleton(() => NavBloc(
+          user: serviceLocator(),
+          navSignOutUseCase: serviceLocator(),
+        ));
 }
 
 void _initResult() {}
