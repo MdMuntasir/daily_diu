@@ -102,7 +102,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                 decoration: InputDecoration(
                   hintText: "ID:  ${widget.user.studentID}",
                   counterText: "",
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: const TextStyle(color: Colors.grey),
                   border: InputBorder.none,
                 ),
               ),

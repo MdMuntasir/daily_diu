@@ -21,9 +21,6 @@ class ChangePassForm extends StatefulWidget {
 class _ChangePassFormState extends State<ChangePassForm> {
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
-
     return Center(
       child: Column(
         children: [
@@ -31,7 +28,7 @@ class _ChangePassFormState extends State<ChangePassForm> {
             fields: [
               TextField(
                 controller: widget.passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Old Password",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
@@ -40,7 +37,7 @@ class _ChangePassFormState extends State<ChangePassForm> {
               ),
               TextField(
                 controller: widget.NewPassController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "New Password",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
@@ -49,7 +46,7 @@ class _ChangePassFormState extends State<ChangePassForm> {
               ),
               TextField(
                 controller: widget.ConfirmNewPassController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Confirm New Password",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,

@@ -4,33 +4,82 @@ import 'package:diu_student/features/authentication/presentation/pages/login.dar
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
 import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
+import 'package:diu_student/features/result%20analysis/presentation/state/result_bloc.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_bloc.dart';
 import 'package:diu_student/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:lottie/lottie.dart';
 import 'core/common/app user/userCubit/app_user_cubit.dart';
 import 'features/authentication/presentation/widgets/textStyle.dart';
 import 'features/home/presentation/state/home_event.dart';
 
-void main() async {
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      home: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset("assets/lottie/Loading1.json", height: h * .3),
+            SizedBox(width: w),
+            Text("DAILY DIU", style: TextTittleStyle)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
-  await initializeDependency();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => serviceLocator<NavBloc>()),
-        BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
-        BlocProvider(create: (_) => serviceLocator<HomeBloc>()),
-        BlocProvider(create: (_) => serviceLocator<RoutineBloc>())
-      ],
-      child: const MyApp(),
-    ));
-  });
+
+  runApp(const AppLoader());
+}
+
+class AppLoader extends StatelessWidget {
+  const AppLoader({Key? key}) : super(key: key);
+
+  Future<void> _initializeApp() async {
+    await dotenv.load(fileName: '.env');
+    await initializeDependency();
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initializeApp(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => serviceLocator<ResultBloc>()),
+              BlocProvider(create: (_) => serviceLocator<NavBloc>()),
+              BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
+              BlocProvider(create: (_) => serviceLocator<HomeBloc>()),
+              BlocProvider(create: (_) => serviceLocator<RoutineBloc>())
+            ],
+            child: const MyApp(),
+          );
+        }
+
+        return const LoadingScreen();
+      },
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {

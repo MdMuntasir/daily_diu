@@ -1,5 +1,4 @@
 import 'package:diu_student/features/result%20analysis/domain/entities/semesterResultEntity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SingleCourseResult extends StatelessWidget {
@@ -9,7 +8,6 @@ class SingleCourseResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.sizeOf(context).height;
     double w = MediaQuery.sizeOf(context).width;
 
     double maxHeight = 155, barWidth = w * .05;
@@ -42,12 +40,14 @@ class SingleCourseResult extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: w * .7 * .7,
+                width: w * .7 * .75,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      maxLines: 2,
+                      overflow: TextOverflow.clip,
                       "Course: ${result.courseTitle}",
                       style: style,
                     ),

@@ -1,4 +1,3 @@
-import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/core/util/widgets/error_screen.dart';
 import 'package:diu_student/features/result%20analysis/presentation/state/result_bloc.dart';
 import 'package:diu_student/features/result%20analysis/presentation/state/result_event.dart';
@@ -22,11 +21,10 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   bool cgpaShow = false;
-  final resultBloc = ResultBloc(id: studentInfo.studentID ?? "232-35-999");
 
   @override
   void initState() {
-    resultBloc.add(ResultInitialEvent());
+    context.read<ResultBloc>().add(ResultInitialEvent());
     super.initState();
   }
 
@@ -54,7 +52,9 @@ class _ResultPageState extends State<ResultPage> {
               children: [
                 IconButton(
                     onPressed: () {
-                      resultBloc.add(ResultNavigateToNavBarEvent());
+                      context
+                          .read<ResultBloc>()
+                          .add(ResultNavigateToNavBarEvent());
                     },
                     color: Colors.teal.shade900,
                     icon: const Icon(FontAwesomeIcons.barsStaggered)),
@@ -64,7 +64,7 @@ class _ResultPageState extends State<ResultPage> {
         ],
       ),
       body: BlocConsumer(
-        bloc: resultBloc,
+        bloc: context.read<ResultBloc>(),
         listenWhen: (prev, current) => current is ResultActionState,
         buildWhen: (prev, current) =>
             current is! ResultActionState || current is ResultFailureState,
@@ -121,7 +121,7 @@ class _ResultPageState extends State<ResultPage> {
               final failureState = state as ResultFailureState;
               return ErrorScreen(
                 onPressed: () {
-                  resultBloc.add(ResultInitialEvent());
+                  context.read<ResultBloc>().add(ResultInitialEvent());
                 },
                 message: failureState.errorMessage,
               );
@@ -160,7 +160,7 @@ class _ResultPageState extends State<ResultPage> {
             default:
               return ErrorScreen(
                 onPressed: () {
-                  resultBloc.add(ResultInitialEvent());
+                  context.read<ResultBloc>().add(ResultInitialEvent());
                   setState(() {});
                 },
               );

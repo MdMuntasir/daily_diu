@@ -36,6 +36,6 @@ ThemeData lightTheme = ThemeData(
         color: Colors.green.shade900,
         fontWeight: FontWeight.bold,
         fontFamily: "Welcome_Magic",
-      )),
-  fontFamily: "Welcome_Magic",
+      ),
+      bodyMedium: TextStyle(fontSize: 15, fontFamily: "Welcome_Magic")),
 );
