@@ -7,7 +7,6 @@ class CustomForm extends StatefulWidget {
   final List<Widget> fields;
   final int duration;
 
-
   CustomForm({required this.fields, this.duration = 300});
 
   @override
@@ -21,8 +20,8 @@ class _CustomFormState extends State<CustomForm> {
     double h = MediaQuery.of(context).size.height;
 
     return AnimatedContainer(
-      height: h* .08 * widget.fields.length,
-      width: w*.85,
+      height: h * .08 * widget.fields.length,
+      width: w * .85,
       duration: Duration(milliseconds: widget.duration),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -59,28 +58,24 @@ class CustomTextField extends StatelessWidget {
   final Color hintColor;
   final bool obscureText;
   final bool isDigit;
-  final int ? maxLen;
+  final int? maxLen;
 
-  const CustomTextField({
-    Key? key,
-    required this.controller,
-    this.hintText = "Password",
-    this.hintColor = Colors.grey,
-    this.obscureText = false,
-    this.isDigit = false,
-    this.maxLen
-  }) : super(key: key);
+  const CustomTextField(
+      {Key? key,
+      required this.controller,
+      this.hintText = "Password",
+      this.hintColor = Colors.grey,
+      this.obscureText = false,
+      this.isDigit = false,
+      this.maxLen})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
     return TextField(
       controller: controller,
       keyboardType: isDigit ? TextInputType.number : TextInputType.text,
-      inputFormatters: isDigit? [
-        FilteringTextInputFormatter.digitsOnly
-      ] : [],
+      inputFormatters: isDigit ? [FilteringTextInputFormatter.digitsOnly] : [],
       maxLength: maxLen,
       decoration: InputDecoration(
         hintText: hintText,

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:diu_student/core/Network/connection_checker.dart';
 import 'package:diu_student/core/resources/data_state.dart';
+import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:diu_student/features/result%20analysis/data/data%20sources/local/result_local_data_source.dart';
 import 'package:diu_student/features/result%20analysis/data/data%20sources/remote/api_data_source.dart';
 import 'package:diu_student/features/result%20analysis/data/repository/resultRepositoryImp.dart';
@@ -14,9 +15,9 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 
 class ResultBloc extends Bloc<ResultEvent, ResultState> {
   late final double cgpa;
-  final String id;
+  final UserEntity user;
 
-  ResultBloc({required this.id}) : super(ResultLoadingState()) {
+  ResultBloc({required this.user}) : super(ResultLoadingState()) {
     on<ResultInitialEvent>(resultInitialEvent);
 
     on<ResultCGPAShowActionEvent>(resultCGPAShowActionEvent);
@@ -28,7 +29,7 @@ class ResultBloc extends Bloc<ResultEvent, ResultState> {
       ResultInitialEvent event, Emitter<ResultState> emit) async {
     emit(ResultLoadingState());
     final dataState = await ResultUseCase(ResultRepositoryImpl(
-            RemoteResultImpl(id),
+            RemoteResultImpl(user.studentID ?? "242-35-999"),
             RemoteSemestersImpl(),
             ConnectionCheckerImpl(
               InternetConnection(),

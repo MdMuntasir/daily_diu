@@ -19,7 +19,13 @@ class AppUserCubit extends Cubit<AppUserState> {
 
   Future<void> updateUser() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
-    await currentUser?.reload();
+
+    ConnectionChecker connectionChecker =
+        ConnectionCheckerImpl(InternetConnection.createInstance());
+    if (await connectionChecker.isConnected) {
+      await currentUser?.reload();
+    }
+
     if (currentUser == null) {
       emit(LoggedOutAppUser());
     } else {
@@ -28,7 +34,7 @@ class AppUserCubit extends Cubit<AppUserState> {
           RemoteUserDataImpl(),
           LocalUserDataImpl(Hive.box("UserInfo")),
           ConnectionCheckerImpl(InternetConnection.createInstance()),
-        )).call();
+        ))();
         if (user is DataSuccess<UserEntity>) {
           emit(LoggedAppUser(user.data!));
         } else {

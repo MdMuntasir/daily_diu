@@ -8,7 +8,7 @@ class NavSignOutUseCase implements UseCase {
   const NavSignOutUseCase(this._navRepository);
 
   @override
-  Future<DataState> call({para}) {
-    return _navRepository.signOut();
+  Future<DataState> call({para}) async {
+    return await _navRepository.signOut();
   }
 }

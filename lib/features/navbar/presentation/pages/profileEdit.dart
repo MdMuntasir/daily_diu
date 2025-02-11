@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
+import 'package:diu_student/core/util/model/user_info.dart';
 import 'package:diu_student/core/util/widgets/show_message.dart';
 import 'package:diu_student/features/navbar/presentation/pages/passChangePage.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_event.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_state.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/edit_student.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/edit_teacher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,17 +15,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../home/data/data_sources/local/local_routine.dart';
-import '../../../home/data/data_sources/local/local_user_info.dart';
-
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+class ProfileEdit extends StatefulWidget {
+  const ProfileEdit({super.key});
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<ProfileEdit> createState() => _ProfileEditState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _ProfileEditState extends State<ProfileEdit> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -61,247 +62,200 @@ class _EditProfileState extends State<EditProfile> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     bool horizontal = h > w;
-    bool isStudent = currentUser.user != null;
+    bool isStudent = currentUser.user == "Student";
 
-    Future<void> _submit() async {
-      String name = nameController.text.trim();
-      String batch = batchController.text;
-      String section = sectionController.text.trim().toUpperCase();
-      String studentId = studentIdController.text;
-      String teacherInitial =
-          teacherInitialController.text.trim().toUpperCase();
-      String faculty = facultyController.text;
-      String dept = departmentController.text;
-      String password = passwordController.text;
+    return BlocConsumer(
+        bloc: context.read<NavBloc>(),
+        listener: (context, state) {
+          if (state is EditProfileState) {
+            String name = nameController.text.trim();
+            String batch = batchController.text;
+            String section = sectionController.text.trim().toUpperCase();
+            String studentId = studentIdController.text;
+            String teacherInitial =
+                teacherInitialController.text.trim().toUpperCase();
+            String faculty = facultyController.text;
+            String dept = departmentController.text;
+            String password = passwordController.text;
 
-      setState(() {
-        isLoading = true;
-      });
-
-      if (password.isNotEmpty) {
-        if (faculty.isNotEmpty && dept.isEmpty) {
-          showDialog(
-              context: context,
-              builder: (context) =>
-                  ShowAlertMessage(text: "Choose department"));
-        } else {
-          if (isStudent) {
-            if (password == currentUser.password) {
-              try {
-                await FirebaseFirestore.instance
-                    .collection("student")
-                    .doc(currentUser.docID)
-                    .update({
-                  'name': name.isNotEmpty ? name : currentUser.name,
-                  'batch': batch.isNotEmpty ? batch : currentUser.batch,
-                  'section': section.isNotEmpty ? section : currentUser.section,
-                  'studentID':
-                      studentId.isNotEmpty ? studentId : currentUser.studentID,
-                  'faculty': faculty.isNotEmpty ? faculty : currentUser.faculty,
-                  'department': dept.isNotEmpty ? dept : currentUser.department,
-                }).then(
-                  (value) async {
-                    await getUserInfo();
-                    await getRoutineLocally(currentUser.department,
-                        "${currentUser.batch}${currentUser.section}", true);
-
-                    nameController.clear();
-                    batchController.clear();
-                    sectionController.clear();
-                    studentIdController.clear();
-                    facultyController.clear();
-                    departmentController.clear();
-                    passwordController.clear();
-
-                    showDialog(
-                        context: context,
-                        builder: (context) => const ShowAlertMessage(
-                              text: "Account has been successfully updated",
-                              hasSucceed: true,
-                            ));
-                  },
-                );
-              } on FirebaseException catch (e) {
+            if (password.isNotEmpty) {
+              if (faculty.isNotEmpty && dept.isEmpty) {
                 showDialog(
                     context: context,
                     builder: (context) =>
-                        ShowAlertMessage(text: e.code.toString()));
+                        const ShowAlertMessage(text: "Choose department"));
+              } else {
+                UserEntity modifiedUser = UserModel(
+                  name: name,
+                  batch: batch,
+                  faculty: faculty,
+                  department: dept,
+                  ti: teacherInitial,
+                  studentID: studentId,
+                  section: section,
+                );
+
+                if (password == currentUser.password) {
+                  nameController.clear();
+                  batchController.clear();
+                  sectionController.clear();
+                  studentIdController.clear();
+                  facultyController.clear();
+                  departmentController.clear();
+                  teacherInitialController.clear();
+                  passwordController.clear();
+                  context
+                      .read<NavBloc>()
+                      .add(EditProfileConfirmEvent(modifiedUser));
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) =>
+                          const ShowAlertMessage(text: "Wrong password"));
+                }
               }
             } else {
               showDialog(
                   context: context,
                   builder: (context) =>
-                      ShowAlertMessage(text: "Wrong password"));
+                      const ShowAlertMessage(text: "Enter your password"));
             }
-          } else {
-            if (password == currentUser.password) {
-              try {
-                await FirebaseFirestore.instance
-                    .collection("teacher")
-                    .doc(currentUser.docID)
-                    .update({
-                  'name': name.isNotEmpty ? name : currentUser.name,
-                  'ti': teacherInitial.isNotEmpty
-                      ? teacherInitial
-                      : currentUser.ti,
-                  'faculty': faculty.isNotEmpty ? faculty : currentUser.faculty,
-                  'department': dept.isNotEmpty ? dept : currentUser.department,
-                }).then(
-                  (value) async {
-                    await getUserInfo();
-                    await getRoutineLocally(
-                        currentUser.department, currentUser.ti, false);
-
-                    nameController.clear();
-                    teacherInitialController.clear();
-                    facultyController.clear();
-                    departmentController.clear();
-                    passwordController.clear();
-
-                    showDialog(
-                        context: context,
-                        builder: (context) => const ShowAlertMessage(
-                              text: "Account has successfully been updated",
-                              hasSucceed: true,
-                            ));
-                  },
-                );
-              } on FirebaseException catch (e) {
-                showDialog(
-                    context: context,
-                    builder: (context) =>
-                        ShowAlertMessage(text: e.code.toString()));
-              }
-            } else {
-              showDialog(
-                  context: context,
-                  builder: (context) =>
-                      ShowAlertMessage(text: "Wrong password"));
-            }
+          } else if (state is EditProfileSucceed) {
+            showDialog(
+                context: context,
+                builder: (context) => const ShowAlertMessage(
+                      text: "Account has been successfully updated",
+                      hasSucceed: true,
+                    ));
+          } else if (state is EditProfileFailed) {
+            final String errorMessage = state.message == "No Internet"
+                ? "No Internet Connection"
+                : "An error occurred while updating your profile";
+            showDialog(
+                context: context,
+                builder: (context) => ShowAlertMessage(
+                      text: errorMessage,
+                      hasSucceed: false,
+                    ));
           }
-        }
-      } else {
-        showDialog(
-            context: context,
-            builder: (context) =>
-                ShowAlertMessage(text: "Enter your password"));
-      }
-
-      setState(() {
-        isLoading = false;
-      });
-    }
-
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: h * .05,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+        },
+        builder: (context, state) {
+          return Scaffold(
+              body: SingleChildScrollView(
+            child: Column(
               children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(FontAwesomeIcons.xmark))
-              ],
-            ),
-          ),
-          SizedBox(
-            height: h * .02,
-          ),
-          SizedBox(
-            width: w * .8,
-            child: const Text(
-              "Only update fields that need to be modified, leave blank the other fields. Providing your password is mandatory to continue. ",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          SizedBox(
-            height: h * .03,
-          ),
-          isStudent
-              ? EditStudentProfile(
-                  user:
-                      AppUserCubit().currentUser(context.read<AppUserCubit>()),
-                  emailController: emailController,
-                  passwordController: passwordController,
-                  nameController: nameController,
-                  batchController: batchController,
-                  sectionController: sectionController,
-                  studentIdController: studentIdController,
-                  facultyController: facultyController,
-                  departmentController: departmentController,
-                )
-              : EditTeacherProfile(
-                  user:
-                      AppUserCubit().currentUser(context.read<AppUserCubit>()),
-                  emailController: emailController,
-                  passwordController: passwordController,
-                  nameController: nameController,
-                  teacherInitialController: teacherInitialController,
-                  facultyController: facultyController,
-                  departmentController: departmentController,
+                SizedBox(
+                  height: h * .05,
                 ),
-          SizedBox(
-            height: h * .01,
-          ),
-          SizedBox(
-            width: horizontal ? w * .85 : h * .85,
-            child: isLoading
-                ? const CupertinoActivityIndicator()
-                : ElevatedButton(
-                    onPressed: _submit,
-                    style: ButtonStyle(
-                        elevation: const WidgetStatePropertyAll(8),
-                        backgroundColor: WidgetStatePropertyAll(
-                            Colors.greenAccent.shade100)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            context.read<NavBloc>().add(NavInitialEvent());
+                            Navigator.of(context).pop();
+                          },
+                          icon: const Icon(FontAwesomeIcons.xmark))
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: h * .02,
+                ),
+                SizedBox(
+                  width: w * .8,
+                  child: const Text(
+                    "Update only the fields you want to change and leave the rest blank. To proceed, please enter your password.",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  height: h * .03,
+                ),
+                isStudent
+                    ? EditStudentProfile(
+                        user: AppUserCubit()
+                            .currentUser(context.read<AppUserCubit>()),
+                        emailController: emailController,
+                        passwordController: passwordController,
+                        nameController: nameController,
+                        batchController: batchController,
+                        sectionController: sectionController,
+                        studentIdController: studentIdController,
+                        facultyController: facultyController,
+                        departmentController: departmentController,
+                      )
+                    : EditTeacherProfile(
+                        user: AppUserCubit()
+                            .currentUser(context.read<AppUserCubit>()),
+                        emailController: emailController,
+                        passwordController: passwordController,
+                        nameController: nameController,
+                        teacherInitialController: teacherInitialController,
+                        facultyController: facultyController,
+                        departmentController: departmentController,
+                      ),
+                SizedBox(
+                  height: h * .01,
+                ),
+                SizedBox(
+                  width: horizontal ? w * .85 : h * .85,
+                  child: state is EditProfileLoadingState
+                      ? const CupertinoActivityIndicator()
+                      : ElevatedButton(
+                          onPressed: () {
+                            context.read<NavBloc>().add(EditProfileEvent());
+                          },
+                          style: ButtonStyle(
+                              elevation: const WidgetStatePropertyAll(8),
+                              backgroundColor: WidgetStatePropertyAll(
+                                  Colors.greenAccent.shade100)),
+                          child: const Text(
+                            "Submit",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Madimi",
+                            ),
+                          ),
+                        ),
+                ),
+                SizedBox(
+                  height: h * .02,
+                ),
+                SizedBox(
+                  width: horizontal ? w * .85 : h * .85,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PassChangePage()));
+                    },
+                    style: const ButtonStyle(
+                        elevation: WidgetStatePropertyAll(8),
+                        backgroundColor: WidgetStatePropertyAll(Colors.white)),
                     child: const Text(
-                      "Submit",
+                      "Change Password",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.black87,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Madimi",
                       ),
                     ),
                   ),
-          ),
-          SizedBox(
-            height: h * .02,
-          ),
-          SizedBox(
-            width: horizontal ? w * .85 : h * .85,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PassChangePage()));
-              },
-              style: const ButtonStyle(
-                  elevation: WidgetStatePropertyAll(8),
-                  backgroundColor: WidgetStatePropertyAll(Colors.white)),
-              child: const Text(
-                "Change Password",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Madimi",
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
-    ));
+          ));
+        });
   }
 }
