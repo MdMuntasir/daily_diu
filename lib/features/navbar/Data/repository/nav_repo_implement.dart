@@ -100,7 +100,7 @@ class NavRepoImpl implements NavRepository {
   }
 
   @override
-  Future<DataState> changePassword() {
+  Future<DataState> changePassword(UserEntity user) {
     // TODO: implement changePassword
     throw UnimplementedError();
   }

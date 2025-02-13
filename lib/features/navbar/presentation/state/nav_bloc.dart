@@ -18,10 +18,15 @@ class NavBloc extends Bloc<NavEvent, NavState> {
     required this.editProfileUseCase,
   }) : super(NavInitialState()) {
     on<NavInitialEvent>(navInitialEvent);
+
     on<SignOutFromNavEvent>(signOutFromNavEvent);
     on<SignOutConfirmEvent>(signOutConfirmEvent);
+
     on<EditProfileEvent>(editProfileEvent);
     on<EditProfileConfirmEvent>(editProfileConfirmEvent);
+
+    on<EditPassEvent>(editPassEvent);
+    on<EditPassConfirmEvent>(editPassConfirmEvent);
   }
 
   FutureOr<void> navInitialEvent(
@@ -51,6 +56,21 @@ class NavBloc extends Bloc<NavEvent, NavState> {
 
   FutureOr<void> editProfileConfirmEvent(
       EditProfileConfirmEvent event, Emitter<NavState> emit) async {
+    emit(EditProfileLoadingState());
+    final state = await editProfileUseCase(para: event.user);
+    if (state is DataSuccess) {
+      emit(EditProfileSucceed());
+    } else {
+      emit(EditProfileFailed(state.error.toString()));
+    }
+  }
+
+  FutureOr<void> editPassEvent(EditPassEvent event, Emitter<NavState> emit) {
+    emit(EditProfileState());
+  }
+
+  FutureOr<void> editPassConfirmEvent(
+      EditPassConfirmEvent event, Emitter<NavState> emit) async {
     emit(EditProfileLoadingState());
     final state = await editProfileUseCase(para: event.user);
     if (state is DataSuccess) {

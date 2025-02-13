@@ -10,6 +10,10 @@ sealed class NavEditProfileEvent extends NavEvent {
   const NavEditProfileEvent();
 }
 
+sealed class NavEditPassEvent extends NavEvent {
+  const NavEditPassEvent();
+}
+
 class NavInitialEvent extends NavEvent {}
 
 class NavLoadingEvent extends NavEvent {}
@@ -28,4 +32,12 @@ class EditProfileConfirmEvent extends NavEditProfileEvent {
   final UserEntity user;
 
   const EditProfileConfirmEvent(this.user);
+}
+
+class EditPassEvent extends NavEditPassEvent {}
+
+class EditPassConfirmEvent extends NavEditPassEvent {
+  final UserEntity user;
+
+  const EditPassConfirmEvent(this.user);
 }

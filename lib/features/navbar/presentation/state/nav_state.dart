@@ -52,10 +52,20 @@ class EditProfileFailed extends EditProfile {
   const EditProfileFailed(this.message);
 }
 
-class ChangePassword extends NavBarActionState {}
+sealed class ChangePassword extends NavState {
+  const ChangePassword();
+}
 
-class ChangePasswordLoadingState extends NavState {}
+sealed class ChangePasswordActionState extends ChangePassword {}
 
-class ChangePassSucceed extends NavState {}
+class ChangePasswordState extends ChangePasswordActionState {}
 
-class ChangePassFailed extends NavState {}
+class ChangePasswordLoadingState extends ChangePassword {}
+
+class ChangePassSucceed extends ChangePassword {}
+
+class ChangePassFailed extends ChangePassword {
+  final String message;
+
+  const ChangePassFailed(this.message);
+}
