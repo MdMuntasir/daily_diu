@@ -6,5 +6,5 @@ abstract class NavRepository {
 
   Future<DataState> editProfile(UserEntity user);
 
-  Future<DataState> changePassword();
+  Future<DataState> changePassword(UserEntity user);
 }
