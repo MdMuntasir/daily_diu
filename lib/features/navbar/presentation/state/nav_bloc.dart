@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
+import 'package:diu_student/features/navbar/Domain/usecase/nav_change_password_usecase.dart';
 import 'package:diu_student/features/navbar/Domain/usecase/nav_editprofile_usecase.dart';
 import 'package:diu_student/features/navbar/Domain/usecase/nav_signout_usecase.dart';
 import 'package:diu_student/features/navbar/presentation/state/nav_event.dart';
@@ -11,12 +12,14 @@ class NavBloc extends Bloc<NavEvent, NavState> {
   final UserEntity user;
   final NavSignOutUseCase navSignOutUseCase;
   final EditProfileUseCase editProfileUseCase;
+  final ChangePasswordUseCase changePasswordUseCase;
 
-  NavBloc({
-    required this.user,
-    required this.navSignOutUseCase,
-    required this.editProfileUseCase,
-  }) : super(NavInitialState()) {
+  NavBloc(
+      {required this.user,
+      required this.navSignOutUseCase,
+      required this.editProfileUseCase,
+      required this.changePasswordUseCase})
+      : super(NavInitialState()) {
     on<NavInitialEvent>(navInitialEvent);
 
     on<SignOutFromNavEvent>(signOutFromNavEvent);
@@ -66,17 +69,17 @@ class NavBloc extends Bloc<NavEvent, NavState> {
   }
 
   FutureOr<void> editPassEvent(EditPassEvent event, Emitter<NavState> emit) {
-    emit(EditProfileState());
+    emit(ChangePasswordState());
   }
 
   FutureOr<void> editPassConfirmEvent(
       EditPassConfirmEvent event, Emitter<NavState> emit) async {
-    emit(EditProfileLoadingState());
-    final state = await editProfileUseCase(para: event.user);
+    emit(ChangePasswordLoadingState());
+    final state = await changePasswordUseCase(para: event.password);
     if (state is DataSuccess) {
-      emit(EditProfileSucceed());
+      emit(ChangePassSucceed());
     } else {
-      emit(EditProfileFailed(state.error.toString()));
+      emit(ChangePassFailed(state.error.toString()));
     }
   }
 }

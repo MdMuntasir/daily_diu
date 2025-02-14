@@ -37,7 +37,7 @@ class EditProfileConfirmEvent extends NavEditProfileEvent {
 class EditPassEvent extends NavEditPassEvent {}
 
 class EditPassConfirmEvent extends NavEditPassEvent {
-  final UserEntity user;
+  final String password;
 
-  const EditPassConfirmEvent(this.user);
+  const EditPassConfirmEvent(this.password);
 }

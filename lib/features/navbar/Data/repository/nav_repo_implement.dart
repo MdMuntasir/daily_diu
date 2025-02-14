@@ -80,6 +80,66 @@ class NavRepoImpl implements NavRepository {
   }
 
   @override
+  Future<DataState> changePassword(String password) async {
+    User user = FirebaseAuth.instance.currentUser!;
+    UserEntity currentUser = appUserCubit.currentUser(appUserCubit);
+    ConnectionChecker connectionChecker =
+        ConnectionCheckerImpl(InternetConnection.createInstance());
+
+    if (await connectionChecker.isConnected) {
+      if (currentUser.user == "Student") {
+        try {
+          await user
+              .reauthenticateWithCredential(EmailAuthProvider.credential(
+                  email: currentUser.email!, password: currentUser.password!))
+              .then(
+            (_) async {
+              await user.updatePassword(password).then(
+                (_) {
+                  FirebaseFirestore.instance
+                      .collection("student")
+                      .doc(currentUser.docID!)
+                      .update({"password": password}).then(
+                          (_) => appUserCubit.updateUser());
+                },
+              );
+            },
+          );
+          return const DataSuccess("Password Changed Successfully");
+        } on FirebaseException catch (e) {
+          return DataFailed(e.message.toString());
+        }
+      } else if (currentUser.user == "Teacher") {
+        try {
+          await user
+              .reauthenticateWithCredential(EmailAuthProvider.credential(
+                  email: currentUser.email!, password: currentUser.password!))
+              .then(
+            (_) async {
+              await user.updatePassword(password).then(
+                (_) {
+                  FirebaseFirestore.instance
+                      .collection("teacher")
+                      .doc(currentUser.docID!)
+                      .update({"password": password}).then(
+                          (_) => appUserCubit.updateUser());
+                },
+              );
+            },
+          );
+          return const DataSuccess("Password Changed Successfully");
+        } on FirebaseException catch (e) {
+          return DataFailed(e.message.toString());
+        }
+      } else {
+        return const DataFailed("No User Found");
+      }
+    } else {
+      return const DataFailed("No Internet");
+    }
+  }
+
+  @override
   Future<DataState> signOut() async {
     ConnectionChecker connectionChecker =
         ConnectionCheckerImpl(InternetConnection.createInstance());
@@ -97,11 +157,5 @@ class NavRepoImpl implements NavRepository {
     } else {
       return const DataFailed("No Internet");
     }
-  }
-
-  @override
-  Future<DataState> changePassword(UserEntity user) {
-    // TODO: implement changePassword
-    throw UnimplementedError();
   }
 }
