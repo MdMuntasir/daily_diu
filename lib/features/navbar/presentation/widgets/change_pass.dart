@@ -21,42 +21,36 @@ class ChangePassForm extends StatefulWidget {
 class _ChangePassFormState extends State<ChangePassForm> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          CustomForm(
-            fields: [
-              TextField(
-                controller: widget.passwordController,
-                decoration: const InputDecoration(
-                  hintText: "Old Password",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: InputBorder.none,
-                ),
-                obscureText: true,
-              ),
-              TextField(
-                controller: widget.NewPassController,
-                decoration: const InputDecoration(
-                  hintText: "New Password",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: InputBorder.none,
-                ),
-                obscureText: true,
-              ),
-              TextField(
-                controller: widget.ConfirmNewPassController,
-                decoration: const InputDecoration(
-                  hintText: "Confirm New Password",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  border: InputBorder.none,
-                ),
-                obscureText: true,
-              ),
-            ],
+    return CustomForm(
+      fields: [
+        TextField(
+          controller: widget.passwordController,
+          decoration: const InputDecoration(
+            hintText: "Old Password",
+            hintStyle: TextStyle(color: Colors.grey),
+            border: InputBorder.none,
           ),
-        ],
-      ),
+          obscureText: true,
+        ),
+        TextField(
+          controller: widget.NewPassController,
+          decoration: const InputDecoration(
+            hintText: "New Password",
+            hintStyle: TextStyle(color: Colors.grey),
+            border: InputBorder.none,
+          ),
+          obscureText: true,
+        ),
+        TextField(
+          controller: widget.ConfirmNewPassController,
+          decoration: const InputDecoration(
+            hintText: "Confirm New Password",
+            hintStyle: TextStyle(color: Colors.grey),
+            border: InputBorder.none,
+          ),
+          obscureText: true,
+        ),
+      ],
     );
   }
 }
