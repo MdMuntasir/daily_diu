@@ -9,6 +9,7 @@ import 'package:diu_student/features/home/domain/usecases/home_usecase.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
 import 'package:diu_student/features/navbar/Data/repository/nav_repo_implement.dart';
 import 'package:diu_student/features/navbar/Domain/repository/nav_repository.dart';
+import 'package:diu_student/features/navbar/Domain/usecase/nav_change_password_usecase.dart';
 import 'package:diu_student/features/navbar/Domain/usecase/nav_editprofile_usecase.dart';
 import 'package:diu_student/features/navbar/Domain/usecase/nav_signout_usecase.dart';
 import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
@@ -70,11 +71,14 @@ void _initNavbar(Box box) {
     ..registerFactory<EditProfileUseCase>(() => EditProfileUseCase(
           serviceLocator(),
         ))
+    ..registerFactory<ChangePasswordUseCase>(() => ChangePasswordUseCase(
+          serviceLocator(),
+        ))
     ..registerLazySingleton(() => NavBloc(
-          user: serviceLocator(),
-          navSignOutUseCase: serviceLocator(),
-          editProfileUseCase: serviceLocator(),
-        ));
+        user: serviceLocator(),
+        navSignOutUseCase: serviceLocator(),
+        editProfileUseCase: serviceLocator(),
+        changePasswordUseCase: serviceLocator()));
 }
 
 void _initResult(Box box) {
