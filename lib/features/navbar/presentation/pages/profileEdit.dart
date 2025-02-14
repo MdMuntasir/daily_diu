@@ -220,7 +220,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             "Submit",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: 17,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Madimi",
                             ),
