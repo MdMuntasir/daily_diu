@@ -29,15 +29,7 @@ class _PassChangePageState extends State<PassChangePage> {
   User user = FirebaseAuth.instance.currentUser!;
   bool isLoading = false;
 
-  // late UserEntity currentUser;
   late bool isStudent;
-
-  // @override
-  // void initState() {
-  //   currentUser = AppUserCubit().currentUser(context.read<AppUserCubit>());
-  //   isStudent = currentUser.user == "Student";
-  //   super.initState();
-  // }
 
   @override
   void dispose() {
