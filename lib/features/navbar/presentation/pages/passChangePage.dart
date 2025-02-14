@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_event.dart';
+import 'package:diu_student/features/navbar/presentation/state/nav_state.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/change_pass.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,15 +28,16 @@ class _PassChangePageState extends State<PassChangePage> {
       TextEditingController();
   User user = FirebaseAuth.instance.currentUser!;
   bool isLoading = false;
-  late UserEntity currentUser;
+
+  // late UserEntity currentUser;
   late bool isStudent;
 
-  @override
-  void initState() {
-    currentUser = AppUserCubit().currentUser(context.read<AppUserCubit>());
-    isStudent = currentUser.user == "Student";
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   currentUser = AppUserCubit().currentUser(context.read<AppUserCubit>());
+  //   isStudent = currentUser.user == "Student";
+  //   super.initState();
+  // }
 
   @override
   void dispose() {
@@ -48,168 +52,116 @@ class _PassChangePageState extends State<PassChangePage> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     bool horizontal = h > w;
+    UserEntity currentUser =
+        AppUserCubit().currentUser(context.read<AppUserCubit>());
+    isStudent = currentUser.user == "Student";
 
-    Future<void> _updatePass() async {
-      String pass = passwordController.text;
-      String newPass = newPassController.text;
-      String confirmNewPass = confirmNewPassController.text;
+    return BlocConsumer(
+        bloc: context.read<NavBloc>(),
+        buildWhen: (previous, current) =>
+            current is ChangePassword && current is! ChangePasswordActionState,
+        listener: (context, state) {
+          if (state is ChangePasswordState) {
+            String pass = passwordController.text;
+            String newPass = newPassController.text;
+            String confirmNewPass = confirmNewPassController.text;
 
-      setState(() {
-        isLoading = true;
-      });
-
-      if (pass.isNotEmpty && newPass.isNotEmpty && confirmNewPass.isNotEmpty) {
-        if (newPassController.text == confirmNewPassController.text) {
-          String tempPass = newPass;
-
-          if (isStudent) {
-            if (studentInfo.password == pass) {
-              try {
-                await user
-                    .reauthenticateWithCredential(EmailAuthProvider.credential(
-                        email: studentInfo.email!, password: pass))
-                    .then(
-                  (value) async {
-                    await user.updatePassword(tempPass).then(
-                      (value) {
-                        FirebaseFirestore.instance
-                            .collection("student")
-                            .doc(studentInfo.docID!)
-                            .update({"password": tempPass}).then(
-                          (value) async {
-                            await getUserInfo();
-                            showDialog(
-                                context: context,
-                                builder: (context) => const ShowAlertMessage(
-                                      text: "Successfully updated password",
-                                      hasSucceed: true,
-                                    ));
-                          },
-                        );
-                      },
-                    );
-                  },
-                );
-              } on FirebaseAuthException catch (e) {
+            if (pass.isNotEmpty &&
+                newPass.isNotEmpty &&
+                confirmNewPass.isNotEmpty) {
+              if (newPassController.text == confirmNewPassController.text) {
+                String tempPass = newPass;
+                if (pass == currentUser.password) {
+                  context.read<NavBloc>().add(EditPassConfirmEvent(tempPass));
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) =>
+                          const ShowAlertMessage(text: "Wrong Password"));
+                }
+              } else {
                 showDialog(
                     context: context,
                     builder: (context) =>
-                        ShowAlertMessage(text: e.code.toString()));
+                        const ShowAlertMessage(text: "Password didn't match"));
               }
             } else {
               showDialog(
                   context: context,
-                  builder: (context) =>
-                      ShowAlertMessage(text: "Wrong password"));
+                  builder: (context) => const ShowAlertMessage(
+                      text: "Please fill all fields to continue"));
             }
-          } else {
-            if (teacherInfo.password == pass) {
-              try {
-                await user
-                    .reauthenticateWithCredential(EmailAuthProvider.credential(
-                        email: teacherInfo.email!, password: pass))
-                    .then(
-                  (value) async {
-                    showDialog(
-                        context: context,
-                        builder: (context) => const ShowAlertMessage(
-                              text: "Successfully updated password",
-                              hasSucceed: true,
-                            ));
+          } else if (state is ChangePassSucceed) {
+            confirmNewPassController.clear();
+            newPassController.clear();
+            passwordController.clear();
 
-                    await user.updatePassword(tempPass).then(
-                      (value) {
-                        FirebaseFirestore.instance
-                            .collection("teacher")
-                            .doc(teacherInfo.docID!)
-                            .update({"password": tempPass}).then(
-                          (value) async {
-                            await getUserInfo();
-                            showDialog(
-                                context: context,
-                                builder: (context) => const ShowAlertMessage(
-                                      text: "Successfully updated password",
-                                      hasSucceed: true,
-                                    ));
-                          },
-                        );
-                      },
-                    );
-                  },
-                );
-              } on FirebaseAuthException catch (e) {
-                showDialog(
-                    context: context,
-                    builder: (context) =>
-                        ShowAlertMessage(text: e.code.toString()));
-              }
-            } else {
-              showDialog(
-                  context: context,
-                  builder: (context) =>
-                      const ShowAlertMessage(text: "Wrong password"));
-            }
+            showDialog(
+                context: context,
+                builder: (context) => const ShowAlertMessage(
+                      text: "Your password has been successfully updated",
+                      hasSucceed: true,
+                    ));
+          } else if (state is ChangePassFailed) {
+            final String errorMessage = state.message == "No Internet"
+                ? "No Internet Connection"
+                : "An error occurred while updating your password";
+            showDialog(
+                context: context,
+                builder: (context) => ShowAlertMessage(
+                      text: errorMessage,
+                      hasSucceed: false,
+                    ));
           }
-        } else {
-          showDialog(
-              context: context,
-              builder: (context) =>
-                  const ShowAlertMessage(text: "Password didn't match"));
-        }
-      } else {
-        showDialog(
-            context: context,
-            builder: (context) => const ShowAlertMessage(
-                text: "To continue all fields are required"));
-      }
-
-      setState(() {
-        isLoading = false;
-      });
-    }
-
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Change Password",
-            style: Theme.of(context).textTheme.displayMedium,
-          ),
-          SizedBox(
-            height: h * .05,
-          ),
-          ChangePassForm(
-              passwordController: passwordController,
-              NewPassController: newPassController,
-              ConfirmNewPassController: confirmNewPassController),
-          SizedBox(
-            height: h * .02,
-          ),
-          SizedBox(
-            width: horizontal ? w * .85 : h * .85,
-            child: isLoading
-                ? CupertinoActivityIndicator()
-                : ElevatedButton(
-                    onPressed: _updatePass,
-                    style: ButtonStyle(
-                        elevation: const WidgetStatePropertyAll(8),
-                        backgroundColor: WidgetStatePropertyAll(
-                            Colors.greenAccent.shade100)),
-                    child: const Text(
-                      "Submit",
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Madimi",
-                      ),
-                    ),
-                  ),
-          ),
-        ],
-      ),
-    );
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Change Password",
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+                SizedBox(
+                  height: h * .05,
+                  width: w,
+                ),
+                ChangePassForm(
+                    passwordController: passwordController,
+                    NewPassController: newPassController,
+                    ConfirmNewPassController: confirmNewPassController),
+                SizedBox(
+                  height: h * .02,
+                ),
+                SizedBox(
+                  width: horizontal ? w * .85 : h * .85,
+                  child: state is ChangePasswordLoadingState
+                      ? const CupertinoActivityIndicator()
+                      : ElevatedButton(
+                          onPressed: () {
+                            context.read<NavBloc>().add(EditPassEvent());
+                          },
+                          style: ButtonStyle(
+                              elevation: const WidgetStatePropertyAll(8),
+                              backgroundColor: WidgetStatePropertyAll(
+                                  Colors.greenAccent.shade100)),
+                          child: const Text(
+                            "Submit",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Madimi",
+                            ),
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
