@@ -2,12 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-import 'customWidgets.dart';
+import '../../../../core/util/widgets/customWidgets.dart';
 import 'textStyle.dart';
-
-
-
 
 class signupTeacher extends StatelessWidget {
   final TextEditingController emailController;
@@ -15,7 +11,15 @@ class signupTeacher extends StatelessWidget {
   final TextEditingController confirmPassController;
   final TextEditingController nameController;
   final TextEditingController teacherInitialController;
-  const signupTeacher({super.key, required this.emailController, required this.passwordController, required this.nameController, required this.teacherInitialController, required this.confirmPassController,});
+
+  const signupTeacher({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+    required this.nameController,
+    required this.teacherInitialController,
+    required this.confirmPassController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,9 @@ class signupTeacher extends StatelessWidget {
         fields: [
           TextField(
             controller: nameController,
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z .]'))
+            ],
             decoration: const InputDecoration(
               hintText: "Name",
               counterText: "",
