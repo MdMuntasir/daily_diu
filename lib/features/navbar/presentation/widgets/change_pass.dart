@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../authentication/presentation/widgets/customWidgets.dart';
+import '../../../../core/util/widgets/customWidgets.dart';
 
 class ChangePassForm extends StatefulWidget {
   final TextEditingController passwordController;
