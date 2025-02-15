@@ -26,6 +26,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
+import 'core/remote info/get_info.dart';
 import 'firebase_options.dart';
 
 final serviceLocator = GetIt.instance;
@@ -38,6 +39,7 @@ Future<void> initializeDependency() async {
   await Hive.openBox("UserInfo");
   await Hive.openBox("Results");
   await Hive.openBox("Routine");
+  await getApiLink();
 
   await AppUserCubit().updateUser();
 
