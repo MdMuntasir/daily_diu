@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:diu_student/core/constants/constants.dart';
 
-import 'main_kamla_model.dart';
+import 'main_info_model.dart';
 
 Future<void> getApiLink() async {
   final _checkConnection = await Connectivity().checkConnectivity();
@@ -15,7 +15,7 @@ Future<void> getApiLink() async {
         .collection("Admin")
         .doc("Moharaj")
         .get();
-    MainKamlaModel kamla = MainKamlaModel.fromSnapShot(snapshot);
+    MainInfoModel kamla = MainInfoModel.fromSnapShot(snapshot);
     link1 = kamla.api;
   }
 }
