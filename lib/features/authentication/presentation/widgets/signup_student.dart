@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'customWidgets.dart';
+import '../../../../core/util/widgets/customWidgets.dart';
 
 class signupStudent extends StatelessWidget {
   final TextEditingController emailController;
