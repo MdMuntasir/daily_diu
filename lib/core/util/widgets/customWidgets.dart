@@ -71,8 +71,6 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
     return TextField(
       controller: controller,
       keyboardType: isDigit ? TextInputType.number : TextInputType.text,
