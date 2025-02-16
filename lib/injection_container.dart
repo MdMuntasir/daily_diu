@@ -14,11 +14,6 @@ import 'package:diu_student/features/navbar/Domain/usecase/nav_editprofile_useca
 import 'package:diu_student/features/navbar/Domain/usecase/nav_signout_usecase.dart';
 import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
 import 'package:diu_student/features/result%20analysis/presentation/state/result_bloc.dart';
-import 'package:diu_student/features/routine/data/repository/routine_repository_implement.dart';
-import 'package:diu_student/features/routine/domain/repository/routine_repository.dart';
-import 'package:diu_student/features/routine/domain/usecases/all_slot_usecase.dart';
-import 'package:diu_student/features/routine/domain/usecases/empty_slot_usecase.dart';
-import 'package:diu_student/features/routine/domain/usecases/time_usecase.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

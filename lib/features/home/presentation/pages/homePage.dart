@@ -1,6 +1,5 @@
 import 'package:diu_student/core/util/widgets/error_screen.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
-import 'package:diu_student/features/home/presentation/state/home_event.dart';
 import 'package:diu_student/features/home/presentation/state/home_state.dart';
 import 'package:diu_student/features/home/presentation/widgets/bottomBar.dart';
 import 'package:diu_student/features/home/presentation/widgets/home_info_show.dart';
@@ -165,15 +164,15 @@ class _homePageState extends State<homePage> {
               return const LoadingHomeScreen();
 
             case HomeFailedState:
-              return Scaffold(
-                body: const Center(
+              return const Scaffold(
+                body: Center(
                   child: ErrorScreen(),
                 ),
               );
 
             default:
-              return Scaffold(
-                body: const Center(
+              return const Scaffold(
+                body: Center(
                   child: ErrorScreen(),
                 ),
               );

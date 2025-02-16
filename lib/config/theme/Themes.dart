@@ -37,5 +37,5 @@ ThemeData lightTheme = ThemeData(
         fontWeight: FontWeight.bold,
         fontFamily: "Welcome_Magic",
       ),
-      bodyMedium: TextStyle(fontSize: 15, fontFamily: "Welcome_Magic")),
+      bodyMedium: const TextStyle(fontSize: 14, fontFamily: "Welcome_Magic")),
 );

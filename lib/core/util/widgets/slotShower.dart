@@ -8,14 +8,18 @@ class SlotShower extends StatefulWidget {
   final SlotEntity slots; // change path later
   final bool isActive;
 
-  const SlotShower({required this.slots, this.isActive = false});
+  const SlotShower({
+    super.key,
+    required this.slots,
+    this.isActive = false,
+  });
 
   @override
   _SlotShowerState createState() => _SlotShowerState();
 }
 
 class _SlotShowerState extends State<SlotShower> {
-  Duration _duration = Duration(milliseconds: 300);
+  final Duration _duration = const Duration(milliseconds: 300);
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +73,7 @@ class _SlotShowerState extends State<SlotShower> {
                   fontWeight: FontWeight.bold,
                   fontSize: 17.5,
                   color: Colors.white,
+                  fontFamily: "Madimi",
                   shadows: [
                     Shadow(
                         color: Colors.black54,
@@ -117,25 +122,30 @@ class _SlotShowerState extends State<SlotShower> {
                   CustomText(
                     first: "Course",
                     second: slots.course!,
-                    size: 16,
+                    size: 15,
                     color: Colors.white,
+                    fontFamily: "Madimi",
                   ),
                   CustomText(
                     first: "Room",
                     second: slots.room!,
-                    size: 16,
+                    size: 15,
                     color: Colors.white,
+                    fontFamily: "Madimi",
                   ),
                   CustomText(
-                      first: "Section",
-                      second: "${slots.batch}_${slots.section!}",
-                      size: 16,
-                      color: Colors.white),
+                    first: "Section",
+                    second: "${slots.batch}_${slots.section!}",
+                    size: 15,
+                    color: Colors.white,
+                    fontFamily: "Madimi",
+                  ),
                   CustomText(
                     first: "Teacher",
                     second: slots.ti!,
-                    size: 16,
+                    size: 15,
                     color: Colors.white,
+                    fontFamily: "Madimi",
                   ),
                 ],
               ),

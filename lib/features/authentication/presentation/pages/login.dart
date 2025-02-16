@@ -23,10 +23,7 @@ class loginScreen extends StatefulWidget {
 class _loginScreenState extends State<loginScreen> {
   bool isLoading = false;
   late TextEditingController emailController, passwordController;
-
-  // <----- to hide keyboard ----->
-
-  late FocusNode _focusNode; // FocusNode instance variable here
+  late FocusNode _focusNode;
 
   @override
   void initState() {
@@ -44,8 +41,6 @@ class _loginScreenState extends State<loginScreen> {
     super.dispose();
   }
 
-  // <----- to hide keyboard ----->
-
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -53,7 +48,6 @@ class _loginScreenState extends State<loginScreen> {
 
     return GestureDetector(
       onTap: () {
-        // to hide keyboard
         FocusScope.of(context).requestFocus(_focusNode);
       },
       child: Scaffold(
@@ -63,20 +57,17 @@ class _loginScreenState extends State<loginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Logo here
-
                 Image.asset(
                   "assets/images/logo.png",
                   height: h > w ? h * .15 : w * .15,
                 ),
 
-                SizedBox(height: 20),
-                // Welcome text
+                const SizedBox(height: 20),
                 Text(
                   "Welcome Back!",
                   style: TextTittleStyle,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -84,7 +75,7 @@ class _loginScreenState extends State<loginScreen> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromRGBO(27, 95, 225, 0.3),
                             blurRadius: 20,
@@ -94,14 +85,14 @@ class _loginScreenState extends State<loginScreen> {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(10),
+                          decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Color(0xffeeeeee))),
                           ),
                           child: TextField(
                             controller: emailController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: "E.g: softenge@diu.edu.bd",
                               hintStyle: TextStyle(color: Colors.grey),
                               border: InputBorder.none,
@@ -109,14 +100,14 @@ class _loginScreenState extends State<loginScreen> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(10),
+                          decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Color(0xffeeeeee))),
                           ),
                           child: TextField(
                             controller: passwordController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: "Password",
                               hintStyle: TextStyle(color: Colors.grey),
                               border: InputBorder.none,
@@ -136,7 +127,7 @@ class _loginScreenState extends State<loginScreen> {
                     children: [
                       TextButton(
                         onPressed: _forgotPass,
-                        child: Text('Forgot Password?'),
+                        child: const Text('Forgot Password?'),
                       ),
                     ],
                   ),
@@ -146,17 +137,17 @@ class _loginScreenState extends State<loginScreen> {
                     ? const CupertinoActivityIndicator()
                     : ElevatedButton(
                         onPressed: _login,
-                        child: Text('Login'),
+                        child: const Text('Login'),
                       ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Create account button
                 TextButton(
                   onPressed: _CreateAccount,
-                  child: Text(
+                  child: const Text(
                     'Don\'t have an account? Create Account.',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 17,
                     ),
                   ),
                 ),
@@ -317,7 +308,8 @@ class _loginScreenState extends State<loginScreen> {
   void _forgotPass() {
     String email = emailController.text.trim();
 
-    if (email != "" && email.endsWith("@diu.edu.bd")) {
+    if (email != "" && email.endsWith("@diu.edu.bd") ||
+        email.endsWith("@daffodilvarsity.edu.bd")) {
       try {
         FirebaseAuth.instance.sendPasswordResetEmail(email: email).then(
           (value) {
