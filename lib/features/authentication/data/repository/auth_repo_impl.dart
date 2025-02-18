@@ -39,10 +39,24 @@ class AuthRepoImpl implements AuthRepository {
 
   @override
   Future<DataState<UserEntity>> signUpUser({
+    required String confirmPassword,
     required UserEntity user,
-  }) {
-    // TODO: implement signUpUser
-    throw UnimplementedError();
+  }) async {
+    if (await connectionChecker.isConnected) {
+      final dataState = await authRemoteData.signUpUser(
+        confirmPassword: confirmPassword,
+        appUserCubit: appUserCubit,
+        user: user,
+      );
+      if (dataState is DataSuccess<UserEntity>) {
+        await appUserCubit.updateUser();
+        return DataSuccess(dataState.data!);
+      } else {
+        return DataFailed(dataState.error ?? "");
+      }
+    } else {
+      return const DataFailed("No Internet Connection");
+    }
   }
 
   @override
