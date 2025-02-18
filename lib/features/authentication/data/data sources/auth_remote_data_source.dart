@@ -56,10 +56,8 @@ class AuthRemoteDataImpl implements AuthRemoteData {
               .update({'verified': true});
         }
         await appUserCubit.updateUser();
-        return DataSuccess(userData);
-      } else {
-        return const DataFailed("User not verified");
       }
+      return DataSuccess(userData);
     } on FirebaseAuthException catch (e) {
       return DataFailed(e.code);
     }
