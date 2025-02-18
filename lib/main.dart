@@ -1,5 +1,6 @@
 import 'package:diu_student/config/theme/Themes.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_state.dart';
+import 'package:diu_student/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:diu_student/features/authentication/presentation/pages/login.dart';
 import 'package:diu_student/features/home/presentation/pages/homePage.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
@@ -31,13 +32,20 @@ class LoadingScreen extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: h * .02,
           children: [
-            Lottie.asset("assets/lottie/Loading1.json", height: h * .3),
-            SizedBox(width: w),
-            Text("DAILY DIU", style: TextTittleStyle)
+            Lottie.asset("assets/lottie/Loading1.json",
+                height: h * .3),
+            SizedBox(
+              width: w,
+            ),
+            Text(
+              "DAILY DIU",
+              style: TextTittleStyle,
+            )
           ],
         ),
-      ),
+      )
     );
   }
 }
@@ -65,6 +73,7 @@ class AppLoader extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MultiBlocProvider(
             providers: [
+              BlocProvider(create: (_)=> serviceLocator<AuthBloc>()),
               BlocProvider(create: (_) => serviceLocator<ResultBloc>()),
               BlocProvider(create: (_) => serviceLocator<NavBloc>()),
               BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),

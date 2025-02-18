@@ -1,6 +1,12 @@
 import 'package:diu_student/core/Network/connection_checker.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
+import 'package:diu_student/features/authentication/data/data%20sources/auth_remote_data_source.dart';
+import 'package:diu_student/features/authentication/data/repository/auth_repo_impl.dart';
+import 'package:diu_student/features/authentication/domain/repository/auth_repository.dart';
+import 'package:diu_student/features/authentication/domain/usecase/auth_forgot_pass_usecase.dart';
+import 'package:diu_student/features/authentication/domain/usecase/auth_login_usecase.dart';
+import 'package:diu_student/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_home_data.dart';
 import 'package:diu_student/features/home/data/data_sources/remote/remote_home_data.dart';
 import 'package:diu_student/features/home/data/repository/home_repo_implement.dart';
@@ -38,6 +44,7 @@ Future<void> initializeDependency() async {
 
   await AppUserCubit().updateUser();
 
+  _initAuth();
   _initNavbar(Hive.box("UserInfo"));
   _initResult(Hive.box("Results"));
   _initRoutine(Hive.box("Routine"));
@@ -54,6 +61,26 @@ Future<void> initializeDependency() async {
 
   serviceLocator.registerFactory<UserEntity>(
       () => AppUserCubit().currentUser(serviceLocator()));
+}
+
+void _initAuth() {
+  serviceLocator
+    ..registerFactory<AuthRemoteData>(() => AuthRemoteDataImpl())
+    ..registerFactory<AuthRepository>(() => AuthRepoImpl(
+          serviceLocator(),
+          serviceLocator(),
+          serviceLocator(),
+        ))
+    ..registerFactory<AuthForgotPassUseCase>(() => AuthForgotPassUseCase(
+          serviceLocator(),
+        ))
+    ..registerFactory<AuthLoginUseCase>(() => AuthLoginUseCase(
+          serviceLocator(),
+        ))
+    ..registerLazySingleton(() => AuthBloc(
+          authForgotPassUseCase: serviceLocator(),
+          authLoginUseCase: serviceLocator(),
+        ));
 }
 
 void _initNavbar(Box box) {
