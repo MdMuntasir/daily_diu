@@ -1,14 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/core/util/widgets/show_message.dart';
+import 'package:diu_student/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:diu_student/features/authentication/presentation/bloc/auth_event.dart';
+import 'package:diu_student/features/authentication/presentation/bloc/auth_state.dart';
 import 'package:diu_student/features/authentication/presentation/pages/signup_page.dart';
-import 'package:diu_student/features/home/data/data_sources/local/local_user_info.dart';
-import 'package:diu_student/core/util/model/user_info.dart';
-import 'package:diu_student/features/home/data/repository/user_info_store.dart';
+import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
+import 'package:diu_student/features/home/presentation/state/home_event.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../home/data/data_sources/local/local_routine.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../home/presentation/pages/homePage.dart';
 import '../widgets/textStyle.dart';
 import 'email_varification_page.dart';
@@ -21,23 +21,19 @@ class loginScreen extends StatefulWidget {
 }
 
 class _loginScreenState extends State<loginScreen> {
-  bool isLoading = false;
   late TextEditingController emailController, passwordController;
-  late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     emailController = TextEditingController();
     passwordController = TextEditingController();
-    _focusNode = FocusNode();
   }
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
@@ -46,296 +42,194 @@ class _loginScreenState extends State<loginScreen> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(_focusNode);
-      },
-      child: Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/logo.png",
-                  height: h > w ? h * .15 : w * .15,
+    return BlocConsumer(
+        bloc: context.read<AuthBloc>(),
+        buildWhen: (previous, current) =>
+            current is! AuthActionState && current is AuthLogin,
+        listener: ((context, state) async {
+          if (state is AuthLoginState) {
+            if (state.email.isNotEmpty && state.password.isNotEmpty) {
+              context.read<AuthBloc>().add(AuthLoginConfirmEvent(
+                    email: state.email,
+                    password: state.password,
+                  ));
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) => const ShowAlertMessage(
+                  hasSucceed: false,
+                  text: "Fill all the information to continue",
                 ),
-
-                const SizedBox(height: 20),
-                Text(
-                  "Welcome Back!",
-                  style: TextTittleStyle,
-                ),
-                const SizedBox(height: 20),
-
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(27, 95, 225, 0.3),
-                            blurRadius: 20,
-                            offset: Offset(0, 10),
-                          )
-                        ]),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Color(0xffeeeeee))),
-                          ),
-                          child: TextField(
-                            controller: emailController,
-                            decoration: const InputDecoration(
-                              hintText: "E.g: softenge@diu.edu.bd",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Color(0xffeeeeee))),
-                          ),
-                          child: TextField(
-                            controller: passwordController,
-                            decoration: const InputDecoration(
-                              hintText: "Password",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                            obscureText: true,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // Forgot password text button
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+              );
+            }
+          } else if (state is AuthLoginSucceed) {
+            context.read<HomeBloc>().add(HomeInitialEvent());
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const homePage(),
+                ));
+          } else if (state is AuthLoginFailed) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.message),
+            ));
+          } else if (state is AuthLoginNotVerified) {
+            await FirebaseAuth.instance.currentUser
+                ?.sendEmailVerification()
+                .then(
+              (_) {
+                if (context.mounted) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmailVerifyScreen(
+                                isStudent: state.user.user == "Student",
+                                docId: state.user.docID!,
+                              )));
+                }
+              },
+            );
+          } else if (state is AuthLoginForgotPassword) {
+            showDialog(
+              context: context,
+              builder: (context) => ShowAlertMessage(
+                text: state.message,
+              ),
+            );
+          }
+        }),
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Scaffold(
+              body: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Image.asset(
+                        "assets/images/logo.png",
+                        height: h > w ? h * .15 : w * .15,
+                      ),
+
+                      const SizedBox(height: 20),
+                      Text(
+                        "Welcome Back!",
+                        style: TextTittleStyle,
+                      ),
+                      const SizedBox(height: 20),
+
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(27, 95, 225, 0.3),
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10),
+                                )
+                              ]),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                      bottom:
+                                          BorderSide(color: Color(0xffeeeeee))),
+                                ),
+                                child: TextField(
+                                  controller: emailController,
+                                  decoration: const InputDecoration(
+                                    hintText: "E.g: softenge@diu.edu.bd",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                      bottom:
+                                          BorderSide(color: Color(0xffeeeeee))),
+                                ),
+                                child: TextField(
+                                  controller: passwordController,
+                                  decoration: const InputDecoration(
+                                    hintText: "Password",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                  obscureText: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Forgot password text button
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                String email = emailController.text.trim();
+                                context.read<AuthBloc>().add(
+                                      AuthLoginForgotPasswordEvent(email),
+                                    );
+                              },
+                              child: const Text('Forgot Password?'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Login button
+                      context.read<AuthBloc>().state is AuthLoginLoading
+                          ? const CupertinoActivityIndicator()
+                          : ElevatedButton(
+                              onPressed: () {
+                                String email = emailController.text.trim();
+                                String pass = passwordController.text;
+                                context.read<AuthBloc>().add(AuthLoginEvent(
+                                      email: email,
+                                      password: pass,
+                                    ));
+                              },
+                              child: const Text('Login'),
+                            ),
+                      const SizedBox(height: 10),
+
+                      // Create account button
                       TextButton(
-                        onPressed: _forgotPass,
-                        child: const Text('Forgot Password?'),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupPage()),
+                          );
+                        },
+                        child: const Text(
+                          'Don\'t have an account? Create Account.',
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                // Login button
-                isLoading
-                    ? const CupertinoActivityIndicator()
-                    : ElevatedButton(
-                        onPressed: _login,
-                        child: const Text('Login'),
-                      ),
-                const SizedBox(height: 10),
-
-                // Create account button
-                TextButton(
-                  onPressed: _CreateAccount,
-                  child: const Text(
-                    'Don\'t have an account? Create Account.',
-                    style: TextStyle(
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _login() async {
-    String email = emailController.text.trim();
-    String pass = passwordController.text;
-
-    setState(() {
-      isLoading = true;
-    });
-
-    if (email.isNotEmpty && pass.isNotEmpty) {
-      UserCredential? user;
-      try {
-        user = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: pass)
-            .then((val) async {
-          FirebaseFirestore _db = FirebaseFirestore.instance;
-
-          final snapshot1 = await _db
-              .collection("student")
-              .where("email", isEqualTo: email)
-              .get();
-          final snapshot2 = await _db
-              .collection("teacher")
-              .where("email", isEqualTo: email)
-              .get();
-
-          bool verified = FirebaseAuth.instance.currentUser!.emailVerified;
-
-          //Executes if the user is student
-          if (snapshot1.docs.isNotEmpty) {
-            StudentInfoModel userData = snapshot1.docs
-                .map((e) => StudentInfoModel.fromSnapshot(e))
-                .single;
-
-            //Checks if the user verified
-            if (verified) {
-              if (!userData.verified!) {
-                await FirebaseFirestore.instance
-                    .collection("student")
-                    .doc(userData.docID)
-                    .update({'verified': true});
-              }
-              await getRoutineLocally(userData.department,
-                  "${userData.batch}${userData.section}", true);
-              StoreUserInfo(userData, true);
-              await getUserInfo();
-
-              UserRole = "Student";
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const homePage()),
-              );
-            }
-
-            //Redirect to verification page
-            else {
-              await FirebaseAuth.instance.currentUser
-                  ?.sendEmailVerification()
-                  .then(
-                (value) {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EmailVerifyScreen(
-                                isStudent: true,
-                                docId: userData.docID!,
-                              )));
-                },
-              );
-            }
-          }
-
-          //Executes if the user is teacher
-          else {
-            TeacherInfoModel userData = snapshot2.docs
-                .map((e) => TeacherInfoModel.fromSnapshot(e))
-                .single;
-
-            //Checks if the user verified
-            if (verified) {
-              if (!userData.verified!) {
-                await FirebaseFirestore.instance
-                    .collection("teacher")
-                    .doc(userData.docID)
-                    .update({'verified': true});
-              }
-              await getRoutineLocally(userData.department, userData.ti, false);
-              StoreUserInfo(userData, false);
-              await getUserInfo();
-
-              UserRole = "Teacher";
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const homePage()),
-              );
-            }
-
-            //Redirect to verification page
-            else {
-              await FirebaseAuth.instance.currentUser
-                  ?.sendEmailVerification()
-                  .then(
-                (value) {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EmailVerifyScreen(
-                                isStudent: true,
-                                docId: userData.docID!,
-                              )));
-                },
-              );
-            }
-          }
-
-          return null;
-        });
-      } on FirebaseAuthException catch (e) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.code.toString())));
-      }
-    }
-
-    //Executes if any information has not been entered
-    else {
-      showDialog(
-        context: context,
-        builder: (context) => const ShowAlertMessage(
-          hasSucceed: false,
-          text: "Fill all the information to continue",
-        ),
-      );
-    }
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  void _CreateAccount() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => SignupPage()),
-    );
-  }
-
-  void _forgotPass() {
-    String email = emailController.text.trim();
-
-    if (email != "" && email.endsWith("@diu.edu.bd") ||
-        email.endsWith("@daffodilvarsity.edu.bd")) {
-      try {
-        FirebaseAuth.instance.sendPasswordResetEmail(email: email).then(
-          (value) {
-            showDialog(
-              context: context,
-              builder: (context) => const ShowAlertMessage(
-                hasSucceed: true,
-                text: "Password reset email has been sent to your mail address",
               ),
-            );
-          },
-        );
-      } on FirebaseException catch (e) {
-        showDialog(
-            context: context,
-            builder: (context) => ShowAlertMessage(
-                  text: e.code.toString(),
-                ));
-      }
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => const ShowAlertMessage(
-          text: "Enter a valid email address",
-        ),
-      );
-    }
+            ),
+          );
+        });
   }
 } // end line
