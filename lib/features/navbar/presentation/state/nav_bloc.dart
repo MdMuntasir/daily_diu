@@ -44,6 +44,7 @@ class NavBloc extends Bloc<NavEvent, NavState> {
 
   FutureOr<void> signOutConfirmEvent(
       SignOutConfirmEvent event, Emitter<NavState> emit) async {
+    emit(SignOutLoading());
     final state = await navSignOutUseCase();
     if (state is DataSuccess) {
       emit(SignOutConfirm());
