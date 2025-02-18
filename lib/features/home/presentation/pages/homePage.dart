@@ -74,10 +74,12 @@ class _homePageState extends State<homePage> {
 
               return GestureDetector(
                 onVerticalDragDown: (details) {
-                  if (details.globalPosition.dy <= h * .42)
+                  if (details.globalPosition.dy <= h * .42) {
                     showOptions = false;
-                  else if (details.globalPosition.dy >= h * .934 &&
-                      details.globalPosition.dy <= h) showOptions = true;
+                  } else if (details.globalPosition.dy >= h * .934 &&
+                      details.globalPosition.dy <= h) {
+                    showOptions = true;
+                  }
                   setState(() {});
                 },
                 child: Scaffold(
