@@ -1,4 +1,3 @@
-import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:flutter/cupertino.dart';
 
 @immutable
@@ -10,7 +9,9 @@ sealed class NavBarState extends NavState {
   const NavBarState();
 }
 
-sealed class NavBarActionState extends NavBarState {}
+sealed class NavBarActionState extends NavBarState {
+  const NavBarActionState();
+}
 
 class NavInitialState extends NavBarState {}
 
@@ -28,7 +29,9 @@ class SignOutFromNav extends NavBarActionState {}
 
 class SignOutConfirm extends NavBarActionState {}
 
-class SignOutFailed extends NavBarState {
+class SignOutLoading extends NavBarState {}
+
+class SignOutFailed extends NavBarActionState {
   final String message;
 
   const SignOutFailed(this.message);
