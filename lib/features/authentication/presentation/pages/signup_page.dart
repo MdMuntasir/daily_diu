@@ -95,8 +95,9 @@ class _SignupPageState extends State<SignupPage> {
             confirmPass.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
               snackBarAnimationStyle:
-                  AnimationStyle(duration: Duration(seconds: 2)),
-              SnackBar(content: Text("Fill all the information to continue")));
+                  AnimationStyle(duration: const Duration(seconds: 2)),
+              const SnackBar(
+                  content: Text("Fill all the information to continue")));
         } else {
           if (confirmPass == password) {
             if (email.endsWith("@diu.edu.bd")) {
@@ -104,19 +105,19 @@ class _SignupPageState extends State<SignupPage> {
                   ? await _studentSignup()
                   : ScaffoldMessenger.of(context).showSnackBar(
                       snackBarAnimationStyle:
-                          AnimationStyle(duration: Duration(seconds: 2)),
-                      SnackBar(content: Text("Enter a strong password")));
+                          AnimationStyle(duration: const Duration(seconds: 2)),
+                      const SnackBar(content: Text("Enter a strong password")));
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                   snackBarAnimationStyle:
-                      AnimationStyle(duration: Duration(seconds: 2)),
-                  SnackBar(content: Text("Enter a valid DIU mail")));
+                      AnimationStyle(duration: const Duration(seconds: 2)),
+                  const SnackBar(content: Text("Enter a valid DIU mail")));
             }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
                 snackBarAnimationStyle:
-                    AnimationStyle(duration: Duration(seconds: 2)),
-                SnackBar(content: Text("Password didn't match")));
+                    AnimationStyle(duration: const Duration(seconds: 2)),
+                const SnackBar(content: Text("Password didn't match")));
           }
         }
       } else {
