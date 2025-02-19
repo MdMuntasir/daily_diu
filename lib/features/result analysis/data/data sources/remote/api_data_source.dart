@@ -3,7 +3,7 @@ import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/result%20analysis/data/model/semesterModel.dart';
 import 'package:diu_student/features/result%20analysis/data/model/semesterResultModel.dart';
 
-import '../../../../../core/constants/constants.dart';
+import '../../../../../core/links/api_links.dart';
 
 final dio = Dio();
 
