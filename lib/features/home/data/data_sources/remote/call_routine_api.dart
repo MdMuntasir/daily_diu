@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../../../../core/constants/constants.dart';
+import '../../../../../core/links/api_links.dart';
 
 class StudentRoutineAPI {
   final String batchSection, dept;
@@ -11,7 +11,7 @@ class StudentRoutineAPI {
 
   Future<List> getRoutine() async {
     final uri = Uri.parse(
-        routine_api + "/$dept/student-routine?batchSection=$batchSection");
+        "$routine_api/$dept/student-routine?batchSection=$batchSection");
     var response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -34,8 +34,8 @@ class TeacherRoutineAPI {
   TeacherRoutineAPI({required this.ti, required this.dept});
 
   Future<List> getRoutine() async {
-    final uri = Uri.parse(
-        routine_api + "/$dept/full-teacher-routine?teacherInitial=$ti");
+    final uri =
+        Uri.parse("$routine_api/$dept/full-teacher-routine?teacherInitial=$ti");
     var response = await http.get(uri);
 
     if (response.statusCode == 200) {
