@@ -12,12 +12,17 @@ sealed class AuthLogin extends AuthState {
   const AuthLogin();
 }
 
-sealed class AuthSignUp extends AuthState {}
+sealed class AuthSignUp extends AuthState {
+  const AuthSignUp();
+}
 
-sealed class AuthVerification extends AuthState {}
+sealed class AuthVerification extends AuthState {
+  const AuthVerification();
+}
 
 class AuthInitialState extends AuthState {}
 
+// Login Page States
 class AuthLoginState extends AuthActionState {
   final String email;
   final String password;
@@ -52,4 +57,44 @@ class AuthLoginForgotPassword extends AuthActionState {
   final String message;
 
   const AuthLoginForgotPassword(this.message);
+}
+
+// SignUp Page States
+class AuthSignUpState extends AuthActionState {
+  final UserEntity user;
+  final String confirmPassword;
+
+  const AuthSignUpState({
+    required this.user,
+    required this.confirmPassword,
+  });
+}
+
+class AuthSignUpLoading extends AuthSignUp {}
+
+class AuthSignUpSucceed extends AuthSignUp {
+  final UserEntity user;
+
+  const AuthSignUpSucceed(this.user);
+}
+
+class AuthSignUpFailed extends AuthSignUp {
+  final String message;
+
+  const AuthSignUpFailed(this.message);
+}
+
+// Verification Page States
+class AuthVerificationLoading extends AuthVerification {}
+
+class AuthVerifiedState extends AuthVerification {
+  final String message;
+
+  const AuthVerifiedState(this.message);
+}
+
+class AuthVerificationFailed extends AuthVerification {
+  final String message;
+
+  const AuthVerificationFailed(this.message);
 }
