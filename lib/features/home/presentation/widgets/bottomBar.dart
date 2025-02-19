@@ -1,5 +1,4 @@
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
-import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/features/home/presentation/widgets/customButton.dart';
 import 'package:diu_student/features/result%20analysis/presentation/pages/result_page.dart';
 import 'package:diu_student/features/routine/presentation/pages/routine_page.dart';
@@ -7,7 +6,6 @@ import 'package:diu_student/features/web%20services/pages/attendance_portal.dart
 import 'package:diu_student/features/web%20services/pages/blc_main.dart';
 import 'package:diu_student/features/web%20services/pages/noticeBoard.dart';
 import 'package:diu_student/features/web%20services/pages/portal.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
