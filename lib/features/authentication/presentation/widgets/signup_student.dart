@@ -64,7 +64,7 @@ class signupStudent extends StatelessWidget {
           TextFormField(
             controller: emailController,
             decoration: const InputDecoration(
-              hintText: "E.g: softenge@diu.edu.bd",
+              hintText: "E.g: sam241-35-000@diu.edu.bd",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),

@@ -45,8 +45,8 @@ class signupTeacher extends StatelessWidget {
           ),
           TextFormField(
             controller: emailController,
-            decoration: InputDecoration(
-              hintText: "E.g: softenge@diu.edu.bd",
+            decoration: const InputDecoration(
+              hintText: "E.g: sam241-35-000@diu.edu.bd",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
             ),
@@ -61,7 +61,7 @@ class signupTeacher extends StatelessWidget {
           ),
           TextField(
             controller: passwordController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Password",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
@@ -70,7 +70,7 @@ class signupTeacher extends StatelessWidget {
           ),
           TextField(
             controller: confirmPassController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Confirm Password",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,

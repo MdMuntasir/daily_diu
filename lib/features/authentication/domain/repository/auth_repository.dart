@@ -15,4 +15,8 @@ abstract class AuthRepository {
   Future<DataState<String>> forgotPassword({
     required String email,
   });
+
+  Future<DataState<String>> verifyUser({
+    required UserEntity user,
+  });
 }

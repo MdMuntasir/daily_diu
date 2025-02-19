@@ -4,6 +4,7 @@ import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:diu_student/features/navbar/Domain/repository/nav_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
@@ -11,9 +12,9 @@ import '../../../../core/Network/connection_checker.dart';
 
 class NavRepoImpl implements NavRepository {
   final AppUserCubit appUserCubit;
-  final Box box;
+  final List<Box> boxes;
 
-  NavRepoImpl(this.box, this.appUserCubit);
+  NavRepoImpl(this.boxes, this.appUserCubit);
 
   @override
   Future<DataState> editProfile(UserEntity newUser) async {
@@ -147,7 +148,9 @@ class NavRepoImpl implements NavRepository {
     if (await connectionChecker.isConnected) {
       try {
         await FirebaseAuth.instance.signOut().then((_) async {
-          await box.clear();
+          for (Box box in boxes) {
+            box.clear();
+          }
           await appUserCubit.updateUser();
         });
         return const DataSuccess("Signed Out");

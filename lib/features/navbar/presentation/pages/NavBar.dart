@@ -8,6 +8,7 @@ import 'package:diu_student/features/navbar/presentation/state/nav_event.dart';
 import 'package:diu_student/features/navbar/presentation/state/nav_state.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/developer_info.dart';
 import 'package:diu_student/features/navbar/presentation/widgets/user_info_show.dart';
+import 'package:diu_student/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -58,7 +59,7 @@ class _NavBarState extends State<NavBar> {
                 content: Text('Logged Out'),
               ));
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const loginScreen()));
+                  MaterialPageRoute(builder: (context) => const MyApp()));
             }
           } else if (state is SignOutFailed) {
             context.read<NavBloc>().add(NavInitialEvent());

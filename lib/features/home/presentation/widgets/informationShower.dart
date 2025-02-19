@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'customText.dart';
@@ -52,7 +51,8 @@ class StudentInfoShow extends StatelessWidget {
               width: horizontal ? w : w * .8,
               child: Center(
                 child: Text(
-                  "Welcome " + Name,
+                  "Welcome $Name",
+                  maxLines: 1,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                       fontSize: horizontal ? w * .085 : 40,
                       color: Colors.teal.shade800,

@@ -31,3 +31,11 @@ class AuthSignUpEvent extends AuthEvent {
     required this.confirmPassword,
   });
 }
+
+class AuthVerifyEvent extends AuthEvent {
+  final UserEntity user;
+
+  const AuthVerifyEvent({
+    required this.user,
+  });
+}

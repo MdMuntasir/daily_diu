@@ -78,4 +78,22 @@ class AuthRepoImpl implements AuthRepository {
       return const DataFailed("No Internet Connection");
     }
   }
+
+  @override
+  Future<DataState<String>> verifyUser({required UserEntity user}) async {
+    if (await connectionChecker.isConnected) {
+      try {
+        await FirebaseFirestore.instance
+            .collection(user.user == "Student" ? "student" : "teacher")
+            .doc(user.docID)
+            .update({'verified': true});
+        await appUserCubit.updateUser();
+        return const DataSuccess("Successfully Signed Up");
+      } on FirebaseException catch (e) {
+        return DataFailed(e.code);
+      }
+    } else {
+      return const DataFailed("No Internet Connection");
+    }
+  }
 }

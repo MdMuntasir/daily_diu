@@ -5,6 +5,7 @@ import 'package:diu_student/features/authentication/presentation/bloc/auth_state
 import 'package:diu_student/features/authentication/presentation/pages/signup_page.dart';
 import 'package:diu_student/features/home/presentation/state/home_bloc.dart';
 import 'package:diu_student/features/home/presentation/state/home_event.dart';
+import 'package:diu_student/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,27 +48,12 @@ class _loginScreenState extends State<loginScreen> {
         buildWhen: (previous, current) =>
             current is! AuthActionState && current is AuthLogin,
         listener: ((context, state) async {
-          if (state is AuthLoginState) {
-            if (state.email.isNotEmpty && state.password.isNotEmpty) {
-              context.read<AuthBloc>().add(AuthLoginConfirmEvent(
-                    email: state.email,
-                    password: state.password,
-                  ));
-            } else {
-              showDialog(
-                context: context,
-                builder: (context) => const ShowAlertMessage(
-                  hasSucceed: false,
-                  text: "Fill all the information to continue",
-                ),
-              );
-            }
-          } else if (state is AuthLoginSucceed) {
+          if (state is AuthLoginSucceed) {
             context.read<HomeBloc>().add(HomeInitialEvent());
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const homePage(),
+                  builder: (context) => const MyApp(),
                 ));
           } else if (state is AuthLoginFailed) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -83,8 +69,9 @@ class _loginScreenState extends State<loginScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => EmailVerifyScreen(
-                                isStudent: state.user.user == "Student",
-                                docId: state.user.docID!,
+                                user: state.user,
+                                // isStudent: state.user.user == "Student",
+                                // docId: state.user.docID!,
                               )));
                 }
               },
