@@ -6,6 +6,8 @@ import 'package:diu_student/features/authentication/data/repository/auth_repo_im
 import 'package:diu_student/features/authentication/domain/repository/auth_repository.dart';
 import 'package:diu_student/features/authentication/domain/usecase/auth_forgot_pass_usecase.dart';
 import 'package:diu_student/features/authentication/domain/usecase/auth_login_usecase.dart';
+import 'package:diu_student/features/authentication/domain/usecase/auth_signup_usecase.dart';
+import 'package:diu_student/features/authentication/domain/usecase/auth_verify_usecase.dart';
 import 'package:diu_student/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:diu_student/features/home/data/data_sources/local/local_home_data.dart';
 import 'package:diu_student/features/home/data/data_sources/remote/remote_home_data.dart';
@@ -45,7 +47,7 @@ Future<void> initializeDependency() async {
   await AppUserCubit().updateUser();
 
   _initAuth();
-  _initNavbar(Hive.box("UserInfo"));
+  _initNavbar([Hive.box("UserInfo"), Hive.box("Results")]);
   _initResult(Hive.box("Results"));
   _initRoutine(Hive.box("Routine"));
   _initHome(Hive.box("Routine"));
@@ -77,16 +79,23 @@ void _initAuth() {
     ..registerFactory<AuthLoginUseCase>(() => AuthLoginUseCase(
           serviceLocator(),
         ))
+    ..registerFactory<AuthSignUpUseCase>(() => AuthSignUpUseCase(
+          serviceLocator(),
+        ))
+    ..registerFactory<AuthVerifyUseCase>(() => AuthVerifyUseCase(
+          serviceLocator(),
+        ))
     ..registerLazySingleton(() => AuthBloc(
-          authForgotPassUseCase: serviceLocator(),
-          authLoginUseCase: serviceLocator(),
-        ));
+        authSignUpUseCase: serviceLocator(),
+        authForgotPassUseCase: serviceLocator(),
+        authLoginUseCase: serviceLocator(),
+        authVerifyUseCase: serviceLocator()));
 }
 
-void _initNavbar(Box box) {
+void _initNavbar(List<Box> boxes) {
   serviceLocator
     ..registerFactory<NavRepository>(() => NavRepoImpl(
-          box,
+          boxes,
           serviceLocator(),
         ))
     ..registerFactory<NavSignOutUseCase>(() => NavSignOutUseCase(
