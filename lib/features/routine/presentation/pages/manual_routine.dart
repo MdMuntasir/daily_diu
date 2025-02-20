@@ -1,9 +1,7 @@
-import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_chooser.dart';
 import 'package:diu_student/features/routine/presentation/widgets/manual_slots_shower.dart';
 import 'package:diu_student/features/routine/presentation/widgets/manual_text_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ManualRoutine extends StatefulWidget {
@@ -19,6 +17,14 @@ class ManualRoutine extends StatefulWidget {
 class _ManualRoutineState extends State<ManualRoutine> {
   double height2 = 0, width2 = 0;
   bool routineShowed = false;
+  final List days = [
+    "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday"
+  ];
 
   TextEditingController dayController = TextEditingController();
   TextEditingController roomController = TextEditingController();
@@ -70,7 +76,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
         SizedBox(
           width: w * .5,
         ),
-        CustomChooser(list: Days, controller: dayController, label: "Day"),
+        CustomChooser(list: days, controller: dayController, label: "Day"),
         CustomChooser(
           list: widget.times,
           controller: timeController,
