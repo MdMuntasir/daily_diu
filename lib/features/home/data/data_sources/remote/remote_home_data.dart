@@ -1,12 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:diu_student/core/resources/data_state.dart';
-import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/core/util/model/slot.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../../../../../core/constants/constants.dart';
-import '../../../../../core/util/model/user_info.dart';
+import '../../../../../core/links/api_links.dart';
 
 final dio = Dio();
 
