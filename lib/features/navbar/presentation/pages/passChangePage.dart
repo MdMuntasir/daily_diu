@@ -9,10 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/resources/information_repository.dart';
 import '../../../../core/util/widgets/show_message.dart';
-import '../../../home/data/data_sources/local/local_user_info.dart';
 
 class PassChangePage extends StatefulWidget {
   PassChangePage({super.key});

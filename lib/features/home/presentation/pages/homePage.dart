@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../../../../core/links/api_links.dart';
 
 import '../../../../core/util/widgets/download_file.dart';
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:diu_student/core/constants/constants.dart';
+import 'package:diu_student/core/links/api_links.dart';
 
 import 'main_info_model.dart';
 

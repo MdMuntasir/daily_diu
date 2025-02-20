@@ -1,10 +1,9 @@
 import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/core/util/widgets/download_file.dart';
 import 'package:diu_student/core/util/widgets/showRoutine.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../../../../core/constants/constants.dart';
+import '../../../../core/links/api_links.dart';
 import '../widgets/search_bar.dart';
 
 class RoutineSearchScreen extends StatefulWidget {
