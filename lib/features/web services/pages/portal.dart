@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:diu_student/features/web%20services/widgets/cross_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../core/resources/information_repository.dart';
@@ -10,42 +12,13 @@ import '../../home/presentation/pages/homePage.dart';
 import '../widgets/offline_screen.dart';
 
 class PortalPage extends StatefulWidget {
-  const PortalPage({super.key});
+  const PortalPage({
+    super.key,
+  });
 
   @override
   State<PortalPage> createState() => _PortalPageState();
 }
-
-final String mainUrl = UserRole == "Teacher"
-    ? "https://teacherportal.diu.edu.bd/"
-    : "http://studentportal.diu.edu.bd";
-
-WebViewController controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..setBackgroundColor(const Color(0x00000000))
-  ..setNavigationDelegate(
-    NavigationDelegate(
-      onProgress: (int progress) {
-        // Update loading bar.
-      },
-      onPageStarted: (String url) {},
-      onPageFinished: (String url) {
-        log('Page finished loading: $url');
-      },
-      onWebResourceError: (WebResourceError error) {
-        log('Error loading resource: ${error.description}');
-      },
-      onNavigationRequest: (NavigationRequest request) {
-        if (request.url.toLowerCase().endsWith('.pdf')) {
-          log('PDF link encountered: ${request.url}');
-          _launchPDF(request.url);
-          return NavigationDecision.prevent;
-        }
-        return NavigationDecision.navigate;
-      },
-    ),
-  )
-  ..loadRequest(Uri.parse(mainUrl));
 
 Future<void> _launchPDF(String url) async {
   final Uri uri = Uri.parse(url);
@@ -68,8 +41,44 @@ class _PortalPageState extends State<PortalPage> {
   Timer? timer;
   Color barColor = Color(0xFF00868D);
 
+  late String userRole;
+
+  late WebViewController controller;
+
   @override
   void initState() {
+    bool isStudent =
+        AppUserCubit().currentUser(context.read<AppUserCubit>()).user ==
+            "Student";
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {
+            log('Page finished loading: $url');
+          },
+          onWebResourceError: (WebResourceError error) {
+            log('Error loading resource: ${error.description}');
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.toLowerCase().endsWith('.pdf')) {
+              log('PDF link encountered: ${request.url}');
+              _launchPDF(request.url);
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(isStudent
+          ? "http://studentportal.diu.edu.bd"
+          : "https://teacherportal.diu.edu.bd/"));
+
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 3), (_) async {
       await _connection();
