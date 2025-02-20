@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:diu_student/core/resources/data_state.dart';
 import 'package:diu_student/features/routine/data/models/time.dart';
-import '../../../../../core/constants/constants.dart';
+import '../../../../../core/links/api_links.dart';
 import '../../../../../core/util/model/slot.dart';
 import '../../models/empty_slot_model.dart';
 
