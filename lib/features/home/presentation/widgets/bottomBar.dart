@@ -9,7 +9,6 @@ import 'package:diu_student/features/web%20services/pages/portal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'animatedBar.dart';
 
 class BottomPanel extends StatefulWidget {
@@ -153,11 +152,11 @@ class _BottomPanelState extends State<BottomPanel> {
     }
 
     return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       height: h * .65,
       width: w,
       decoration: BoxDecoration(
-        boxShadow: [BoxShadow(blurRadius: 50, spreadRadius: -48)],
+        boxShadow: const [BoxShadow(blurRadius: 50, spreadRadius: -48)],
         color: widget.color,
         borderRadius: BorderRadius.only(
           topLeft: widget.left,

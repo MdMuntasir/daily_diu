@@ -49,11 +49,11 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
     String ti = searchController.text.toUpperCase();
     title = ti;
     slots.clear();
-    widget.allSlots.forEach((slot) {
+    for (var slot in widget.allSlots) {
       if (slot.ti == ti) {
         slots.add(slot);
       }
-    });
+    }
     setState(() {
       routineShowed = true;
     });
@@ -63,14 +63,14 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
   void sectionSearch() {
     List<String> batchSection = searchController.text.split("-");
     if (batchSection.length == 2) {
-      title = batchSection[0] + "-" + batchSection[1].toUpperCase();
+      title = "${batchSection[0]}-${batchSection[1].toUpperCase()}";
       slots.clear();
-      widget.allSlots.forEach((slot) {
+      for (var slot in widget.allSlots) {
         if (slot.batch == batchSection[0] &&
             slot.section![0] == batchSection[1][0].toUpperCase()) {
           slots.add(slot);
         }
-      });
+      }
       routineShowed = true;
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
