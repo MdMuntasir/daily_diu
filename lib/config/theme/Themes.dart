@@ -22,20 +22,21 @@ ThemeData lightTheme = ThemeData(
         ))),
   ),
   textTheme: TextTheme(
-      displayLarge: TextStyle(
-        fontSize: 45,
-        color: Colors.teal.shade900,
-        fontWeight: FontWeight.bold,
-        fontFamily: "Welcome_Magic",
-        shadows: const [
-          Shadow(color: Colors.black87, offset: Offset(.5, 1.5), blurRadius: 5)
-        ],
-      ),
-      displayMedium: TextStyle(
-        fontSize: 35,
-        color: Colors.green.shade900,
-        fontWeight: FontWeight.bold,
-        fontFamily: "Welcome_Magic",
-      ),
-      bodyMedium: const TextStyle(fontSize: 14, fontFamily: "Welcome_Magic")),
+    displayLarge: TextStyle(
+      fontSize: 45,
+      color: Colors.teal.shade900,
+      fontWeight: FontWeight.bold,
+      fontFamily: "Welcome_Magic",
+      shadows: const [
+        Shadow(color: Colors.black87, offset: Offset(.5, 1.5), blurRadius: 5)
+      ],
+    ),
+    displayMedium: TextStyle(
+      fontSize: 35,
+      color: Colors.green.shade900,
+      fontWeight: FontWeight.bold,
+      fontFamily: "Welcome_Magic",
+    ),
+    // bodyMedium: const TextStyle(fontSize: 14, fontFamily: "Welcome_Magic"),
+  ),
 );
