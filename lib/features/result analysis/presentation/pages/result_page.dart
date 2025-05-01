@@ -21,6 +21,7 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   bool cgpaShow = false;
+  bool isMyResult = true;
 
   @override
   void initState() {
