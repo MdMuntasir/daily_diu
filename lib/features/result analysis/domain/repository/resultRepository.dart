@@ -3,6 +3,4 @@ import 'package:diu_student/features/result%20analysis/domain/entities/semesterR
 
 abstract interface class ResultRepo {
   Future<DataState<List<List<SemesterResultEntity>>>> getResult();
-
-  Future<DataState<List<SemesterResultEntity>>> getSemesterResult();
 }
