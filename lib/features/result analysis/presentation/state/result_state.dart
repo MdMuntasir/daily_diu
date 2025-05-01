@@ -30,3 +30,17 @@ class ResultFailureState extends ResultState {
 class ResultCGPAShowActionState extends ResultActionState {}
 
 class ResultNavigateToNavBarActionState extends ResultActionState {}
+
+class SearchResultSuccessState extends ResultState {
+  final List<SemesterResultEntity> result;
+
+  const SearchResultSuccessState(this.result);
+}
+
+class SearchResultLoadingState extends ResultState {}
+
+class SearchResultFailedState extends ResultState {
+  final String error;
+
+  const SearchResultFailedState(this.error);
+}
