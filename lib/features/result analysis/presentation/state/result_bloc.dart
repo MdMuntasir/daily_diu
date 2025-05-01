@@ -19,10 +19,9 @@ class ResultBloc extends Bloc<ResultEvent, ResultState> {
 
   ResultBloc({required this.user}) : super(ResultLoadingState()) {
     on<ResultInitialEvent>(resultInitialEvent);
-
     on<ResultCGPAShowActionEvent>(resultCGPAShowActionEvent);
-
     on<ResultNavigateToNavBarEvent>(resultNavigateToNavBarEvent);
+    on<SearchResultEvent>(searchResultEvent);
   }
 
   FutureOr<void> resultInitialEvent(
@@ -30,6 +29,36 @@ class ResultBloc extends Bloc<ResultEvent, ResultState> {
     emit(ResultLoadingState());
     final dataState = await ResultUseCase(ResultRepositoryImpl(
             RemoteResultImpl(user.studentID ?? "242-35-999"),
+            RemoteSemestersImpl(),
+            ConnectionCheckerImpl(
+              InternetConnection(),
+            ),
+            ResultLocalDataSourceImpl(Hive.box("Results"))))
+        .call();
+    if (dataState is DataSuccess) {
+      if (dataState.data!.isNotEmpty) {
+        double cgpa = 0;
+        for (var semester in dataState.data!) {
+          cgpa += semester[0].cgpa;
+        }
+        cgpa = double.parse((cgpa / dataState.data!.length).toStringAsFixed(2));
+        emit(ResultSuccessState(
+          results: dataState.data!,
+          cgpa: cgpa,
+        ));
+      } else {
+        emit(ResultEmptyState());
+      }
+    } else if (dataState is DataFailed) {
+      emit(ResultFailureState(dataState.error.toString()));
+    }
+  }
+
+  FutureOr<void> searchResultEvent(
+      SearchResultEvent event, Emitter<ResultState> emit) async {
+    emit(ResultLoadingState());
+    final dataState = await ResultUseCase(ResultRepositoryImpl(
+            RemoteResultImpl(event.studentId),
             RemoteSemestersImpl(),
             ConnectionCheckerImpl(
               InternetConnection(),
