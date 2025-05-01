@@ -8,9 +8,8 @@ import '../../../../../core/links/api_links.dart';
 final dio = Dio();
 
 abstract interface class RemoteResult {
-  String? get id;
-
   Future<DataState<List<SemesterResultModel>>> getResult({
+    required String studentId,
     required String semesterId,
   });
 }
@@ -42,16 +41,9 @@ class RemoteSemestersImpl implements RemoteSemesters {
 }
 
 class RemoteResultImpl implements RemoteResult {
-  final String studentId;
-
-  RemoteResultImpl(this.studentId);
-
-  @override
-  String? get id => studentId;
-
   @override
   Future<DataState<List<SemesterResultModel>>> getResult(
-      {required String semesterId}) async {
+      {required String semesterId, required String studentId}) async {
     try {
       final response = await dio.get(
           "$result_api?grecaptcha=&semesterId=$semesterId&studentId=$studentId");
