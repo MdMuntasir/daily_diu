@@ -13,6 +13,10 @@ class ResultNavigateToNavBarEvent extends ResultEvent {}
 
 class SearchResultEvent extends ResultEvent {
   final String studentId;
+  final String semesterId;
 
-  const SearchResultEvent(this.studentId);
+  const SearchResultEvent(
+    this.studentId,
+    this.semesterId,
+  );
 }
