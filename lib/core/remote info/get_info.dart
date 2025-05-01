@@ -17,5 +17,6 @@ Future<void> getApiLink() async {
         .get();
     MainInfoModel kamla = MainInfoModel.fromSnapShot(snapshot);
     link1 = kamla.api;
+    result_api = kamla.resultApi;
   }
 }
