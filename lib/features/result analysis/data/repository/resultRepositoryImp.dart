@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:diu_student/core/Network/connection_checker.dart';
 import 'package:diu_student/core/resources/data_state.dart';
@@ -25,7 +23,8 @@ class ResultRepositoryImpl implements ResultRepo {
   );
 
   @override
-  Future<DataState<List<List<SemesterResultEntity>>>> getResult() async {
+  Future<DataState<List<List<SemesterResultEntity>>>> getResult(
+      String id) async {
     try {
       if (!await (connectionChecker.isConnected)) {
         List<List<SemesterResultModel>> results =
@@ -43,6 +42,7 @@ class ResultRepositoryImpl implements ResultRepo {
           int c = 0;
           for (SemesterModel semester in semesters) {
             final result = await remoteResult.getResult(
+              studentId: id,
               semesterId: semester.semesterId,
             );
             if (result is DataSuccess<List<SemesterResultModel>> &&
@@ -52,7 +52,7 @@ class ResultRepositoryImpl implements ResultRepo {
 
             if (c++ >= 20 ||
                 int.parse(semester.semesterId.toString()) ==
-                    int.parse(remoteResult.id.toString().split("-")[0])) {
+                    int.parse(id.toString().split("-")[0])) {
               break;
             }
           }
@@ -63,6 +63,30 @@ class ResultRepositoryImpl implements ResultRepo {
       return DataSuccess(results);
     } on DioException catch (e) {
       return DataFailed(e.message.toString());
+    }
+  }
+
+  @override
+  Future<DataState<List<SemesterResultEntity>>> getSemesterResult(
+    String studentId,
+    String semesterId,
+  ) async {
+    if (!await (connectionChecker.isConnected)) {
+      return const DataFailed("No internet connection!");
+    } else {
+      try {
+        final result = await remoteResult.getResult(
+          studentId: studentId,
+          semesterId: semesterId,
+        );
+        if (result is DataSuccess<List<SemesterResultModel>>) {
+          return DataSuccess(result.data!);
+        } else {
+          return DataFailed(result.error!);
+        }
+      } on DioException catch (e) {
+        return DataFailed(e.message.toString());
+      }
     }
   }
 }
