@@ -55,7 +55,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                             itemBuilder: (context, index) {
                               String key = departments.keys.toList()[index];
                               return PopupMenuItem(
-                                  value: departments[key][0],
+                                  value: departments[key],
                                   onTap: () async {
                                     context.read<RoutineBloc>().add(
                                         RoutineLoadingEvent(
