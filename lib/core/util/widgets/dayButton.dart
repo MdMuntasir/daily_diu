@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/custom%20themes/slot_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class _DayButtonState extends State<DayButton> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context).extension<SlotTheme>()!;
 
     if (button_height == 0 && button_width == 0 && selected_width == 0) {
       button_height = h * .05;
@@ -42,25 +44,28 @@ class _DayButtonState extends State<DayButton> {
         height: button_height,
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          gradient: widget.current
-              ? const LinearGradient(colors: [
-                  Color(0xFF006769),
-                  Color(0xFF40A578),
-                  Color(0xFF9DDE8B),
-                ])
-              : const LinearGradient(colors: [
-                  Color(0xFF04364A),
-                  Color(0xFF176B87),
-                  Color(0xFF64CCC5),
-                ]),
+          // gradient: widget.current
+          //     ? const LinearGradient(colors: [
+          //         Color(0xFF006769),
+          //         Color(0xFF40A578),
+          //         Color(0xFF9DDE8B),
+          //       ])
+          //     : const LinearGradient(colors: [
+          //         Color(0xFF04364A),
+          //         Color(0xFF176B87),
+          //         Color(0xFF64CCC5),
+          //       ]),
+          color: widget.current ? theme.activeBgColor : theme.bgColor,
           borderRadius:
               BorderRadius.all(Radius.circular(h > w ? w * .05 : h * .05)),
         ),
         child: Center(
             child: Text(
           widget.current ? widget.fullDay : widget.shortDay,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12.5),
+          style: TextStyle(
+              color: theme.fgColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 12.5),
         )),
       ),
     );
