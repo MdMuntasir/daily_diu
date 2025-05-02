@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/custom%20themes/information_shower_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'customText.dart';
@@ -8,102 +9,79 @@ class StudentInfoShow extends StatelessWidget {
   final String Department;
   final String Batch;
   final String Section;
-  final Gradient grad;
 
-  const StudentInfoShow(
-      {super.key,
-      required this.Name,
-      required this.ID,
-      required this.Department,
-      required this.Batch,
-      required this.Section,
-      required this.grad});
+  const StudentInfoShow({
+    super.key,
+    required this.Name,
+    required this.ID,
+    required this.Department,
+    required this.Batch,
+    required this.Section,
+  });
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
-    bool horizontal = h > w;
-    double round = horizontal ? w * .1 : h * .2;
+    double h = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double w = MediaQuery
+        .of(context)
+        .size
+        .width;
+    final theme = Theme.of(context).extension<InformationShowerTheme>()!;
 
-    return Container(
-      width: horizontal ? w : w * .8,
-      height: horizontal ? h * .38 : h * .6,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        gradient: grad,
-        boxShadow: [
-          BoxShadow(spreadRadius: -10, blurRadius: 20, color: Colors.blue)
-        ],
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(round),
-            bottomRight: Radius.circular(round)),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: h * .01, horizontal: w * .06),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: w * .07, vertical: h * .02),
+        width: w,
+        height: h * .22,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: theme.bgColor,
+            boxShadow: [
+              BoxShadow(
+                spreadRadius: -10,
+                blurRadius: 15,
+                color: theme.bgShadowColor,
+              )
+            ]),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: h * .08,
-            ),
-            SizedBox(
-              width: horizontal ? w : w * .8,
-              child: Center(
-                child: Text(
-                  "Welcome $Name",
-                  maxLines: 1,
-                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                      fontSize: horizontal ? w * .085 : 40,
-                      color: Colors.teal.shade800,
-                      fontFamily: "Funky_Coffee"),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: h * .045,
+            CustomText(
+              first: "Name",
+              second: Name,
+              color: theme.fgColor,
+              shadowColor: theme.fgShadowColor,
+              size: 15,
+              separate: true,
             ),
             CustomText(
               first: "ID",
               second: ID,
-              color: Colors.teal.shade700,
-              shadowColor: Colors.black45,
-            ),
-            SizedBox(
-              height: h * .03,
+              color: theme.fgColor,
+              shadowColor: theme.fgShadowColor,
+              size: 15,
+              separate: true,
             ),
             CustomText(
               first: "Department",
               second: Department,
-              color: Colors.teal.shade700,
-              shadowColor: Colors.black45,
+              color: theme.fgColor,
+              shadowColor: theme.fgShadowColor,
+              size: 15,
+              separate: true,
             ),
-            SizedBox(
-              height: h * .03,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                  first: "Batch",
-                  second: Batch,
-                  color: Colors.teal.shade700,
-                  shadowColor: Colors.black45,
-                ),
-                SizedBox(
-                  width: w * .001,
-                ),
-                CustomText(
-                  first: "Section",
-                  second: Section,
-                  color: Colors.teal.shade700,
-                  shadowColor: Colors.black45,
-                ),
-                SizedBox(
-                  width: w * .001,
-                )
-              ],
+            CustomText(
+              first: "Section",
+              second: "$Batch-$Section",
+              color: theme.fgColor,
+              shadowColor: theme.fgShadowColor,
+              size: 15,
+              separate: true,
             ),
           ],
         ),
@@ -130,8 +108,14 @@ class TeacherInfoShow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double w = MediaQuery
+        .of(context)
+        .size
+        .width;
     bool horizontal = h > w;
     double round = horizontal ? w * .15 : h * .25;
 
@@ -141,7 +125,7 @@ class TeacherInfoShow extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         gradient: grad,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(spreadRadius: -10, blurRadius: 20, color: Colors.blue)
         ],
         borderRadius: BorderRadius.only(
@@ -149,7 +133,7 @@ class TeacherInfoShow extends StatelessWidget {
             bottomRight: Radius.circular(round)),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 35),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -158,7 +142,11 @@ class TeacherInfoShow extends StatelessWidget {
             ),
             Text(
               "Welcome " + Name,
-              style: Theme.of(context).textTheme.displayLarge!.copyWith(
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .displayLarge!
+                  .copyWith(
                   fontSize: horizontal ? w * .085 : 40,
                   color: Colors.teal.shade800,
                   fontFamily: "Funky_Coffee"),
@@ -172,6 +160,7 @@ class TeacherInfoShow extends StatelessWidget {
               second: TeacherInitial,
               color: Colors.teal.shade700,
               shadowColor: Colors.black45,
+              separate: true,
             ),
             SizedBox(
               height: h * .03,
@@ -181,17 +170,21 @@ class TeacherInfoShow extends StatelessWidget {
               second: Faculty,
               color: Colors.teal.shade700,
               shadowColor: Colors.black45,
+              separate: true,
             ),
             SizedBox(
               height: h * .03,
             ),
             CustomText(
               first: "Department",
-              second: Department.split("+").length > 1
+              second: Department
+                  .split("+")
+                  .length > 1
                   ? "${Department.split("+")[0]}..."
                   : Department,
               color: Colors.teal.shade700,
               shadowColor: Colors.black45,
+              separate: true,
             ),
           ],
         ),
@@ -199,3 +192,5 @@ class TeacherInfoShow extends StatelessWidget {
     );
   }
 }
+
+
