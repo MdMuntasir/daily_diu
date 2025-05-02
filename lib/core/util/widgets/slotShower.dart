@@ -1,8 +1,7 @@
+import 'package:diu_student/config/theme/custom%20themes/slot_theme.dart';
 import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/features/home/presentation/widgets/customText.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/util/model/slot.dart';
 
 class SlotShower extends StatefulWidget {
   final SlotEntity slots; // change path later
@@ -25,6 +24,7 @@ class _SlotShowerState extends State<SlotShower> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context).extension<SlotTheme>()!;
     bool horizontal = h > w;
 
     double mainHeight = horizontal ? h * .23 : w * .23;
@@ -45,17 +45,7 @@ class _SlotShowerState extends State<SlotShower> {
             height: mainHeight * .22,
             width: mainWidth,
             decoration: BoxDecoration(
-                gradient: now
-                    ? const LinearGradient(colors: [
-                        Color(0xFF006769),
-                        Color(0xFF40A578),
-                        Color(0xFF9DDE8B),
-                      ])
-                    : const LinearGradient(colors: [
-                        Color(0xFF04364A),
-                        Color(0xFF176B87),
-                        Color(0xFF64CCC5),
-                      ]),
+                color: now ? theme.activeBgColor : theme.bgColor,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(round),
                     topRight: Radius.circular(round)),
@@ -69,12 +59,12 @@ class _SlotShowerState extends State<SlotShower> {
             child: Center(
                 child: Text(
               slots.time!,
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 17.5,
-                  color: Colors.white,
+                  color: theme.fgColor,
                   fontFamily: "Madimi",
-                  shadows: [
+                  shadows: const [
                     Shadow(
                         color: Colors.black54,
                         blurRadius: 4,
@@ -91,17 +81,19 @@ class _SlotShowerState extends State<SlotShower> {
             height: mainHeight * .70,
             width: mainWidth,
             decoration: BoxDecoration(
-                gradient: now
-                    ? const LinearGradient(colors: [
-                        Color(0xFF006769),
-                        Color(0xFF40A578),
-                        Color(0xFF9DDE8B),
-                      ])
-                    : const LinearGradient(colors: [
-                        Color(0xFF04364A),
-                        Color(0xFF176B87),
-                        Color(0xFF64CCC5),
-                      ]),
+                // gradient: now
+                //     ? const LinearGradient(colors: [
+                //         Color(0xFF006769),
+                //         Color(0xFF40A578),
+                //         Color(0xFF9DDE8B),
+                //       ])
+                //     : const LinearGradient(colors: [
+                //         Color(0xFF04364A),
+                //         Color(0xFF176B87),
+                //         Color(0xFF64CCC5),
+                //       ]),
+
+                color: now ? theme.activeBgColor : theme.bgColor,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(round),
                     bottomRight: Radius.circular(round)),
@@ -123,28 +115,28 @@ class _SlotShowerState extends State<SlotShower> {
                     first: "Course",
                     second: slots.course!,
                     size: 15,
-                    color: Colors.white,
+                    color: theme.fgColor,
                     fontFamily: "Madimi",
                   ),
                   CustomText(
                     first: "Room",
                     second: slots.room!,
                     size: 15,
-                    color: Colors.white,
+                    color: theme.fgColor,
                     fontFamily: "Madimi",
                   ),
                   CustomText(
                     first: "Section",
                     second: "${slots.batch}_${slots.section!}",
                     size: 15,
-                    color: Colors.white,
+                    color: theme.fgColor,
                     fontFamily: "Madimi",
                   ),
                   CustomText(
                     first: "Teacher",
                     second: slots.ti!,
                     size: 15,
-                    color: Colors.white,
+                    color: theme.fgColor,
                     fontFamily: "Madimi",
                   ),
                 ],
