@@ -1,4 +1,3 @@
-import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/core/util/model/slot.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -77,13 +76,7 @@ class _LoadingHomeScreenState extends State<LoadingHomeScreen> {
               AnimatedPositioned(
                 bottom: -h * .585,
                 duration: const Duration(milliseconds: 400),
-                child: BottomPanel(
-                    color: const Color(0xFFB6EADA),
-                    controller: false,
-                    left: Radius.elliptical(w, h * .2),
-                    right: Radius.elliptical(w, h * .2),
-                    IconfgColor: Colors.white,
-                    function: () {}),
+                child: BottomPanel(controller: true, function: () {}),
               )
             ],
           )),
