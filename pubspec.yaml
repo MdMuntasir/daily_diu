@@ -59,6 +59,7 @@ dependencies:
   internet_connection_checker_plus: ^2.7.0
   dio: ^5.7.0
   skeletonizer: ^1.4.3
+  google_fonts: ^6.2.1
 
 
 dev_dependencies:
