@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
+  final bool separate;
   final String first;
   final String second;
   final double size;
@@ -12,6 +13,7 @@ class CustomText extends StatelessWidget {
       {super.key,
       required this.first,
       required this.second,
+      this.separate = false,
       this.shadowColor = Colors.teal,
       this.color = Colors.black87,
       this.size = 17.5,
@@ -19,28 +21,40 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-          // style: TextStyle(shadows: [
-          //   Shadow(color: shadowColor, blurRadius: 2, offset: Offset(1, 1.5))
-          // ]),
-          children: [
-            TextSpan(
-                text: "$first : ",
+    return separate
+        ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text("$first : ",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: size,
                   color: color,
                   fontFamily: fontFamily,
                 )),
-            TextSpan(
-                text: second,
+            Text(second,
                 style: TextStyle(
                   fontSize: size,
                   color: color,
                   fontFamily: fontFamily,
                 )),
-          ]),
-    );
+          ])
+        : RichText(
+            text: TextSpan(children: [
+              TextSpan(
+                  text: "$first : ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: size,
+                    color: color,
+                    fontFamily: fontFamily,
+                  )),
+              TextSpan(
+                  text: second,
+                  style: TextStyle(
+                    fontSize: size,
+                    color: color,
+                    fontFamily: fontFamily,
+                  )),
+            ]),
+          );
   }
 }
