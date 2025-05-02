@@ -37,7 +37,6 @@ class HomeInfoShow extends StatelessWidget {
             Department: department,
             Batch: batch,
             Section: section,
-            grad: grad,
           )
         : TeacherInfoShow(
             Name: name,
