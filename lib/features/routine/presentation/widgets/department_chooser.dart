@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/custom%20themes/routine_theme.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_bloc.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_event.dart';
 import 'package:diu_student/features/routine/presentation/state/routine_state.dart';
@@ -25,6 +26,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context).extension<RoutineTheme>()!;
 
     return BlocBuilder(
       bloc: context.read<RoutineBloc>(),
@@ -35,7 +37,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
               width: w * .45,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(11)),
-                  color: Colors.teal.shade700),
+                  color: theme.bgColor),
               child: Lottie.asset("assets/lottie/Loading2.json",
                   height: w * .1, width: w * .1),
             );
@@ -66,12 +68,12 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                                           vertical: h * .001),
                                       padding: EdgeInsets.symmetric(
                                           vertical: h * .005),
-                                      color: Colors.teal.shade50,
+                                      color: theme.fgColor,
                                       child: Center(
                                         child: Text(
                                           departments[key],
                                           style: TextStyle(
-                                              color: Colors.teal.shade500,
+                                              color: theme.bgColor,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       )));
@@ -79,9 +81,6 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                         direction: PopoverDirection.top);
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStatePropertyAll(Colors.teal.shade700),
-                    foregroundColor: const WidgetStatePropertyAll(Colors.white),
                     shape: const WidgetStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(11)))),
                   ),
@@ -116,12 +115,12 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                                           vertical: h * .001),
                                       padding: EdgeInsets.symmetric(
                                           vertical: h * .005),
-                                      color: Colors.teal.shade50,
+                                      color: theme.fgColor,
                                       child: Center(
                                         child: Text(
                                           departments[key],
                                           style: TextStyle(
-                                              color: Colors.teal.shade500,
+                                              color: theme.bgColor,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       )));
@@ -129,9 +128,6 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                         direction: PopoverDirection.top);
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStatePropertyAll(Colors.teal.shade700),
-                    foregroundColor: const WidgetStatePropertyAll(Colors.white),
                     shape: const WidgetStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(11)))),
                   ),
