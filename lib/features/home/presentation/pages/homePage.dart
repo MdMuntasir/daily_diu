@@ -30,14 +30,6 @@ class _homePageState extends State<homePage> {
 
   double pos = 0, prog = 0;
 
-  Radius left = Radius.zero, right = Radius.zero;
-
-  Gradient lightGrad1 = const LinearGradient(colors: [
-    Color(0xFF74ebd5),
-    Color(0xFFACB6E5),
-  ]);
-  Color bottomColor = const Color(0xFFB6EADA);
-
   // Color bottomColor = Colors.teal.shade700;
 
   @override
@@ -46,15 +38,9 @@ class _homePageState extends State<homePage> {
     double w = MediaQuery.of(context).size.width;
 
     if (!showOptions) {
-      bottomColor = Colors.teal.shade400;
       pos = -h * .585;
-      left = Radius.elliptical(w, h * .2);
-      right = Radius.elliptical(w, h * .2);
     } else {
-      bottomColor = Color(0xFFB6EADA);
       pos = 0;
-      left = Radius.circular(w * .2);
-      right = Radius.circular(w * .2);
     }
 
     void barFunc() {
@@ -83,7 +69,6 @@ class _homePageState extends State<homePage> {
                   setState(() {});
                 },
                 child: Scaffold(
-                  extendBodyBehindAppBar: true,
                   appBar: AppBar(
                     backgroundColor: Colors.transparent,
                     toolbarHeight: h * .05,
@@ -101,6 +86,10 @@ class _homePageState extends State<homePage> {
                               },
                               color: Colors.black87,
                               icon: const Icon(FontAwesomeIcons.barsStaggered)),
+                          Text(
+                            "DIU Daily",
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
                           DownloadFile(
                             fileName: isStudent
                                 ? "${currentUser.batch}${currentUser.section}"
@@ -111,15 +100,24 @@ class _homePageState extends State<homePage> {
                             color: Colors.black87,
                             blackDownloading: true,
                             context: context,
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  backgroundColor: Colors.teal.shade100,
                   body: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
+                      // ColorFiltered(
+                      //   colorFilter: ColorFilter.mode(
+                      //     theme.bgShapeColor.withAlpha(150),
+                      //     BlendMode.srcATop,
+                      //   ),
+                      //   child: Image.asset(
+                      //     "assets/images/leaf.png",
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
                       SizedBox(
                         width: w,
                         height: h,
@@ -127,17 +125,20 @@ class _homePageState extends State<homePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: h * .025,
                             children: [
+                              SizedBox(
+                                width: w,
+                              ),
                               HomeInfoShow(
                                 isStudent: isStudent,
-                                name: currentUser.name!.split(" ")[0],
+                                name: currentUser.name!,
                                 faculty: currentUser.faculty!,
                                 department: currentUser.department!,
                                 teacherInitial: currentUser.ti!,
                                 batch: currentUser.batch!,
                                 section: currentUser.section!,
                                 id: currentUser.studentID!,
-                                grad: lightGrad1,
                               ),
                               ShowRoutine(
                                 slots: successState.routine,
@@ -150,12 +151,9 @@ class _homePageState extends State<homePage> {
                         bottom: pos,
                         duration: const Duration(milliseconds: 400),
                         child: BottomPanel(
-                            color: bottomColor,
-                            controller: !showOptions,
-                            left: left,
-                            right: right,
-                            IconfgColor: bottomColor,
-                            function: barFunc),
+                          controller: !showOptions,
+                          function: barFunc,
+                        ),
                       )
                     ],
                   ),
