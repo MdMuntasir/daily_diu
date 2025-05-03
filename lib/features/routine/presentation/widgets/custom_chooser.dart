@@ -98,7 +98,7 @@ class _CustomChooserState extends State<CustomChooser> {
                   },
                   style: ButtonStyle(
                       backgroundColor: WidgetStatePropertyAll(
-                          theme.chooserColor.withAlpha(220)),
+                          theme.chooserColor.withAlpha(200)),
                       foregroundColor: WidgetStatePropertyAll(theme.bgColor),
                       shape: const WidgetStatePropertyAll(
                           RoundedRectangleBorder(
