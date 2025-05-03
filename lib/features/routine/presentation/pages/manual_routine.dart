@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/custom%20themes/routine_theme.dart';
 import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/features/routine/presentation/widgets/custom_chooser.dart';
 import 'package:diu_student/features/routine/presentation/widgets/manual_slots_shower.dart';
@@ -50,8 +51,7 @@ class _ManualRoutineState extends State<ManualRoutine> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-
-    Color ShadowColor = Colors.teal, BodyColor = Colors.teal.shade50;
+    final theme = Theme.of(context).extension<RoutineTheme>()!;
 
     double width1 = w * .9;
 
@@ -127,11 +127,13 @@ class _ManualRoutineState extends State<ManualRoutine> {
               height: 450,
               width: width1,
               decoration: BoxDecoration(
-                  color: BodyColor,
+                  color: theme.fgColor,
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   boxShadow: [
                     BoxShadow(
-                        spreadRadius: -20, blurRadius: 30, color: ShadowColor)
+                        spreadRadius: -20,
+                        blurRadius: 30,
+                        color: theme.deepColor)
                   ]),
               child: upperPart,
             ),
@@ -145,14 +147,14 @@ class _ManualRoutineState extends State<ManualRoutine> {
               duration: Duration(milliseconds: 300),
               decoration: routineShowed
                   ? BoxDecoration(
-                      color: BodyColor,
+                      color: theme.fgColor,
                       borderRadius:
                           BorderRadius.all(Radius.circular(height2 * .1)),
                       boxShadow: [
                           BoxShadow(
                               spreadRadius: -20,
                               blurRadius: 30,
-                              color: ShadowColor)
+                              color: theme.deepColor)
                         ])
                   : BoxDecoration(color: Colors.transparent),
               child: lowerPart,
