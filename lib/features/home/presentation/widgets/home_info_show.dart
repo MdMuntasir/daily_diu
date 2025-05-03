@@ -43,7 +43,6 @@ class HomeInfoShow extends StatelessWidget {
             Department: department,
             Faculty: faculty,
             TeacherInitial: teacherInitial,
-            grad: grad,
           );
   }
 }
