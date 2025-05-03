@@ -6,12 +6,14 @@ class BottomPanelTheme extends ThemeExtension<BottomPanelTheme> {
   final Color iconFgColor;
   final Color bgColor;
   final Color barColor;
+  final Color bgShapeColor;
 
   const BottomPanelTheme({
     required this.iconBgColor,
     required this.iconFgColor,
     required this.bgColor,
     required this.barColor,
+    required this.bgShapeColor,
   });
 
   @override
@@ -20,12 +22,14 @@ class BottomPanelTheme extends ThemeExtension<BottomPanelTheme> {
     Color? iconFgColor,
     Color? bgColor,
     Color? barColor,
+    Color? bgShapeColor,
   }) {
     return BottomPanelTheme(
       iconBgColor: iconBgColor ?? this.iconBgColor,
       iconFgColor: iconFgColor ?? this.iconFgColor,
       bgColor: bgColor ?? this.bgColor,
       barColor: barColor ?? this.barColor,
+      bgShapeColor: bgShapeColor ?? this.bgShapeColor,
     );
   }
 
@@ -37,6 +41,7 @@ class BottomPanelTheme extends ThemeExtension<BottomPanelTheme> {
       iconFgColor: Color.lerp(iconFgColor, other.iconFgColor, t)!,
       bgColor: Color.lerp(bgColor, other.bgColor, t)!,
       barColor: Color.lerp(barColor, other.barColor, t)!,
+      bgShapeColor: Color.lerp(bgShapeColor, other.bgShapeColor, t)!,
     );
   }
 }
