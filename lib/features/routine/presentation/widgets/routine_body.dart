@@ -51,7 +51,7 @@ class _RoutineBodyState extends State<RoutineBody> {
           emptySlots: widget.emptySlots,
         );
 
-      case "Manual Search":
+      case "Manual":
         return ManualRoutine(
           allSlots: widget.allSlots,
           times: widget.times,
