@@ -1,9 +1,6 @@
-import 'package:diu_student/core/resources/information_repository.dart';
+import 'package:diu_student/config/theme/custom%20themes/routine_theme.dart';
 import 'package:diu_student/core/util/Entities/slot.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/util/model/slot.dart';
 
 class ManualSlotShower extends StatefulWidget {
   final List<SlotEntity> Slots;
@@ -31,39 +28,37 @@ class ManualSlotShower extends StatefulWidget {
 }
 
 class _ManualSlotShowerState extends State<ManualSlotShower> {
-  Color boldColor = Colors.teal.shade500;
-  Color normalColor = Colors.teal.shade900;
-
   List<SlotEntity> Slots = [];
-
-  Text boldText(text) {
-    return Text(
-      text,
-      style: TextStyle(color: boldColor, fontWeight: FontWeight.bold),
-    );
-  }
-
-  Text normalText(text) {
-    return Text(
-      text,
-      style: TextStyle(color: normalColor, fontWeight: FontWeight.bold),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context).extension<RoutineTheme>()!;
+
+    Text boldText(text) {
+      return Text(
+        text,
+        style: TextStyle(color: theme.deepColor, fontWeight: FontWeight.bold),
+      );
+    }
+
+    Text normalText(text) {
+      return Text(
+        text,
+        style: TextStyle(color: theme.bgColor, fontWeight: FontWeight.bold),
+      );
+    }
 
     Container SlotCard(List<Widget> lst) {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: w * .1, vertical: h * .02),
         padding: EdgeInsets.symmetric(horizontal: w * .15, vertical: h * .01),
         decoration: BoxDecoration(
-            color: Colors.teal.shade50,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: const [
-              BoxShadow(blurRadius: 25, spreadRadius: -10, color: Colors.teal)
+            color: theme.fgColor,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(blurRadius: 25, spreadRadius: -10, color: theme.bgColor)
             ]),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
