@@ -69,7 +69,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                                       color: Colors.teal.shade50,
                                       child: Center(
                                         child: Text(
-                                          departments[key][0],
+                                          departments[key],
                                           style: TextStyle(
                                               color: Colors.teal.shade500,
                                               fontWeight: FontWeight.bold),
@@ -105,7 +105,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                             itemBuilder: (context, index) {
                               String key = departments.keys.toList()[index];
                               return PopupMenuItem(
-                                  value: departments[key][0],
+                                  value: departments[key],
                                   onTap: () async {
                                     context.read<RoutineBloc>().add(
                                         RoutineLoadingEvent(
@@ -119,7 +119,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                                       color: Colors.teal.shade50,
                                       child: Center(
                                         child: Text(
-                                          departments[key][0],
+                                          departments[key],
                                           style: TextStyle(
                                               color: Colors.teal.shade500,
                                               fontWeight: FontWeight.bold),
