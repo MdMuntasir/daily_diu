@@ -8,12 +8,14 @@ class InformationShowerTheme extends ThemeExtension<InformationShowerTheme> {
   final Color bgShadowColor;
   final Color fgColor;
   final Color fgShadowColor;
+  final Color bgShapeColor;
 
   const InformationShowerTheme({
     required this.bgColor,
     required this.bgShadowColor,
     required this.fgColor,
     required this.fgShadowColor,
+    required this.bgShapeColor,
   });
 
   @override
@@ -22,12 +24,14 @@ class InformationShowerTheme extends ThemeExtension<InformationShowerTheme> {
     Color? bgShadowColor,
     Color? fgColor,
     Color? fgShadowColor,
+    Color? bgShapeColor,
   }) {
     return InformationShowerTheme(
       bgColor: bgColor ?? this.bgColor,
       bgShadowColor: bgShadowColor ?? this.bgShadowColor,
       fgColor: fgColor ?? this.fgColor,
       fgShadowColor: fgShadowColor ?? this.fgShadowColor,
+      bgShapeColor: bgShapeColor ?? this.bgShapeColor,
     );
   }
 
@@ -40,6 +44,7 @@ class InformationShowerTheme extends ThemeExtension<InformationShowerTheme> {
       bgShadowColor: Color.lerp(bgShadowColor, other.bgShadowColor, t)!,
       fgColor: Color.lerp(fgColor, other.fgColor, t)!,
       fgShadowColor: Color.lerp(fgShadowColor, other.fgShadowColor, t)!,
+      bgShapeColor: Color.lerp(bgShapeColor, other.bgShapeColor, t)!,
     );
   }
 }
