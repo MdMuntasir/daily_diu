@@ -154,42 +154,67 @@ class _BottomPanelState extends State<BottomPanel> {
         color: theme.bgColor,
         borderRadius: BorderRadius.only(
           topLeft: !widget.controller
-              ? Radius.circular(25)
+              ? const Radius.circular(25)
               : Radius.elliptical(w, h * .2),
           topRight: !widget.controller
-              ? Radius.circular(25)
+              ? const Radius.circular(25)
               : Radius.elliptical(w, h * .2),
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        fit: StackFit.expand,
         children: [
-          SizedBox(
-            height: h * .03,
-          ),
-          AnimatedBar(
-              duration: Duration(milliseconds: 300),
-              controller: widget.controller,
-              color: theme.barColor,
-              func: _func),
-          SizedBox(
-            height: h * .05,
-          ),
-          SizedBox(
-            height: h * .52,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: w * .1),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Wrap(
-                  spacing: w * .2,
-                  runSpacing: w * .15,
-                  children: [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8],
-                ),
-              ),
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              theme.bgShapeColor,
+              BlendMode.srcATop,
             ),
-          )
+            child: Image.asset(
+              "assets/images/leaf.png",
+              fit: BoxFit.cover,
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: h * .03,
+              ),
+              AnimatedBar(
+                  duration: Duration(milliseconds: 300),
+                  controller: widget.controller,
+                  color: theme.barColor,
+                  func: _func),
+              SizedBox(
+                height: h * .05,
+              ),
+              SizedBox(
+                height: h * .52,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: w * .1),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Wrap(
+                      spacing: w * .2,
+                      runSpacing: w * .15,
+                      children: [
+                        btn1,
+                        btn2,
+                        btn3,
+                        btn4,
+                        btn5,
+                        btn6,
+                        btn7,
+                        btn8
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );
