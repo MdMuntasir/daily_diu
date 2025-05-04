@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:diu_student/config/theme/custom%20themes/result_theme.dart';
 import 'package:flutter/material.dart';
 
 class SemesterResult extends StatelessWidget {
@@ -15,9 +15,10 @@ class SemesterResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context).extension<ResultTheme>()!;
 
-    TextStyle style = const TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 19, color: Colors.white);
+    TextStyle style = TextStyle(
+        fontWeight: FontWeight.bold, fontSize: 19, color: theme.fgColor);
 
     return InkWell(
       onTap: onTap,
@@ -25,31 +26,46 @@ class SemesterResult extends StatelessWidget {
         height: w * .3,
         width: w * .4,
         decoration: BoxDecoration(
-            color: Colors.teal.shade600,
+            color: theme.lightBgColor,
             borderRadius: BorderRadius.circular(15),
-            // border: Border.all(color: Colors.cyan.shade800, width: 2),
             boxShadow: const [
               BoxShadow(
                 blurRadius: 10,
                 spreadRadius: -5,
               )
             ]),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: w * .075),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                gpa.toString(),
-                style: style,
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                theme.bgColor,
+                BlendMode.srcATop,
               ),
-              Text(
-                semester,
-                style: style,
-              )
-            ],
-          ),
+              child: Image.asset(
+                "assets/images/leaf.png",
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: w * .075),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    gpa.toString(),
+                    style: style,
+                  ),
+                  Text(
+                    semester,
+                    style: style,
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
