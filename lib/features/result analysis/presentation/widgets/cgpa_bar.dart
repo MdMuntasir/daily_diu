@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:diu_student/config/theme/custom%20themes/result_theme.dart';
 import 'package:flutter/material.dart';
 
 class CgpaBar extends StatefulWidget {
@@ -21,13 +21,14 @@ class _CgpaBarState extends State<CgpaBar> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context).extension<ResultTheme>()!;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: w * .05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          bar(w * .6, h * .04),
+          bar(w * .6, h * .04, theme),
           ElevatedButton(
             style: ButtonStyle(
                 shape: WidgetStatePropertyAll(RoundedRectangleBorder(
@@ -40,7 +41,7 @@ class _CgpaBarState extends State<CgpaBar> {
     );
   }
 
-  Widget bar(double w, double h) {
+  Widget bar(double w, double h, ResultTheme theme) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -66,15 +67,15 @@ class _CgpaBarState extends State<CgpaBar> {
               width: w * (widget.cgpa / 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(w * .5),
-                color: Colors.cyan,
+                color: theme.bgColor,
               ),
             ),
           ],
         ),
         Text(
           "CGPA:  ${widget.cgpa}",
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: theme.fgColor,
             fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
