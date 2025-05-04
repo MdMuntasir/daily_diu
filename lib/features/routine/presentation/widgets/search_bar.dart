@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../../../config/theme/custom themes/routine_theme.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final bool enable;
@@ -24,7 +25,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+
+    final theme = Theme.of(context).extension<RoutineTheme>()!;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +37,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(
-                color: widget.enable ? Colors.teal : Colors.grey,
+                color: widget.enable ? theme.bgColor : theme.inactiveBgColor,
                 width: 1.5,
               )),
           child: Padding(
@@ -48,11 +50,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9\-]')),
               ],
-              style: TextStyle(color: Colors.teal.shade900),
+              style: TextStyle(color: theme.deepColor),
               decoration: InputDecoration(
                 counterText: "",
                 hintText: widget.hint,
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
                 border: InputBorder.none,
               ),
             ),
@@ -61,12 +63,12 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: widget.enable ? Colors.teal : Colors.grey),
+              color: widget.enable ? theme.bgColor : theme.inactiveBgColor),
           child: IconButton(
               onPressed: widget.onSearch,
-              icon: const Icon(
+              icon: Icon(
                 Icons.search,
-                color: Colors.white,
+                color: theme.fgColor,
               )),
         )
       ],
