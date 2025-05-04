@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/custom%20themes/routine_theme.dart';
 import 'package:diu_student/core/util/Entities/slot.dart';
 import 'package:diu_student/core/util/widgets/download_file.dart';
 import 'package:diu_student/core/util/widgets/showRoutine.dart';
@@ -85,6 +86,8 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
+    final theme = Theme.of(context).extension<RoutineTheme>()!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: h * .02,
@@ -106,7 +109,7 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
             ? Container(
                 width: w,
                 decoration: BoxDecoration(
-                    color: Colors.teal.shade700,
+                    color: theme.deepColor,
                     borderRadius: BorderRadius.circular(w * .02)),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: w * .05),
@@ -120,7 +123,7 @@ class _RoutineSearchScreenState extends State<RoutineSearchScreen> {
                         title,
                         style: TextStyle(
                             fontSize: h * .038,
-                            color: Colors.white,
+                            color: theme.fgColor,
                             fontFamily: "Welcome_Magic"),
                       ),
                       DownloadFile(
