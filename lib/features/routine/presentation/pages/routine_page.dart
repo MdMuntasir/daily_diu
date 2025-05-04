@@ -28,7 +28,7 @@ class _MainRoutinePageState extends State<MainRoutinePage> {
   TextEditingController optionController = TextEditingController();
   TextEditingController searchController = TextEditingController();
 
-  final options = ["Student", "Teacher", "Empty Slot", "Manual Search"];
+  final options = ["Student", "Teacher", "Empty Slot", "Manual"];
 
   @override
   void initState() {
