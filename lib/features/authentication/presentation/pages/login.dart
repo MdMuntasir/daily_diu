@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../config/theme/custom themes/form_theme.dart';
 import '../widgets/textStyle.dart';
 import 'email_varification_page.dart';
 
@@ -41,6 +42,7 @@ class _loginScreenState extends State<loginScreen> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context).extension<FormTheme>()!;
 
     return BlocConsumer(
         bloc: context.read<AuthBloc>(),
@@ -112,12 +114,13 @@ class _loginScreenState extends State<loginScreen> {
                         padding: const EdgeInsets.all(20.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: theme.bgColor,
                               borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
-                                  color: Color.fromRGBO(27, 95, 225, 0.3),
+                                  color: Theme.of(context).primaryColor,
                                   blurRadius: 20,
+                                  spreadRadius: -10,
                                   offset: Offset(0, 10),
                                 )
                               ]),
@@ -168,7 +171,8 @@ class _loginScreenState extends State<loginScreen> {
                           children: [
                             TextButton(
                               onPressed: () {
-                                String email = emailController.text.trim();
+                                String email =
+                                    emailController.text.trim().toLowerCase();
                                 context.read<AuthBloc>().add(
                                       AuthLoginForgotPasswordEvent(email),
                                     );
