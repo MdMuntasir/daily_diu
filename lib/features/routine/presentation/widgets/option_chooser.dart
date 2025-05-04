@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:diu_student/config/theme/custom%20themes/routine_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:popover/popover.dart';
@@ -9,12 +9,11 @@ class OptionChooser extends StatefulWidget {
   final List list;
   final VoidCallback onChoose;
 
-  const OptionChooser(
-      {super.key,
-      required this.controller,
-      required this.list,
-      required this.onChoose,
-      this.enable = true});
+  const OptionChooser({super.key,
+    required this.controller,
+    required this.list,
+    required this.onChoose,
+    this.enable = true});
 
   @override
   State<OptionChooser> createState() => _OptionChooserState();
@@ -30,10 +29,12 @@ class _OptionChooserState extends State<OptionChooser> {
       selected = list.isEmpty ? "None" : list[0];
     }
 
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery
+        .of(context)
+        .size
+        .width;
 
-    h > w ? w = w : w = h;
+    final theme = Theme.of(context).extension<RoutineTheme>()!;
 
     List<PopupMenuItem> options = [];
 
@@ -49,12 +50,12 @@ class _OptionChooserState extends State<OptionChooser> {
           },
           child: SizedBox(
               child: Center(
-            child: Text(
-              ele,
-              style: TextStyle(
-                  color: Colors.teal.shade500, fontWeight: FontWeight.bold),
-            ),
-          ))));
+                child: Text(
+                  ele,
+                  style:
+                  TextStyle(color: theme.bgColor, fontWeight: FontWeight.bold),
+                ),
+              ))));
     });
 
     return SizedBox(
@@ -64,38 +65,40 @@ class _OptionChooserState extends State<OptionChooser> {
           return ElevatedButton(
               onPressed: widget.enable
                   ? () {
-                      showPopover(
-                          width: w * .4,
-                          context: context,
-                          bodyBuilder: (BuildContext context) =>
-                              SingleChildScrollView(
-                                  child: Column(
-                                children: options,
-                              )),
-                          direction: PopoverDirection.bottom,
-                          backgroundColor: Colors.teal.shade50);
-                    }
+                showPopover(
+                    width: w * .4,
+                    context: context,
+                    bodyBuilder: (BuildContext context) =>
+                        SingleChildScrollView(
+                            child: Column(
+                              children: options,
+                            )),
+                    direction: PopoverDirection.bottom,
+                    backgroundColor: theme.fgColor);
+              }
                   : () {},
               style: ButtonStyle(
+                  elevation: const WidgetStatePropertyAll(2),
                   backgroundColor: widget.enable
-                      ? const WidgetStatePropertyAll(Colors.white)
-                      : const WidgetStatePropertyAll(Colors.grey),
+                      ? WidgetStatePropertyAll(theme.fgColor.withAlpha(220))
+                      : WidgetStatePropertyAll(theme.inactiveBgColor),
                   foregroundColor: widget.enable
-                      ? WidgetStatePropertyAll(Colors.teal.shade500)
-                      : const WidgetStatePropertyAll(Colors.white),
+                      ? WidgetStatePropertyAll(theme.deepColor)
+                      : WidgetStatePropertyAll(theme.inactiveFgColor),
                   shape: const WidgetStatePropertyAll(RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10))))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(),
+                  const SizedBox(),
                   Text(
                     selected,
                     style: const TextStyle(fontSize: 17),
                   ),
                   Icon(
                     FontAwesomeIcons.caretDown,
-                    color: widget.enable ? Colors.teal.shade500 : Colors.white,
+                    color:
+                    widget.enable ? theme.deepColor : theme.inactiveFgColor,
                   )
                 ],
               ));
