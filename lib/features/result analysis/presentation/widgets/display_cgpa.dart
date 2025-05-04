@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/custom%20themes/result_theme.dart';
 import 'package:diu_student/features/result%20analysis/domain/entities/semesterResultEntity.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,7 +50,7 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     TextStyle style = TextStyle(
-      color: Colors.blue.shade700,
+      color: Theme.of(context).extension<ResultTheme>()!.bgColor,
       fontWeight: FontWeight.bold,
       fontSize: 10,
     );
@@ -121,14 +122,14 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
         horizontalInterval: 1,
         verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Colors.white,
+          return FlLine(
+            color: Theme.of(context).extension<ResultTheme>()!.barColor,
             strokeWidth: 2,
           );
         },
         getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.white,
+          return FlLine(
+            color: Theme.of(context).extension<ResultTheme>()!.barColor,
             strokeWidth: 1,
           );
         },
@@ -166,7 +167,10 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
         LineChartBarData(
           spots: mainDataSpots(),
           gradient: LinearGradient(
-            colors: gradientColors,
+            colors: [
+              Theme.of(context).extension<ResultTheme>()!.bgColor,
+              Theme.of(context).extension<ResultTheme>()!.darkFgColor
+            ],
           ),
           barWidth: 3,
           dotData: const FlDotData(
@@ -175,9 +179,10 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withValues(alpha: 0.5))
-                  .toList(),
+              colors: [
+                Theme.of(context).extension<ResultTheme>()!.bgColor,
+                Theme.of(context).extension<ResultTheme>()!.darkFgColor
+              ].map((color) => color.withValues(alpha: 0.5)).toList(),
             ),
           ),
         ),
@@ -196,14 +201,14 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
         verticalInterval: 1,
         horizontalInterval: 1,
         getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.white,
+          return FlLine(
+            color: Theme.of(context).extension<ResultTheme>()!.barColor,
             strokeWidth: 2,
           );
         },
         getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Colors.white,
+          return FlLine(
+            color: Theme.of(context).extension<ResultTheme>()!.barColor,
             strokeWidth: 2,
           );
         },
@@ -241,7 +246,10 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
         LineChartBarData(
           spots: avgDataSpots(),
           gradient: LinearGradient(
-            colors: gradientColors,
+            colors: [
+              Theme.of(context).extension<ResultTheme>()!.bgColor,
+              Theme.of(context).extension<ResultTheme>()!.darkFgColor
+            ],
           ),
           barWidth: 3,
           dotData: const FlDotData(
@@ -250,9 +258,10 @@ class _DisplayCgpaState extends State<DisplayCgpa> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withValues(alpha: 0.4))
-                  .toList(),
+              colors: [
+                Theme.of(context).extension<ResultTheme>()!.bgColor,
+                Theme.of(context).extension<ResultTheme>()!.darkFgColor
+              ].map((color) => color.withValues(alpha: 0.4)).toList(),
             ),
           ),
         ),
