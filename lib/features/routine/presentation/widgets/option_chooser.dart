@@ -9,11 +9,12 @@ class OptionChooser extends StatefulWidget {
   final List list;
   final VoidCallback onChoose;
 
-  const OptionChooser({super.key,
-    required this.controller,
-    required this.list,
-    required this.onChoose,
-    this.enable = true});
+  const OptionChooser(
+      {super.key,
+      required this.controller,
+      required this.list,
+      required this.onChoose,
+      this.enable = true});
 
   @override
   State<OptionChooser> createState() => _OptionChooserState();
@@ -29,10 +30,7 @@ class _OptionChooserState extends State<OptionChooser> {
       selected = list.isEmpty ? "None" : list[0];
     }
 
-    double w = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double w = MediaQuery.of(context).size.width;
 
     final theme = Theme.of(context).extension<RoutineTheme>()!;
 
@@ -50,12 +48,12 @@ class _OptionChooserState extends State<OptionChooser> {
           },
           child: SizedBox(
               child: Center(
-                child: Text(
-                  ele,
-                  style:
+            child: Text(
+              ele,
+              style:
                   TextStyle(color: theme.bgColor, fontWeight: FontWeight.bold),
-                ),
-              ))));
+            ),
+          ))));
     });
 
     return SizedBox(
@@ -65,25 +63,25 @@ class _OptionChooserState extends State<OptionChooser> {
           return ElevatedButton(
               onPressed: widget.enable
                   ? () {
-                showPopover(
-                    width: w * .4,
-                    context: context,
-                    bodyBuilder: (BuildContext context) =>
-                        SingleChildScrollView(
-                            child: Column(
-                              children: options,
-                            )),
-                    direction: PopoverDirection.bottom,
-                    backgroundColor: theme.fgColor);
-              }
+                      showPopover(
+                          width: w * .4,
+                          context: context,
+                          bodyBuilder: (BuildContext context) =>
+                              SingleChildScrollView(
+                                  child: Column(
+                                children: options,
+                              )),
+                          direction: PopoverDirection.bottom,
+                          backgroundColor: theme.fgColor);
+                    }
                   : () {},
               style: ButtonStyle(
                   elevation: const WidgetStatePropertyAll(2),
                   backgroundColor: widget.enable
-                      ? WidgetStatePropertyAll(theme.fgColor.withAlpha(220))
+                      ? WidgetStatePropertyAll(theme.optionChooserBgColor)
                       : WidgetStatePropertyAll(theme.inactiveBgColor),
                   foregroundColor: widget.enable
-                      ? WidgetStatePropertyAll(theme.deepColor)
+                      ? WidgetStatePropertyAll(theme.optionChooserFgColor)
                       : WidgetStatePropertyAll(theme.inactiveFgColor),
                   shape: const WidgetStatePropertyAll(RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10))))),
@@ -97,8 +95,9 @@ class _OptionChooserState extends State<OptionChooser> {
                   ),
                   Icon(
                     FontAwesomeIcons.caretDown,
-                    color:
-                    widget.enable ? theme.deepColor : theme.inactiveFgColor,
+                    color: widget.enable
+                        ? theme.optionChooserFgColor
+                        : theme.inactiveFgColor,
                   )
                 ],
               ));
