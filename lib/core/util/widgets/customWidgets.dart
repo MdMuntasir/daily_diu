@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:diu_student/config/theme/custom%20themes/form_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,19 +17,20 @@ class _CustomFormState extends State<CustomForm> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context).extension<FormTheme>()!;
 
     return AnimatedContainer(
       height: h * .08 * widget.fields.length,
       width: w * .85,
       duration: Duration(milliseconds: widget.duration),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.bgColor,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color.fromRGBO(27, 95, 225, 0.3),
+            color: Theme.of(context).primaryColor,
             blurRadius: 20,
-            offset: Offset(0, 10),
+            spreadRadius: -10,
           )
         ],
       ),
@@ -50,7 +51,6 @@ class _CustomFormState extends State<CustomForm> {
   }
 }
 
-// custom text field
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -60,18 +60,19 @@ class CustomTextField extends StatelessWidget {
   final int? maxLen;
 
   const CustomTextField(
-      {Key? key,
+      {super.key,
       required this.controller,
       this.hintText = "Password",
       this.hintColor = Colors.grey,
       this.obscureText = false,
       this.isDigit = false,
-      this.maxLen})
-      : super(key: key);
+      this.maxLen});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).extension<FormTheme>()!;
     return TextField(
+      style: TextStyle(color: theme.deepColor),
       controller: controller,
       keyboardType: isDigit ? TextInputType.number : TextInputType.text,
       inputFormatters: isDigit ? [FilteringTextInputFormatter.digitsOnly] : [],
