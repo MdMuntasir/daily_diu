@@ -1,3 +1,4 @@
+import 'package:diu_student/config/theme/custom%20themes/result_theme.dart';
 import 'package:diu_student/features/result%20analysis/domain/entities/semesterResultEntity.dart';
 import 'package:flutter/material.dart';
 
@@ -10,21 +11,23 @@ class SingleCourseResult extends StatelessWidget {
   Widget build(BuildContext context) {
     double w = MediaQuery.sizeOf(context).width;
 
+    final theme = Theme.of(context).extension<ResultTheme>()!;
+
     double maxHeight = 155, barWidth = w * .05;
 
     final double fillHeight =
         maxHeight * (0.15 + .7 * ((result.pointEquivalent - 2) / 2));
 
-    TextStyle style = const TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 13, color: Colors.white);
+    TextStyle style = TextStyle(
+        fontWeight: FontWeight.bold, fontSize: 13, color: theme.fgColor);
 
     final Color barColor = result.pointEquivalent >= 3.75
-        ? Colors.greenAccent
+        ? theme.gradeColors[0]
         : result.pointEquivalent >= 3.0
-            ? Colors.cyanAccent
+            ? theme.gradeColors[1]
             : result.pointEquivalent >= 2.5
-                ? Colors.orangeAccent
-                : Colors.redAccent.shade100;
+                ? theme.gradeColors[2]
+                : theme.gradeColors[3];
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: w * .07),
@@ -32,8 +35,7 @@ class SingleCourseResult extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: w * .05, vertical: 9),
         height: 150,
         decoration: BoxDecoration(
-            color: Colors.teal.shade600,
-            borderRadius: BorderRadius.circular(15)),
+            color: theme.bgColor, borderRadius: BorderRadius.circular(15)),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: w * .05, vertical: 9),
           child: Row(
