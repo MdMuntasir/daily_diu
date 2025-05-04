@@ -1,12 +1,12 @@
 import 'package:diu_student/core/resources/information_repository.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../core/util/widgets/customWidgets.dart';
 import '../../../authentication/presentation/widgets/multi_chooser.dart';
-import '../../../authentication/presentation/widgets/single_chooser.dart';
-import 'customWidgets.dart';
+import '../../../../core/util/widgets/single_chooser.dart';
 
 class EditTeacherProfile extends StatefulWidget {
   final UserEntity user;
@@ -91,7 +91,7 @@ class _EditTeacherProfileState extends State<EditTeacherProfile> {
               ),
               TextField(
                 controller: widget.passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Password",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
