@@ -12,14 +12,14 @@ import 'package:lottie/lottie.dart';
 
 import '../../../navbar/presentation/pages/NavBar.dart';
 
-class ResultPage extends StatefulWidget {
-  const ResultPage({super.key});
+class MyResultPage extends StatefulWidget {
+  const MyResultPage({super.key});
 
   @override
-  State<ResultPage> createState() => _ResultPageState();
+  State<MyResultPage> createState() => _MyResultPageState();
 }
 
-class _ResultPageState extends State<ResultPage> {
+class _MyResultPageState extends State<MyResultPage> {
   bool cgpaShow = false;
   bool isMyResult = true;
 
@@ -92,7 +92,7 @@ class _ResultPageState extends State<ResultPage> {
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: h * .03,
+                  spacing: h * .01,
                   children: [
                     DisplayCgpa(
                       showAvg: cgpaShow,
