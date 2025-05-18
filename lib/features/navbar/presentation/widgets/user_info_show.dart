@@ -1,7 +1,6 @@
-import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
+import 'package:diu_student/config/theme/custom%20themes/navbar_theme.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserInfoShow extends StatelessWidget {
   final UserEntity user;
@@ -12,8 +11,8 @@ class UserInfoShow extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    bool horizontal = h > w;
-    double round = 20;
+    final theme = Theme.of(context).extension<NavbarTheme>()!;
+    double round = 18;
 
     bool isStudent = user.user == "Student";
     String Department = user.department!;
@@ -24,14 +23,16 @@ class UserInfoShow extends StatelessWidget {
         children: [
           Text(
             "$title : ",
-            style: const TextStyle(
+            style: TextStyle(
+                color: theme.fgColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
                 fontFamily: "Madimi"),
           ),
           Text(
             sub,
-            style: const TextStyle(
+            style: TextStyle(
+                color: theme.fgColor,
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
                 fontFamily: "Madimi"),
@@ -46,7 +47,8 @@ class UserInfoShow extends StatelessWidget {
             children: [
               Text(
                 user.name!,
-                style: const TextStyle(
+                style: TextStyle(
+                    color: theme.fgColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
                     fontFamily: "Madimi"),
@@ -57,7 +59,8 @@ class UserInfoShow extends StatelessWidget {
                 width: w,
                 child: Text(
                   user.email!,
-                  style: const TextStyle(
+                  style: TextStyle(
+                      color: theme.fgColor,
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                       fontFamily: "Madimi"),
@@ -74,7 +77,8 @@ class UserInfoShow extends StatelessWidget {
             children: [
               Text(
                 user.name!,
-                style: const TextStyle(
+                style: TextStyle(
+                    color: theme.fgColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
                     fontFamily: "Madimi"),
@@ -85,7 +89,8 @@ class UserInfoShow extends StatelessWidget {
                 width: w,
                 child: Text(
                   user.email!,
-                  style: const TextStyle(
+                  style: TextStyle(
+                      color: theme.fgColor,
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                       fontFamily: "Madimi"),
@@ -103,22 +108,16 @@ class UserInfoShow extends StatelessWidget {
           );
 
     return Container(
-        width: horizontal ? w * .9 : h * .9,
-        height: horizontal
-            ? isStudent
-                ? h * .38
-                : h * .33
-            : w * .38,
+        width: w * .9,
+        height: isStudent ? h * .38 : h * .33,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(round)),
-            color: Colors.teal.shade50,
-            boxShadow: [
+            color: theme.bgColor,
+            boxShadow: const [
               BoxShadow(blurRadius: 20, spreadRadius: -10, offset: Offset(2, 5))
             ]),
         child: Padding(
-          padding: horizontal
-              ? EdgeInsets.symmetric(horizontal: w * .1, vertical: h * .04)
-              : EdgeInsets.symmetric(horizontal: h * .1, vertical: w * .04),
+          padding: EdgeInsets.symmetric(horizontal: w * .1, vertical: h * .04),
           child: _information,
         ));
   }
