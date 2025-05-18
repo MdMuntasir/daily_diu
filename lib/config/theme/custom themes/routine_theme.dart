@@ -9,6 +9,8 @@ class RoutineTheme extends ThemeExtension<RoutineTheme> {
   final Color inactiveFgColor;
   final Color inactiveBgColor;
   final Color chooserColor;
+  final Color optionChooserBgColor;
+  final Color optionChooserFgColor;
 
   const RoutineTheme({
     required this.fgColor,
@@ -18,17 +20,22 @@ class RoutineTheme extends ThemeExtension<RoutineTheme> {
     required this.inactiveFgColor,
     required this.inactiveBgColor,
     required this.chooserColor,
+    required this.optionChooserBgColor,
+    required this.optionChooserFgColor,
   });
 
   @override
-  RoutineTheme copyWith(
-      {Color? fgColor,
-      Color? bgColor,
-      Color? deepColor,
-      Color? lightColor,
-      Color? inactiveFgColor,
-      Color? inactiveBgColor,
-      Color? chooserColor}) {
+  RoutineTheme copyWith({
+    Color? fgColor,
+    Color? bgColor,
+    Color? deepColor,
+    Color? lightColor,
+    Color? inactiveFgColor,
+    Color? inactiveBgColor,
+    Color? chooserColor,
+    Color? optionChooserBgColor,
+    Color? optionChooserFgColor,
+  }) {
     return RoutineTheme(
       fgColor: fgColor ?? this.fgColor,
       bgColor: bgColor ?? this.bgColor,
@@ -37,6 +44,8 @@ class RoutineTheme extends ThemeExtension<RoutineTheme> {
       inactiveFgColor: inactiveFgColor ?? this.inactiveFgColor,
       inactiveBgColor: inactiveBgColor ?? this.inactiveBgColor,
       chooserColor: chooserColor ?? this.chooserColor,
+      optionChooserBgColor: optionChooserBgColor ?? this.optionChooserBgColor,
+      optionChooserFgColor: optionChooserFgColor ?? this.optionChooserFgColor,
     );
   }
 
@@ -51,6 +60,10 @@ class RoutineTheme extends ThemeExtension<RoutineTheme> {
       inactiveFgColor: Color.lerp(inactiveFgColor, other.inactiveFgColor, t)!,
       inactiveBgColor: Color.lerp(inactiveBgColor, other.inactiveBgColor, t)!,
       chooserColor: Color.lerp(chooserColor, other.chooserColor, t)!,
+      optionChooserBgColor:
+          Color.lerp(optionChooserBgColor, other.optionChooserBgColor, t)!,
+      optionChooserFgColor:
+          Color.lerp(optionChooserFgColor, other.optionChooserFgColor, t)!,
     );
   }
 }
