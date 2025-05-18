@@ -79,7 +79,7 @@ class signupStudent extends StatelessWidget {
           ),
           TextField(
             controller: passwordController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Password",
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
