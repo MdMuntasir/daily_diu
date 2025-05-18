@@ -77,8 +77,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
                           icon: const Icon(Icons.search),
                           onPressed: () {
                             if (_searchController.text.isNotEmpty) {
-                              context.read<ResultBloc>().add(
-                                  SearchResultEvent(_searchController.text));
+                              context.read<ResultBloc>().add(SearchResultEvent(
+                                  _searchController.text, "251"));
                             }
                           },
                         ),
@@ -87,7 +87,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                         if (value.isNotEmpty) {
                           context
                               .read<ResultBloc>()
-                              .add(SearchResultEvent(value));
+                              .add(SearchResultEvent(value, "251"));
                         }
                       },
                     ),
