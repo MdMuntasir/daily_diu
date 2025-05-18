@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/multi_chooser.dart';
 import '../widgets/signup_student.dart';
 import '../widgets/signup_teacher.dart';
-import '../widgets/single_chooser.dart';
+import '../../../../core/util/widgets/single_chooser.dart';
 import '../widgets/toogler.dart';
 import 'email_varification_page.dart';
 import 'login.dart';
@@ -99,7 +99,6 @@ class _SignupPageState extends State<SignupPage> {
         },
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Colors.blue.shade50,
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
