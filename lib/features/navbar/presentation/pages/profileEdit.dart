@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diu_student/config/theme/custom%20themes/form_theme.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:diu_student/core/util/model/user_info.dart';
@@ -61,7 +61,8 @@ class _ProfileEditState extends State<ProfileEdit> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    bool horizontal = h > w;
+    final theme = Theme.of(context).extension<FormTheme>()!;
+
     bool isStudent = currentUser.user == "Student";
 
     return BlocConsumer(
@@ -205,7 +206,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   height: h * .01,
                 ),
                 SizedBox(
-                  width: horizontal ? w * .85 : h * .85,
+                  width: w * .85,
                   child: state is EditProfileLoadingState
                       ? const CupertinoActivityIndicator()
                       : ElevatedButton(
@@ -214,12 +215,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                           },
                           style: ButtonStyle(
                               elevation: const WidgetStatePropertyAll(8),
-                              backgroundColor: WidgetStatePropertyAll(
-                                  Colors.greenAccent.shade100)),
-                          child: const Text(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(theme.submitBgColor)),
+                          child: Text(
                             "Submit",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: theme.submitFgColor,
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Madimi",
@@ -231,7 +232,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   height: h * .02,
                 ),
                 SizedBox(
-                  width: horizontal ? w * .85 : h * .85,
+                  width: w * .85,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -239,13 +240,13 @@ class _ProfileEditState extends State<ProfileEdit> {
                           MaterialPageRoute(
                               builder: (context) => PassChangePage()));
                     },
-                    style: const ButtonStyle(
+                    style: ButtonStyle(
                         elevation: WidgetStatePropertyAll(8),
-                        backgroundColor: WidgetStatePropertyAll(Colors.white)),
-                    child: const Text(
+                        backgroundColor: WidgetStatePropertyAll(theme.bgColor)),
+                    child: Text(
                       "Change Password",
                       style: TextStyle(
-                        color: Colors.black87,
+                        color: theme.deepColor,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Madimi",
