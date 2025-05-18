@@ -48,7 +48,9 @@ class _PortalPageState extends State<PortalPage> {
   @override
   void initState() {
     bool isStudent =
-        AppUserCubit().currentUser(context.read<AppUserCubit>()).user ==
+        AppUserCubit()
+            .currentUser(context.read<AppUserCubit>())
+            .user ==
             "Student";
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -80,7 +82,7 @@ class _PortalPageState extends State<PortalPage> {
           : "https://teacherportal.diu.edu.bd/"));
 
     super.initState();
-    timer = Timer.periodic(const Duration(seconds: 3), (_) async {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) async {
       await _connection();
     });
   }
@@ -104,8 +106,10 @@ class _PortalPageState extends State<PortalPage> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+    double w = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return PopScope(
       canPop: false,
