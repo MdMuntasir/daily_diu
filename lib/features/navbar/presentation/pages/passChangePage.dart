@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diu_student/config/theme/custom%20themes/form_theme.dart';
 import 'package:diu_student/core/common/app%20user/userCubit/app_user_cubit.dart';
 import 'package:diu_student/core/util/Entities/user_info.dart';
 import 'package:diu_student/features/navbar/presentation/state/nav_bloc.dart';
@@ -40,7 +40,8 @@ class _PassChangePageState extends State<PassChangePage> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    bool horizontal = h > w;
+    final theme = Theme.of(context).extension<FormTheme>()!;
+
     UserEntity currentUser =
         AppUserCubit().currentUser(context.read<AppUserCubit>());
     isStudent = currentUser.user == "Student";
@@ -126,7 +127,7 @@ class _PassChangePageState extends State<PassChangePage> {
                   height: h * .02,
                 ),
                 SizedBox(
-                  width: horizontal ? w * .85 : h * .85,
+                  width: w * .85,
                   child: state is ChangePasswordLoadingState
                       ? const CupertinoActivityIndicator()
                       : ElevatedButton(
@@ -135,12 +136,12 @@ class _PassChangePageState extends State<PassChangePage> {
                           },
                           style: ButtonStyle(
                               elevation: const WidgetStatePropertyAll(8),
-                              backgroundColor: WidgetStatePropertyAll(
-                                  Colors.greenAccent.shade100)),
-                          child: const Text(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(theme.submitBgColor)),
+                          child: Text(
                             "Submit",
                             style: TextStyle(
-                              color: Colors.black87,
+                              color: theme.submitFgColor,
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Madimi",
